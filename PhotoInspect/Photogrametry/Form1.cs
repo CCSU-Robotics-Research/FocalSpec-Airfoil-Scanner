@@ -116,8 +116,10 @@ namespace Photogrametry
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Created By Ryan Mecham\n"
+                + "Modified By The Xperts: Gerti, Carter, Rumman, Zerhye\n"
                 + "In collaboration with:\n"
-                + "Professor Dr. Haoyu Wang, CCSU and\n"
+                + "Professor Dr. Haoyu Wang, CCSU,\n"
+                + "Graduate Lab Assistant Ryan Sharp and\n"
                 + "The University Of Connecticut Masters Of Engineering\n\n");
         }
 

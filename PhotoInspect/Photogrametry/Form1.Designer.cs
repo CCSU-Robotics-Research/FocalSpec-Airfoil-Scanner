@@ -95,21 +95,18 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.btn_SaveLog);
             this.groupBox1.Controls.Add(this.richTextBox1);
-            this.groupBox1.Location = new System.Drawing.Point(1, 39);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Location = new System.Drawing.Point(1, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox1.Size = new System.Drawing.Size(1361, 697);
+            this.groupBox1.Size = new System.Drawing.Size(1021, 566);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "f";
             // 
             // btn_RapContinue
             // 
-            this.btn_RapContinue.Location = new System.Drawing.Point(253, 135);
-            this.btn_RapContinue.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_RapContinue.Location = new System.Drawing.Point(190, 110);
+            this.btn_RapContinue.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_RapContinue.Name = "btn_RapContinue";
-            this.btn_RapContinue.Size = new System.Drawing.Size(75, 23);
+            this.btn_RapContinue.Size = new System.Drawing.Size(56, 19);
             this.btn_RapContinue.TabIndex = 45;
             this.btn_RapContinue.Text = "Continue";
             this.btn_RapContinue.UseVisualStyleBackColor = true;
@@ -117,10 +114,10 @@
             // 
             // btn_StopRap
             // 
-            this.btn_StopRap.Location = new System.Drawing.Point(140, 135);
-            this.btn_StopRap.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_StopRap.Location = new System.Drawing.Point(105, 110);
+            this.btn_StopRap.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_StopRap.Name = "btn_StopRap";
-            this.btn_StopRap.Size = new System.Drawing.Size(107, 23);
+            this.btn_StopRap.Size = new System.Drawing.Size(80, 19);
             this.btn_StopRap.TabIndex = 44;
             this.btn_StopRap.Text = "Stop Rapid";
             this.btn_StopRap.UseVisualStyleBackColor = true;
@@ -128,10 +125,10 @@
             // 
             // btn_StartRAP
             // 
-            this.btn_StartRAP.Location = new System.Drawing.Point(13, 137);
-            this.btn_StartRAP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_StartRAP.Location = new System.Drawing.Point(10, 111);
+            this.btn_StartRAP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_StartRAP.Name = "btn_StartRAP";
-            this.btn_StartRAP.Size = new System.Drawing.Size(120, 23);
+            this.btn_StartRAP.Size = new System.Drawing.Size(90, 19);
             this.btn_StartRAP.TabIndex = 44;
             this.btn_StartRAP.Text = "Start Rapid";
             this.btn_StartRAP.UseVisualStyleBackColor = true;
@@ -149,11 +146,9 @@
             this.groupBox3.Controls.Add(this.lbl_Interval);
             this.groupBox3.Controls.Add(this.Interval);
             this.groupBox3.Enabled = false;
-            this.groupBox3.Location = new System.Drawing.Point(1079, 338);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Location = new System.Drawing.Point(809, 275);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox3.Size = new System.Drawing.Size(267, 252);
+            this.groupBox3.Size = new System.Drawing.Size(200, 205);
             this.groupBox3.TabIndex = 43;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "GPhoto Controls";
@@ -162,18 +157,19 @@
             // lbl_SelectFolder
             // 
             this.lbl_SelectFolder.AutoSize = true;
-            this.lbl_SelectFolder.Location = new System.Drawing.Point(11, 142);
+            this.lbl_SelectFolder.Location = new System.Drawing.Point(8, 115);
+            this.lbl_SelectFolder.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_SelectFolder.Name = "lbl_SelectFolder";
-            this.lbl_SelectFolder.Size = new System.Drawing.Size(123, 16);
+            this.lbl_SelectFolder.Size = new System.Drawing.Size(98, 13);
             this.lbl_SelectFolder.TabIndex = 49;
             this.lbl_SelectFolder.Text = "Select Local Folder";
             // 
             // btn_SelectFolder
             // 
-            this.btn_SelectFolder.Location = new System.Drawing.Point(8, 160);
-            this.btn_SelectFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_SelectFolder.Location = new System.Drawing.Point(6, 130);
+            this.btn_SelectFolder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_SelectFolder.Name = "btn_SelectFolder";
-            this.btn_SelectFolder.Size = new System.Drawing.Size(157, 23);
+            this.btn_SelectFolder.Size = new System.Drawing.Size(118, 19);
             this.btn_SelectFolder.TabIndex = 46;
             this.btn_SelectFolder.Text = "Browse";
             this.btn_SelectFolder.UseVisualStyleBackColor = true;
@@ -182,19 +178,17 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(11, 190);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(8, 154);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(138, 16);
+            this.label4.Size = new System.Drawing.Size(107, 13);
             this.label4.TabIndex = 47;
             this.label4.Text = "Camera Image Folder";
             // 
             // CameraFolder
             // 
-            this.CameraFolder.Location = new System.Drawing.Point(11, 210);
-            this.CameraFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CameraFolder.Location = new System.Drawing.Point(8, 171);
             this.CameraFolder.Name = "CameraFolder";
-            this.CameraFolder.Size = new System.Drawing.Size(167, 22);
+            this.CameraFolder.Size = new System.Drawing.Size(126, 20);
             this.CameraFolder.TabIndex = 46;
             this.CameraFolder.Text = "/store_00010001/DCIM/100D7500";
             this.CameraFolder.TextChanged += new System.EventHandler(this.CameraFolder_TextChanged_1);
@@ -202,19 +196,17 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 38);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(6, 31);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(123, 16);
+            this.label2.Size = new System.Drawing.Size(97, 13);
             this.label2.TabIndex = 41;
             this.label2.Text = "Frames To Capture";
             // 
             // Frames
             // 
-            this.Frames.Location = new System.Drawing.Point(8, 60);
-            this.Frames.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Frames.Location = new System.Drawing.Point(6, 49);
             this.Frames.Name = "Frames";
-            this.Frames.Size = new System.Drawing.Size(149, 22);
+            this.Frames.Size = new System.Drawing.Size(112, 20);
             this.Frames.TabIndex = 37;
             this.Frames.Value = new decimal(new int[] {
             1,
@@ -225,10 +217,9 @@
             // 
             // btn_Capture
             // 
-            this.btn_Capture.Location = new System.Drawing.Point(171, 90);
-            this.btn_Capture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Capture.Location = new System.Drawing.Point(128, 73);
             this.btn_Capture.Name = "btn_Capture";
-            this.btn_Capture.Size = new System.Drawing.Size(96, 44);
+            this.btn_Capture.Size = new System.Drawing.Size(72, 36);
             this.btn_Capture.TabIndex = 40;
             this.btn_Capture.Text = "Capture Photos";
             this.btn_Capture.UseVisualStyleBackColor = true;
@@ -237,24 +228,22 @@
             // lbl_Interval
             // 
             this.lbl_Interval.AutoSize = true;
-            this.lbl_Interval.Location = new System.Drawing.Point(8, 90);
-            this.lbl_Interval.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbl_Interval.Location = new System.Drawing.Point(6, 73);
             this.lbl_Interval.Name = "lbl_Interval";
-            this.lbl_Interval.Size = new System.Drawing.Size(79, 16);
+            this.lbl_Interval.Size = new System.Drawing.Size(64, 13);
             this.lbl_Interval.TabIndex = 41;
             this.lbl_Interval.Text = "Interval (ms)";
             // 
             // Interval
             // 
-            this.Interval.Location = new System.Drawing.Point(8, 111);
-            this.Interval.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Interval.Location = new System.Drawing.Point(6, 90);
             this.Interval.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
             this.Interval.Name = "Interval";
-            this.Interval.Size = new System.Drawing.Size(149, 22);
+            this.Interval.Size = new System.Drawing.Size(112, 20);
             this.Interval.TabIndex = 37;
             this.Interval.Value = new decimal(new int[] {
             250,
@@ -273,11 +262,9 @@
             this.groupBox2.Controls.Add(this.hardwareID);
             this.groupBox2.Controls.Add(this.btn_WSLStart);
             this.groupBox2.Controls.Add(this.btn_WSLStop);
-            this.groupBox2.Location = new System.Drawing.Point(1079, 23);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Location = new System.Drawing.Point(809, 19);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox2.Size = new System.Drawing.Size(267, 290);
+            this.groupBox2.Size = new System.Drawing.Size(200, 236);
             this.groupBox2.TabIndex = 42;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Linux Sub System Controls";
@@ -286,38 +273,38 @@
             // lbl_ssh_IpAddress
             // 
             this.lbl_ssh_IpAddress.AutoSize = true;
-            this.lbl_ssh_IpAddress.Location = new System.Drawing.Point(8, 94);
+            this.lbl_ssh_IpAddress.Location = new System.Drawing.Point(6, 76);
+            this.lbl_ssh_IpAddress.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_ssh_IpAddress.Name = "lbl_ssh_IpAddress";
-            this.lbl_ssh_IpAddress.Size = new System.Drawing.Size(110, 16);
+            this.lbl_ssh_IpAddress.Size = new System.Drawing.Size(89, 13);
             this.lbl_ssh_IpAddress.TabIndex = 50;
             this.lbl_ssh_IpAddress.Text = "SSH Controller IP";
             // 
             // ssh_IpAddress
             // 
-            this.ssh_IpAddress.Location = new System.Drawing.Point(7, 114);
-            this.ssh_IpAddress.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ssh_IpAddress.Location = new System.Drawing.Point(5, 93);
+            this.ssh_IpAddress.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ssh_IpAddress.Name = "ssh_IpAddress";
-            this.ssh_IpAddress.Size = new System.Drawing.Size(168, 22);
+            this.ssh_IpAddress.Size = new System.Drawing.Size(127, 20);
             this.ssh_IpAddress.TabIndex = 49;
             this.ssh_IpAddress.Text = "192.168.5.126";
             // 
             // lbl_WSLStatus
             // 
             this.lbl_WSLStatus.AutoSize = true;
-            this.lbl_WSLStatus.Location = new System.Drawing.Point(8, 228);
-            this.lbl_WSLStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbl_WSLStatus.Location = new System.Drawing.Point(6, 185);
             this.lbl_WSLStatus.Name = "lbl_WSLStatus";
-            this.lbl_WSLStatus.Size = new System.Drawing.Size(117, 16);
+            this.lbl_WSLStatus.Size = new System.Drawing.Size(94, 13);
             this.lbl_WSLStatus.TabIndex = 48;
             this.lbl_WSLStatus.Text = "Subsystem Status:";
             this.lbl_WSLStatus.Click += new System.EventHandler(this.lbl_WSLStatus_Click);
             // 
             // SubRunning
             // 
-            this.SubRunning.Location = new System.Drawing.Point(11, 246);
-            this.SubRunning.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SubRunning.Location = new System.Drawing.Point(8, 200);
+            this.SubRunning.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.SubRunning.Name = "SubRunning";
-            this.SubRunning.Size = new System.Drawing.Size(167, 26);
+            this.SubRunning.Size = new System.Drawing.Size(125, 21);
             this.SubRunning.TabIndex = 47;
             this.SubRunning.Text = "Not Running";
             this.SubRunning.UseVisualStyleBackColor = true;
@@ -326,28 +313,25 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 23);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(6, 19);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(136, 16);
+            this.label3.Size = new System.Drawing.Size(109, 13);
             this.label3.TabIndex = 46;
             this.label3.Text = "Camera Hardware ID:";
             // 
             // hardwareID
             // 
-            this.hardwareID.Location = new System.Drawing.Point(8, 49);
-            this.hardwareID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.hardwareID.Location = new System.Drawing.Point(6, 40);
             this.hardwareID.Name = "hardwareID";
-            this.hardwareID.Size = new System.Drawing.Size(167, 22);
+            this.hardwareID.Size = new System.Drawing.Size(126, 20);
             this.hardwareID.TabIndex = 45;
             this.hardwareID.Text = "04b0:0440";
             // 
             // btn_WSLStart
             // 
-            this.btn_WSLStart.Location = new System.Drawing.Point(7, 143);
-            this.btn_WSLStart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_WSLStart.Location = new System.Drawing.Point(5, 116);
             this.btn_WSLStart.Name = "btn_WSLStart";
-            this.btn_WSLStart.Size = new System.Drawing.Size(168, 30);
+            this.btn_WSLStart.Size = new System.Drawing.Size(126, 24);
             this.btn_WSLStart.TabIndex = 44;
             this.btn_WSLStart.Text = "Start Sub System";
             this.btn_WSLStart.UseVisualStyleBackColor = true;
@@ -355,10 +339,9 @@
             // 
             // btn_WSLStop
             // 
-            this.btn_WSLStop.Location = new System.Drawing.Point(7, 180);
-            this.btn_WSLStop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_WSLStop.Location = new System.Drawing.Point(5, 146);
             this.btn_WSLStop.Name = "btn_WSLStop";
-            this.btn_WSLStop.Size = new System.Drawing.Size(168, 28);
+            this.btn_WSLStop.Size = new System.Drawing.Size(126, 23);
             this.btn_WSLStop.TabIndex = 43;
             this.btn_WSLStop.Text = "Stop Sub System";
             this.btn_WSLStop.UseVisualStyleBackColor = true;
@@ -366,10 +349,10 @@
             // 
             // btn_ConnectCTRL
             // 
-            this.btn_ConnectCTRL.Location = new System.Drawing.Point(336, 103);
-            this.btn_ConnectCTRL.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_ConnectCTRL.Location = new System.Drawing.Point(252, 84);
+            this.btn_ConnectCTRL.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_ConnectCTRL.Name = "btn_ConnectCTRL";
-            this.btn_ConnectCTRL.Size = new System.Drawing.Size(75, 23);
+            this.btn_ConnectCTRL.Size = new System.Drawing.Size(56, 19);
             this.btn_ConnectCTRL.TabIndex = 35;
             this.btn_ConnectCTRL.Text = "Connect";
             this.btn_ConnectCTRL.UseVisualStyleBackColor = true;
@@ -381,10 +364,10 @@
             this.IPAddress,
             this.ControllerName});
             this.listView_Controllers.HideSelection = false;
-            this.listView_Controllers.Location = new System.Drawing.Point(11, 33);
-            this.listView_Controllers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.listView_Controllers.Location = new System.Drawing.Point(8, 27);
+            this.listView_Controllers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listView_Controllers.Name = "listView_Controllers";
-            this.listView_Controllers.Size = new System.Drawing.Size(319, 98);
+            this.listView_Controllers.Size = new System.Drawing.Size(240, 80);
             this.listView_Controllers.TabIndex = 34;
             this.listView_Controllers.UseCompatibleStateImageBehavior = false;
             this.listView_Controllers.View = System.Windows.Forms.View.Details;
@@ -401,10 +384,10 @@
             // 
             // btn_ScanCTRLS
             // 
-            this.btn_ScanCTRLS.Location = new System.Drawing.Point(336, 33);
-            this.btn_ScanCTRLS.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_ScanCTRLS.Location = new System.Drawing.Point(252, 27);
+            this.btn_ScanCTRLS.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_ScanCTRLS.Name = "btn_ScanCTRLS";
-            this.btn_ScanCTRLS.Size = new System.Drawing.Size(139, 23);
+            this.btn_ScanCTRLS.Size = new System.Drawing.Size(104, 19);
             this.btn_ScanCTRLS.TabIndex = 33;
             this.btn_ScanCTRLS.Text = "Scan Controllers";
             this.btn_ScanCTRLS.UseVisualStyleBackColor = true;
@@ -413,18 +396,19 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 427);
+            this.label5.Location = new System.Drawing.Point(8, 347);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 16);
+            this.label5.Size = new System.Drawing.Size(59, 13);
             this.label5.TabIndex = 21;
             this.label5.Text = "Event Log:";
             // 
             // btn_SaveLog
             // 
-            this.btn_SaveLog.Location = new System.Drawing.Point(880, 514);
-            this.btn_SaveLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_SaveLog.Location = new System.Drawing.Point(660, 418);
+            this.btn_SaveLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_SaveLog.Name = "btn_SaveLog";
-            this.btn_SaveLog.Size = new System.Drawing.Size(105, 30);
+            this.btn_SaveLog.Size = new System.Drawing.Size(79, 24);
             this.btn_SaveLog.TabIndex = 20;
             this.btn_SaveLog.Text = "Save Log";
             this.btn_SaveLog.UseVisualStyleBackColor = true;
@@ -433,10 +417,10 @@
             // richTextBox1
             // 
             this.richTextBox1.Enabled = false;
-            this.richTextBox1.Location = new System.Drawing.Point(11, 446);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.richTextBox1.Location = new System.Drawing.Point(8, 362);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(863, 99);
+            this.richTextBox1.Size = new System.Drawing.Size(648, 81);
             this.richTextBox1.TabIndex = 12;
             this.richTextBox1.Text = "";
             // 
@@ -530,7 +514,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -542,8 +526,8 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1363, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1022, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -553,25 +537,24 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cameraHardwareIDToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // cameraHardwareIDToolStripMenuItem
             // 
             this.cameraHardwareIDToolStripMenuItem.Name = "cameraHardwareIDToolStripMenuItem";
-            this.cameraHardwareIDToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.cameraHardwareIDToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.cameraHardwareIDToolStripMenuItem.Text = "Camera Hardware ID";
             this.cameraHardwareIDToolStripMenuItem.Click += new System.EventHandler(this.cameraHardwareIDToolStripMenuItem_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1363, 735);
+            this.ClientSize = new System.Drawing.Size(1022, 597);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Robot Photogrametry";
             this.Load += new System.EventHandler(this.Form1_Load);
