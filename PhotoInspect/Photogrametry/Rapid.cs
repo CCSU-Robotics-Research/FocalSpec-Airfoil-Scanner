@@ -102,30 +102,27 @@ namespace Photogrametry
             {
                 if (controller.OperatingMode == ControllerOperatingMode.Auto)
                 {
-                    controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "Photogrametry", "extern_wait");
+                    controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
                     controllerWaiting.ValueChanged += new EventHandler<DataValueChangedEventArgs>(ControllerWaitCheck);
                     tasks = controller.Rapid.GetTasks();
                     tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed);
 
-                    axis6Allowed = controller.Rapid.GetRapidData("T_ROB1", "Photogrametry", "axis6Allowed");
+                    axis6Allowed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "axis6Allowed");
 
                     using (m = Mastership.Request(controller.Rapid))
                     {
-                        //Perform operation
+                        // Perform operation
                         tasks[0].ResetProgramPointer(); 
                         controller.Rapid.Start();
-                        funcCall = controller.Rapid.GetRapidData("T_ROB1", "Photogrametry", "funcCall");
+                        funcCall = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "funcCall");
                         funcCall.StringValue = "\"\"";
                     }
                     
-                    
-
                 }
                 else
                 {
                     MessageBox.Show(
                         "Automatic mode is required to start execution from a remote client.");
-
 
                 }
             }
@@ -137,8 +134,7 @@ namespace Photogrametry
 
         }
 
-        
-        //Stop Everything
+        // Stop Everything
         public void Stop()
         {
             try
@@ -206,8 +202,9 @@ namespace Photogrametry
                 }
             }
         }
-//This is the primary photo sequence it will pick up a part, move to the first photo position, take the orbits,
-//Move to the next angle and retake the orbits and repeat until done.
+        //This is the primary photo sequence it will pick up a part, move to the first photo position, take the orbits,
+        //Move to the next angle and retake the orbits and repeat until done.
+
         public async void PhotoSequence()
         {
             int sequenceStep = 0;
@@ -217,48 +214,79 @@ namespace Photogrametry
             try
             {
 
-                
+
                 while (sequenceStep < numOfPhotoSteps)
                 {
-                    
+
                     if (_waiting == true)
                     {
 
                         using (m = Mastership.Request(controller.Rapid))
                         {
-                                switch (sequenceStep)
+                            switch (sequenceStep)
                             {
                                 case 0:
-                                    funcCall.StringValue = "\"PickPart\"";
+                                    funcCall.StringValue = "\"XpertsPickUp\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
-                                  
                                     break;
                                 case 1:
-                                    funcCall.StringValue = "\"MovePhoto\"";
+                                    funcCall.StringValue = "\"XpertMoveFromPickUpToSensor\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
 
                                 case 2:
-                                    PartOrbit();
+                                    funcCall.StringValue = "\"XpertsRightEdgeScan\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 3:
+                                    funcCall.StringValue = "\"XpertsBackEdgeScan\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 4:
+                                    funcCall.StringValue = "\"XpertLeftEdgeScan\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 5:
+                                    funcCall.StringValue = "\"XpertFrontEdgeScan\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 6:
+                                    funcCall.StringValue = "\"ScanToStand\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 7:
+                                    funcCall.StringValue = "\"DropItem\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 8:
+                                    funcCall.StringValue = "\"GoToInitialState\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
                                     break;
                                 case 99:
-                                    
+
                                     break;
                                 default:
                                     return;
                             }
 
- 
+
                         }
 
 
-                        sequenceStep++; 
+                        sequenceStep++;
                     }
                     await gphoto.WaitSeconds(25);
                 }
-                gphoto.SFTP_Retrieve();
+                //gphoto.SFTP_Retrieve();
             }
             catch (System.InvalidOperationException ex)
             {
@@ -273,6 +301,8 @@ namespace Photogrametry
 
 
         }
+
+
         private async void PartOrbit()
         {
             try
@@ -280,7 +310,11 @@ namespace Photogrametry
                 
                     while ((Bool)axis6Allowed.Value)
                     {
+                    if (gphoto.subRunning)
+                    {
                         gphoto.CaptureAndDownload();
+                    }
+                  
                         await gphoto.WaitSeconds(25);
                         using (m = Mastership.Request(controller.Rapid))
                         {
@@ -300,8 +334,11 @@ namespace Photogrametry
                     }
                     while ((Bool)axis6Allowed.Value)
                     {
+                    if (gphoto.subRunning)
+                    {
                         gphoto.CaptureAndDownload();
-                        await gphoto.WaitSeconds(25);
+                    }
+                    await gphoto.WaitSeconds(25);
                         using (m = Mastership.Request(controller.Rapid))
                         {
                             funcCall.StringValue = "\"Axis_6_RotatePart\"";
