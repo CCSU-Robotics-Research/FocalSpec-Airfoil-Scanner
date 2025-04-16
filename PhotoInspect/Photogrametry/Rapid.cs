@@ -208,7 +208,7 @@ namespace Photogrametry
         public async void PhotoSequence()
         {
             int sequenceStep = 0;
-            int numOfPhotoSteps = 3;
+            int numOfPhotoSteps = 9;
             string hmm = funcCall.StringValue;
 
             try
@@ -231,7 +231,7 @@ namespace Photogrametry
                                     _waiting = false;
                                     break;
                                 case 1:
-                                    funcCall.StringValue = "\"XpertMoveFromPickUpToSensor\"";
+                                    funcCall.StringValue = "\"XpertsMoveFromPickUpToSensor\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
@@ -247,12 +247,12 @@ namespace Photogrametry
                                     _waiting = false;
                                     break;
                                 case 4:
-                                    funcCall.StringValue = "\"XpertLeftEdgeScan\"";
+                                    funcCall.StringValue = "\"XpertsLeftEdgeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 5:
-                                    funcCall.StringValue = "\"XpertFrontEdgeScan\"";
+                                    funcCall.StringValue = "\"XpertsFrontEdgeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;

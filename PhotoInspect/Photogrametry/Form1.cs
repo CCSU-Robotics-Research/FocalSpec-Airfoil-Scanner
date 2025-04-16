@@ -129,7 +129,7 @@ namespace Photogrametry
         }
 
        
-        //Scan For ABB Controllers and Add To List View
+        // Scan For ABB Controllers and Add To List View
         private void btn_ScanCTRLS_Click(object sender, EventArgs e)
         {
             ControllerInfoCollection ControllerList = Rap.ScanControllers();
@@ -162,8 +162,7 @@ namespace Photogrametry
                     }
                     else
                     {
-                        MessageBox.Show(
-                            "Automatic mode is required to start execution from a remote client.");
+                        MessageBox.Show("Automatic mode is required to start execution from a remote client.");
                     }
                 }
                 else
