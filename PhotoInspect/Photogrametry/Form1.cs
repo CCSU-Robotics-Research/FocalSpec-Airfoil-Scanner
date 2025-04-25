@@ -61,6 +61,8 @@ namespace Photogrametry
             this.richTextBox1.ScrollToCaret();
            
         }
+
+
         
         public void UpdateFormFields()
         {

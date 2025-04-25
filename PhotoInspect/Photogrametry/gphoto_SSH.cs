@@ -15,16 +15,16 @@ using System.Windows.Forms;
 
 namespace Photogrametry
 {
-    
+
     class gphoto_SSH
     {
         public Form1 fr;
         public RapidFunctions Rap;
         public bool subRunning;
         public string LocalFolder = null;
-        
+
         private Process WSLproc;
-        private bool WSLRunning=false;
+        private bool WSLRunning = false;
         private SshClient sshCLI;
         private ShellStream sshStream;
         private string folder;
@@ -37,9 +37,9 @@ namespace Photogrametry
             this.fr = _form1;
 
         }
-       // The below function starts the windows subsystem for linux Binds the camera hardware and returns
-       // a process item that can be used to access the WSL from the application.
-        public void SubSystemStart() 
+        // The below function starts the windows subsystem for linux Binds the camera hardware and returns
+        // a process item that can be used to access the WSL from the application.
+        public void SubSystemStart()
         {
             try
             {
@@ -55,26 +55,26 @@ namespace Photogrametry
 
 
                 }
-                else 
+                else
                 {
                     //Add Start Failed Handler here
                 }
             }
-            catch(System.Exception ex) 
+            catch (System.Exception ex)
             {
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
                 fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
 
         }
-       
+
         //This Function kills the Kill the ssh system that was started
         public void SubSystemStop()
         {
             try
             {
                 SSHEnd();
-                
+
             }
 
             catch (System.Exception ex)
@@ -87,7 +87,7 @@ namespace Photogrametry
         {
             await Task.Delay(milliseconds);
         }
-       //Read the number of photos on the camera to an integer for determining which files to download
+        //Read the number of photos on the camera to an integer for determining which files to download
         public int GetCameraCount()
         {
             try
@@ -100,7 +100,7 @@ namespace Photogrametry
                     return int.Parse(match.Value);
                 }
                 return 0;
-            
+
             }
             catch (System.Exception ex)
             {
@@ -131,7 +131,7 @@ namespace Photogrametry
         }
 
         // This Function connects to the Pi
-       public void SSHStart()
+        public void SSHStart()
         {
             try
             {
@@ -144,13 +144,13 @@ namespace Photogrametry
                 sshCLI.Connect();
                 //Start the CLI Stream
                 sshStream = sshCLI.CreateShellStream("input", 0, 0, 0, 0, 1000000);
-                if (sshStream.CanWrite) 
-                    { 
+                if (sshStream.CanWrite)
+                {
                     fr.SubRunning.BackColor = System.Drawing.Color.Green;
                     fr.SubRunning.Text = "Running";
                     subRunning = true;
-                    
-                }    
+
+                }
             }
             catch (System.Exception ex)
             {
@@ -187,11 +187,11 @@ namespace Photogrametry
                 sshCLI.Disconnect();
                 sshCLI.Dispose();
 
-                    fr.SubRunning.BackColor = System.Drawing.Color.Red;
-                    fr.SubRunning.Text = "Stopped";
-                    subRunning = false;
+                fr.SubRunning.BackColor = System.Drawing.Color.Red;
+                fr.SubRunning.Text = "Stopped";
+                subRunning = false;
 
-                
+
 
             }
             catch (System.Exception ex)
@@ -254,18 +254,18 @@ namespace Photogrametry
             {
                 client.DownloadFile(file.FullName, fileStream);
             }
-        }   
+        }
 
 
         public void SFTP_Retrieve()
         {
             Thread myThread = new System.Threading.Thread(delegate () {
-                
+
 
                 // Path to folder on SFTP server
                 string pathRemoteDirectory = $"/home/{username}{folder.Substring(1)}";
                 // Path where the file should be saved once downloaded (locally)
-                if(LocalFolder ==  null)
+                if (LocalFolder == null)
                 {
                     LocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 }
@@ -301,4 +301,4 @@ namespace Photogrametry
             myThread.Start();
         }
     }
-    }
+}

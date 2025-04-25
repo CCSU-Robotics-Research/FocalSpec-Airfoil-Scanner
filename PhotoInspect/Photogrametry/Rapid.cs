@@ -208,7 +208,7 @@ namespace Photogrametry
         public async void PhotoSequence()
         {
             int sequenceStep = 0;
-            int numOfPhotoSteps = 9;
+            int numOfPhotoSteps = 13;
             string hmm = funcCall.StringValue;
 
             try
@@ -235,38 +235,57 @@ namespace Photogrametry
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
-
                                 case 2:
-                                    funcCall.StringValue = "\"XpertsRightEdgeScan\"";
+                                    funcCall.StringValue = "\"StopAndSendSpeed\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 3:
-                                    funcCall.StringValue = "\"XpertsBackEdgeScan\"";
+                                    funcCall.StringValue = "\"XpertsRightEdgeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 4:
-                                    funcCall.StringValue = "\"XpertsLeftEdgeScan\"";
+                                    funcCall.StringValue = "\"StopAndSendSpeed\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 5:
-                                    funcCall.StringValue = "\"XpertsFrontEdgeScan\"";
+                                    funcCall.StringValue = "\"XpertsBackEdgeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 6:
-                                    funcCall.StringValue = "\"ScanToStand\"";
+                                    funcCall.StringValue = "\"StopAndSendSpeed\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 7:
-                                    funcCall.StringValue = "\"DropItem\"";
+                                    funcCall.StringValue = "\"XpertsLeftEdgeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 8:
+                                    funcCall.StringValue = "\"StopAndSendSpeed\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 9:
+                                    funcCall.StringValue = "\"XpertsFrontEdgeScan\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 10:
+                                    funcCall.StringValue = "\"ScanToStand\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 11:
+                                    funcCall.StringValue = "\"DropItem\"";
+                                    controllerWaiting.Value = new Bool(false);
+                                    _waiting = false;
+                                    break;
+                                case 12:
                                     funcCall.StringValue = "\"GoToInitialState\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
@@ -277,11 +296,7 @@ namespace Photogrametry
                                 default:
                                     return;
                             }
-
-
                         }
-
-
                         sequenceStep++;
                     }
                     await gphoto.WaitSeconds(25);
