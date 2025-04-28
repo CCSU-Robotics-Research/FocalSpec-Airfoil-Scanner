@@ -126,6 +126,8 @@ namespace FocalSpec.GuiExample.View
         public bool IsSignalDetectionFilterSupported { get; set; }
         public bool LayerIntensityTypeSupported { get; set; }
 
+        private static PhotogrammetryView _photogrammetryView = new PhotogrammetryView();
+
 
         /// <summary>
         /// Prepares the view for displaying measurements.
@@ -1944,7 +1946,16 @@ namespace FocalSpec.GuiExample.View
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Opens the Robot Interface. Used to adjust config settings
+            // Opens the Robot Interface. Used to adjust config settings
+            if (_photogrammetryView.IsDisposed)
+            {
+                _photogrammetryView = new PhotogrammetryView();  // recreate it if it was closed before
+                _photogrammetryView.Show();
+            }
+            else if (!_photogrammetryView.Visible)
+            {
+                _photogrammetryView.Show();
+            }
         }
 
         private void SaveRecipe()

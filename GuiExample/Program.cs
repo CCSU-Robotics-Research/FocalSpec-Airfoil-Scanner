@@ -8,8 +8,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Forms;
+using Adapters;
 using FocalSpec.GuiExample.Presenter;
 using FocalSpec.GuiExample.View;
 using Photogrammetry;
@@ -22,7 +24,6 @@ namespace FocalSpec.GuiExample
         /// Main view of the application.
         /// </summary>
         private static MainView _mainView;
-        private static PhotogrammetryView _photogrammetryView;
 
         /// <summary>
         /// The main entry point for the application.
@@ -40,7 +41,6 @@ namespace FocalSpec.GuiExample
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 
             _mainView = new MainView();
-            _photogrammetryView = new PhotogrammetryView();
             // ReSharper disable once ObjectCreationAsStatement 
 
             new MainPresenter(_mainView, ShowMainView);     // Opens the application
@@ -67,10 +67,9 @@ namespace FocalSpec.GuiExample
         /// </summary>
         static void ShowMainView()
         {
-            if (_mainView != null && _photogrammetryView != null)
+            if (_mainView != null)
             {
                 Application.Run(_mainView);
-                Application.Run(_photogrammetryView);
             }            
         }
     }
