@@ -1,4 +1,5 @@
 ﻿using ABB.Robotics.Controllers;
+using FocalSpec.GuiExample.View;
 using Rapid;
 using System;
 using System.Windows.Forms;
@@ -7,11 +8,13 @@ namespace Photogrammetry
 {
     public partial class PhotogrammetryView : Form
     {
-
+        private readonly ILogicMethods _logic;
+        public MainView mainView;
         RapidFunctions Rap;
 
-        public PhotogrammetryView()
+        public PhotogrammetryView(MainView mainView)
         {
+            this.mainView = mainView;
             InitializeComponent();
             Rap = new RapidFunctions(this);
         }

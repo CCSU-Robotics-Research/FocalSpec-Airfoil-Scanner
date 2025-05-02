@@ -3,9 +3,15 @@ using System.Windows.Forms;
 using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.Discovery;
 using ABB.Robotics.Controllers.RapidDomain;
+using FocalSpec.GuiExample.View;
+using FocalSpec.GuiExample.Presenter;
+using FocalSpec.GuiExample;
+using BatchModePresenter = FocalSpec.GuiExample.View.BatchModePresenter;
+
 
 namespace Rapid
 {
+       
     class TaskWaiter
     {
 
@@ -19,6 +25,8 @@ namespace Rapid
     {
         ABB.Robotics.Controllers.Controller objController;
         private NetworkScanner objNetworkWatcher = null;
+        private static MainPresenter _mainPresenter;
+        public static MainPresenter MainPresenter => _mainPresenter;
 
         public ABB.Robotics.Controllers.RapidDomain.Task[] tasks = null;
         Mastership m;
@@ -27,37 +35,49 @@ namespace Rapid
 
         double minimumMove = 5;
 
+        BatchModePresenter BatchModePresenter = new BatchModePresenter();
+
+
         public
         RapidData data5;
         RapidData data6;
         RapidData data7;
         RapidData data8;
         RapidData controllerWaiting;
+        RapidData controllerScannerEnable;
         RapidData funcCall;
         RapidData axis6Allowed;
 
         TaskWaiter taskWaiter = new TaskWaiter();
         public Photogrammetry.PhotogrammetryView fr;
 
-
-
+        //FocalSpec.GuiExample.Presenter.BatchModePresenter batchModePresenter = Program.GetBatchModePresenter();
+        
         public decimal waittime = 100;
         string s;
         public string IP;
         public Controller controller = null;
 
         public bool _waiting = true;
+        public bool _scannerEnable = true;
         public bool PhotosComplete = false;
+        public MainView mainView;
         public RapidFunctions(Photogrammetry.PhotogrammetryView _form1)
         {
             this.fr = _form1;
+            this.mainView = _form1.mainView;
 
         }
 
+       
+
+      
         //Controller Scanner
         //Scan for and add controllers to the list
         public ControllerInfoCollection ScanControllers()
         {
+          
+
             try
             {
                 // Create A Robo Studio Controller Connector
@@ -110,6 +130,8 @@ namespace Rapid
                 {
                     controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
                     controllerWaiting.ValueChanged += new EventHandler<DataValueChangedEventArgs>(ControllerWaitCheck);
+                    controllerScannerEnable = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "scannerEnable");
+                    //controllerScannerEnable.ValueChanged += new EventHandler<DataValueChangedEventArgs>(ScannerEnableCheck);
                     tasks = controller.Rapid.GetTasks();
                     tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed);
 
@@ -214,7 +236,7 @@ namespace Rapid
             int sequenceStep = 0;
             int numOfPhotoSteps = 13;
             string hmm = funcCall.StringValue;
-
+            
             try
             {
 
@@ -240,46 +262,68 @@ namespace Rapid
                                     _waiting = false;
                                     break;
                                 case 2:
-                                    funcCall.StringValue = "\"StopAndSendSpeed\"";
+                                    funcCall.StringValue = "\"XpertsRightEdgePreScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 3:
-                                    funcCall.StringValue = "\"XpertsRightEdgeScan\"";
+                                    //mainView.setSelectedLayer(FocalSpec.GuiExample.Model.Export.ExportLayer.Top);
+                                    mainView.getBatchMode().TriggerClearLogic();
+                                    mainView.getBatchMode().TriggerStartLogic();
+                                    funcCall.StringValue = "\"XpertsRightEdgeTakeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 4:
-                                    funcCall.StringValue = "\"StopAndSendSpeed\"";
+                                    mainView.getBatchMode().TriggerStopLogic();
+                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\cs9801\\Downloads\\RightEdge.asc");
+                                    funcCall.StringValue = "\"XpertsBackEdgePreScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 5:
-                                    funcCall.StringValue = "\"XpertsBackEdgeScan\"";
+                                    //mainView.setSelectedLayer(FocalSpec.GuiExample.Model.Export.ExportLayer.All);
+                                    mainView.getBatchMode().TriggerClearLogic();
+                                    mainView.getBatchMode().TriggerStartLogic();
+                                    funcCall.StringValue = "\"XpertsBackEdgeTakeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
+                              
                                     break;
                                 case 6:
-                                    funcCall.StringValue = "\"StopAndSendSpeed\"";
+                                    mainView.getBatchMode().TriggerStopLogic();
+                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\cs9801\\Downloads\\BackEdge.asc");
+                                    funcCall.StringValue = "\"XpertsLeftEdgePreScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
+                                    
                                     break;
                                 case 7:
-                                    funcCall.StringValue = "\"XpertsLeftEdgeScan\"";
+                                    //mainView.setSelectedLayer(FocalSpec.GuiExample.Model.Export.ExportLayer.Top);
+                                    mainView.getBatchMode().TriggerClearLogic();
+                                    mainView.getBatchMode().TriggerStartLogic();
+                                    funcCall.StringValue = "\"XpertsLeftEdgeTakeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 8:
-                                    funcCall.StringValue = "\"StopAndSendSpeed\"";
+                                    mainView.getBatchMode().TriggerStopLogic();
+                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\cs9801\\Downloads\\LeftEdge.asc");
+                                    funcCall.StringValue = "\"XpertsFrontEdgePreScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 9:
-                                    funcCall.StringValue = "\"XpertsFrontEdgeScan\"";
+                                    //mainView.setSelectedLayer(FocalSpec.GuiExample.Model.Export.ExportLayer.All);
+                                    mainView.getBatchMode().TriggerClearLogic();
+                                    mainView.getBatchMode().TriggerStartLogic();
+                                    funcCall.StringValue = "\"XpertsFrontEdgeTakeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
                                     break;
                                 case 10:
+                                    mainView.getBatchMode().TriggerStopLogic();
+                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\cs9801\\Downloads\\FrontEdge.asc");
                                     funcCall.StringValue = "\"ScanToStand\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
@@ -338,6 +382,22 @@ namespace Rapid
             }
 
         }
+
+        //private void ScannerEnableCheck(object sender, DataValueChangedEventArgs e)
+        //{
+        //    _scannerEnable = (Bool)controllerScannerEnable.Value;
+        //    if (_scannerEnable)
+        //    {
+        //        mainView.getBatchMode().TriggerClearLogic();
+        //        mainView.getBatchMode().TriggerStartLogic();
+        //    }
+        //    else
+        //    {
+        //        mainView.getBatchMode().TriggerStopLogic();
+        //        mainView.getBatchMode().TriggerSaveLogic();
+        //    }
+
+        //}
 
         //End Event Handlers
     }

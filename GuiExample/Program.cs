@@ -23,7 +23,11 @@ namespace FocalSpec.GuiExample
         /// <summary>
         /// Main view of the application.
         /// </summary>
-        private static MainView _mainView;
+        private static MainView
+            _mainView;
+
+        //private static MainPresenter _mainPresenter;
+        //public static MainPresenter MainPresenter => _mainPresenter;
 
         /// <summary>
         /// The main entry point for the application.
@@ -45,7 +49,6 @@ namespace FocalSpec.GuiExample
 
             new MainPresenter(_mainView, ShowMainView);     // Opens the application
 
-            
         }
 
         private static void ApplicationOnThreadException(object sender, ThreadExceptionEventArgs threadExceptionEventArgs)
@@ -72,5 +75,7 @@ namespace FocalSpec.GuiExample
                 Application.Run(_mainView);
             }            
         }
+
+        public static MainView getMainView() { return _mainView; }
     }
 }

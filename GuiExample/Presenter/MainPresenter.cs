@@ -71,6 +71,7 @@ namespace FocalSpec.GuiExample.Presenter
         /// </summary>
         // ReSharper disable once NotAccessedField.Local
         private BatchModePresenter _batchModePresenter;
+        public BatchModePresenter BatchMode => _batchModePresenter;
 
         /// <summary>
         /// Attaches console to the application. Useful in debugging modules that log into console.
@@ -158,6 +159,10 @@ namespace FocalSpec.GuiExample.Presenter
 
             Session.ViewMode = ViewMode.RealTime;
             showMainView();
+        }
+        public BatchModePresenter GetBatchModePresenter()
+        {
+            return _batchModePresenter;
         }
 
         private void SetUpdateViewTimer(bool enabled)

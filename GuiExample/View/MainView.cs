@@ -20,6 +20,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.Integration;
 using System.Windows.Threading;
 using FocalSpec.FsApiNet.Model;
+using FocalSpec.GuiExample.Annotations;
 using FocalSpec.GuiExample.Model;
 using FocalSpec.GuiExample.Model.BatchMode;
 using FocalSpec.GuiExample.Model.Camera;
@@ -126,14 +127,17 @@ namespace FocalSpec.GuiExample.View
         public bool IsSignalDetectionFilterSupported { get; set; }
         public bool LayerIntensityTypeSupported { get; set; }
 
-        private static PhotogrammetryView _photogrammetryView = new PhotogrammetryView();
+        private PhotogrammetryView _photogrammetryView;
 
+     
 
         /// <summary>
         /// Prepares the view for displaying measurements.
         /// </summary>
         public MainView()
         {
+        
+            _photogrammetryView = new PhotogrammetryView(this);
             InitializeComponent();
 
 			_uiDispatcher = Dispatcher.CurrentDispatcher;
@@ -290,6 +294,18 @@ namespace FocalSpec.GuiExample.View
         private void MainView_HandleCreated(object sender, EventArgs e)
         {
             IsBatchVisualizerVisible = false;
+        }
+        public BatchModePresenter getBatchMode()
+        {
+            return _batchMode;
+        }
+        public ExportLayer getSelectedLayer()
+        {
+            return _selectedLayer;
+        }
+        public void setSelectedLayer(ExportLayer newExportLayer)
+        {
+            _selectedLayer = newExportLayer;
         }
 
         public event ApplySensorSettingsHandler OnApplySensorSettings;
@@ -1949,7 +1965,7 @@ namespace FocalSpec.GuiExample.View
             // Opens the Robot Interface. Used to adjust config settings
             if (_photogrammetryView.IsDisposed)
             {
-                _photogrammetryView = new PhotogrammetryView();  // recreate it if it was closed before
+                _photogrammetryView = new PhotogrammetryView(this);  // recreate it if it was closed before
                 _photogrammetryView.Show();
             }
             else if (!_photogrammetryView.Visible)

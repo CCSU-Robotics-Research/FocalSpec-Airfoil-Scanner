@@ -11,17 +11,27 @@ using System;
 
 namespace FocalSpec.GuiExample.View
 {
+    using System.Windows;
     using System.Windows.Forms;
 
     /// <summary>WinForms implementation of the BatchMode view.</summary>
-    public partial class BatchModeView : UserControl, IBatchModeView
+    public interface ILogicMethods
+        {
+            void TriggerStartLogic();
+            void TriggerStopLogic();
+            void TriggerSaveLogic();
+            void TriggerClearLogic();
+
+        }
+    public partial class BatchModePresenter : UserControl, IBatchModeView
     {
-        /// <summary>Initializes a new instance of the <see cref="BatchModeView"/> class.</summary>
-        public BatchModeView()
+        /// <summary>Initializes a new instance of the <see cref="BatchModePresenter"/> class.</summary>
+        public BatchModePresenter()
         {
             InitializeComponent();
         }
 
+       
         /// <summary>Event fires when user wants to configure the batch recorder.</summary>
         public event ConfigureHandler OnConfigure;
 
@@ -188,19 +198,45 @@ namespace FocalSpec.GuiExample.View
         /// <summary>Event handler, user has clicked start button.</summary>
         /// <param name="sender">Source of the event. </param>
         /// <param name="e">     Event information. </param>
+        
         private void _start_Click(object sender, EventArgs e)
         {
             if (OnStart == null) return;
             Cursor.Current = Cursors.WaitCursor;
-				
+
             OnStart();
-				
+
             Cursor.Current = Cursors.Default;
+        }
+
+        public void TriggerStartLogic() {
+            OnStart.Invoke();
         }
 
         /// <summary>Event handler, user has clicked save button.</summary>
         /// <param name="sender">Source of the event. </param>
         /// <param name="e">     Event information. </param>
+        /// 
+        public void TriggerSaveLogic(string filePath)
+        {
+            if (OnSave == null) return;
+            //var save = new SaveFileDialog
+            //{
+            //    FileName = "pointcloud.asc",
+            //    Filter = @"Point cloud in ASC format (*.asc)|*.asc|Point cloud in PCD format (*.pcd)|*.pcd|2D grayscale bitmap (*.bmp)|*.bmp|All files (*.*)|*.*"
+            //};
+
+            //if (save.ShowDialog() != DialogResult.OK) return;
+
+            //if (string.IsNullOrWhiteSpace(save.FileName)) return;
+
+            //Cursor.Current = Cursors.WaitCursor;
+
+            OnSave(filePath);
+
+            //Cursor.Current = Cursors.Default;
+        }
+
         private void _save_Click(object sender, EventArgs e)
         {
             if (OnSave == null) return;
@@ -224,9 +260,14 @@ namespace FocalSpec.GuiExample.View
         /// <summary>Event handler, user has pressed stop button.</summary>
         /// <param name="sender">Source of the event. </param>
         /// <param name="e">     Event information. </param>
-        private void _stop_Click(object sender, EventArgs e)
+        /// 
+        public void TriggerStopLogic()
         {
             OnStop?.Invoke(true);
+        }
+        private void _stop_Click(object sender, EventArgs e)
+        {
+            TriggerStopLogic();
         }
 
         /// <summary>Event handler, user has changed the browser track bar position.</summary>
@@ -238,11 +279,7 @@ namespace FocalSpec.GuiExample.View
 
             OnPositionBrowsed?.Invoke(_position.Value);
         }
-
-        /// <summary>Event handler, user has pressed clear button.</summary>
-        /// <param name="sender">Source of the event. </param>
-        /// <param name="e">     Event information. </param>
-        private void _clear_Click(object sender, EventArgs e)
+        public void TriggerClearLogic()
         {
             if (OnClear == null) return;
             Cursor.Current = Cursors.WaitCursor;
@@ -250,6 +287,13 @@ namespace FocalSpec.GuiExample.View
             OnClear();
 				
             Cursor.Current = Cursors.Default;
+        }
+        /// <summary>Event handler, user has pressed clear button.</summary>
+        /// <param name="sender">Source of the event. </param>
+        /// <param name="e">     Event information. </param>
+        private void _clear_Click(object sender, EventArgs e)
+        {
+            TriggerClearLogic();
         }
 
         private void checkBoxShowHideBatchVisualizer_CheckedChanged(object sender, EventArgs e)

@@ -90,7 +90,7 @@ namespace FocalSpec.GuiExample.Presenter
             cameraManager.OnPointCloudReceivedEvent += OnPointCloudReceived;
         }
 
-        /// <summary>
+        /// <summary> 
         /// Clears the recording.
         /// </summary>
         private void ClearRecording()
@@ -161,7 +161,7 @@ namespace FocalSpec.GuiExample.Presenter
         /// <summary>
         /// Starts a recording. Initializes a container for saving, and updates the buttons on the view.
         /// </summary>
-        private void StartRecording()
+        public void StartRecording()
         {
             /*
             if (!Environment.Is64BitProcess)
@@ -297,7 +297,7 @@ namespace FocalSpec.GuiExample.Presenter
         /// <summary>
         /// Finish the active recording. Update the view accordingly.
         /// </summary>
-        private void StopRecording(bool show)
+        public void StopRecording(bool show=true)
         {
 	        _cameraManager.StopGrabbing(20);
             _isStopped = true;

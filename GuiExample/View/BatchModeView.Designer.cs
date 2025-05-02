@@ -1,6 +1,6 @@
 ﻿namespace FocalSpec.GuiExample.View
 {
-    partial class BatchModeView
+    partial class BatchModePresenter
     {
         /// <summary> 
         /// Required designer variable.

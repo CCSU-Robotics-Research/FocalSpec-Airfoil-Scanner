@@ -89,7 +89,7 @@
             this.comboboxLedPulseWidth = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this._batchMode = new FocalSpec.GuiExample.View.BatchModeView();
+            this._batchMode = new FocalSpec.GuiExample.View.BatchModePresenter();
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -1042,7 +1042,7 @@
         private System.Windows.Forms.RadioButton radioButtonExportAll;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private BatchModeView _batchMode;
+        private BatchModePresenter _batchMode;
         private System.Windows.Forms.DataVisualization.Charting.Chart _profileChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart _thicknessChart;
         private System.Windows.Forms.Label labelFrameIndex;
