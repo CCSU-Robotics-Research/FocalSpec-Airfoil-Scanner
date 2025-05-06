@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="FocalSpec.GuiExample.View.BatchVisualizer2DUc"
+             x:Name="UcBatchVisualizer2D"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" SizeChanged="BatchVisualizer2DUc_OnSizeChanged" Loaded="BatchVisualizer2DUc_OnLoaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="RowDefinitionZoomCanvas" Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border x:Name="BorderForZoomableCanvas" ClipToBounds="True" BorderThickness="0" BorderBrush="Transparent">
+            <ZoomableCanvas x:Name="ZoomCanvas" MouseMove="ZoomCanvas_OnMouseMove" MouseWheel="ZoomCanvas_OnMouseWheel">
+                <Image x:Name="ImageMain" Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                           RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" RenderTransformOrigin="0.5,0.5" />
+            </ZoomableCanvas>
+        </Border>
+
+        <UniformGrid x:Name="UniformGridControls" Grid.Row="1" Rows="1">
+            <Button x:Name="ButtonZoomOut" Content="Zoom -" Margin="5" Click="ButtonZoomOut_OnClick" />
+            <Button x:Name="ButtonZoomIn" Content="Zoom +" Margin="5" Click="ButtonZoomIn_OnClick" />
+            <Button x:Name="ButtonZoomToFit" Content="Zoom to Fit" Margin="5" Click="ButtonZoomToFit_OnClick" />
+        </UniformGrid>
+    </Grid>
+</UserControl>

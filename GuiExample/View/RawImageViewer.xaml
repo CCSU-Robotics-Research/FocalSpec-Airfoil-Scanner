@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="FocalSpec.GuiExample.View.RawImageViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             Background="WhiteSmoke" 
+             d:DesignHeight="300" d:DesignWidth="300" 
+             SizeChanged="RawImageViewer_OnSizeChanged">
+    <Grid Name="GridRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" x:Name="RawImageScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Image x:Name="RawImagePicture" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" RenderTransformOrigin="0.5,0.5" MouseMove="RawImagePicture_OnMouseMove"/>
+        </ScrollViewer>
+        <Grid Grid.Row="1" x:Name="ProfileGrid">
+            <WindowsFormsHost x:Name="ProfileHost"/>
+        </Grid>
+        <Canvas Grid.Row="0">
+            <Line X1="{Binding LinePosition}" X2="{Binding LinePosition}" Y1="0" Y2="{Binding ImageHeight}" Stroke="Gold" StrokeThickness="2" StrokeDashArray="2,2" StrokeDashCap="Round" />
+        </Canvas>
+    </Grid>
+</UserControl>
