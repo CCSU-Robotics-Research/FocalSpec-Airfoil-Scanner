@@ -276,7 +276,7 @@ namespace Rapid
                                     break;
                                 case 4:
                                     mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\cs9801\\Downloads\\RightEdge.asc");
+                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\RightEdge.asc");
                                     funcCall.StringValue = "\"XpertsBackEdgePreScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
@@ -292,7 +292,7 @@ namespace Rapid
                                     break;
                                 case 6:
                                     mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\cs9801\\Downloads\\BackEdge.asc");
+                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\BackEdge.asc");
                                     funcCall.StringValue = "\"XpertsLeftEdgePreScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
@@ -308,7 +308,7 @@ namespace Rapid
                                     break;
                                 case 8:
                                     mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\cs9801\\Downloads\\LeftEdge.asc");
+                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\LeftEdge.asc");
                                     funcCall.StringValue = "\"XpertsFrontEdgePreScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
@@ -323,7 +323,7 @@ namespace Rapid
                                     break;
                                 case 10:
                                     mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\cs9801\\Downloads\\FrontEdge.asc");
+                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\FrontEdge.asc");
                                     funcCall.StringValue = "\"ScanToStand\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
