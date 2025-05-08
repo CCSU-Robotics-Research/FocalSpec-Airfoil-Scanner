@@ -267,7 +267,6 @@ namespace Rapid
                                     _waiting = false;
                                     break;
                                 case 3:
-                                    //mainView.setSelectedLayer(FocalSpec.GuiExample.Model.Export.ExportLayer.Top);
                                     mainView.getBatchMode().TriggerClearLogic();
                                     mainView.getBatchMode().TriggerStartLogic();
                                     funcCall.StringValue = "\"XpertsRightEdgeTakeScan\"";
@@ -282,7 +281,6 @@ namespace Rapid
                                     _waiting = false;
                                     break;
                                 case 5:
-                                    //mainView.setSelectedLayer(FocalSpec.GuiExample.Model.Export.ExportLayer.All);
                                     mainView.getBatchMode().TriggerClearLogic();
                                     mainView.getBatchMode().TriggerStartLogic();
                                     funcCall.StringValue = "\"XpertsBackEdgeTakeScan\"";
@@ -299,7 +297,6 @@ namespace Rapid
                                     
                                     break;
                                 case 7:
-                                    //mainView.setSelectedLayer(FocalSpec.GuiExample.Model.Export.ExportLayer.Top);
                                     mainView.getBatchMode().TriggerClearLogic();
                                     mainView.getBatchMode().TriggerStartLogic();
                                     funcCall.StringValue = "\"XpertsLeftEdgeTakeScan\"";
@@ -314,7 +311,6 @@ namespace Rapid
                                     _waiting = false;
                                     break;
                                 case 9:
-                                    //mainView.setSelectedLayer(FocalSpec.GuiExample.Model.Export.ExportLayer.All);
                                     mainView.getBatchMode().TriggerClearLogic();
                                     mainView.getBatchMode().TriggerStartLogic();
                                     funcCall.StringValue = "\"XpertsFrontEdgeTakeScan\"";
