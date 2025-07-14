@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelDataVisualizers = new System.Windows.Forms.TableLayoutPanel();
@@ -101,6 +101,16 @@
             this.saveRecipeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveRecipeAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listView_Controllers = new System.Windows.Forms.ListView();
+            this.IPAddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ControllerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btn_StartRAP = new System.Windows.Forms.Button();
+            this.btn_StopRap = new System.Windows.Forms.Button();
+            this.btn_RapContinue = new System.Windows.Forms.Button();
+            this.btn_ScanCTRLS = new System.Windows.Forms.Button();
+            this.btn_ConnectCTRL = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.btn_SaveLog = new System.Windows.Forms.Button();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelDataVisualizers.SuspendLayout();
             this.tableLayoutPanelCharts.SuspendLayout();
@@ -133,9 +143,9 @@
             this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             this.tableLayoutPanelMain.RowCount = 3;
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 65F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 123F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(850, 860);
+            this.tableLayoutPanelMain.Size = new System.Drawing.Size(1354, 860);
             this.tableLayoutPanelMain.TabIndex = 0;
             // 
             // tableLayoutPanelDataVisualizers
@@ -148,12 +158,12 @@
             this.tableLayoutPanelDataVisualizers.Controls.Add(this.tableLayoutPanelInfo, 0, 1);
             this.tableLayoutPanelDataVisualizers.Controls.Add(this.elementHostBatchVisualizer, 2, 0);
             this.tableLayoutPanelDataVisualizers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelDataVisualizers.Location = new System.Drawing.Point(268, 90);
+            this.tableLayoutPanelDataVisualizers.Location = new System.Drawing.Point(268, 148);
             this.tableLayoutPanelDataVisualizers.Name = "tableLayoutPanelDataVisualizers";
             this.tableLayoutPanelDataVisualizers.RowCount = 2;
             this.tableLayoutPanelDataVisualizers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelDataVisualizers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelDataVisualizers.Size = new System.Drawing.Size(579, 767);
+            this.tableLayoutPanelDataVisualizers.Size = new System.Drawing.Size(1083, 709);
             this.tableLayoutPanelDataVisualizers.TabIndex = 0;
             // 
             // tableLayoutPanelCharts
@@ -168,29 +178,29 @@
             this.tableLayoutPanelCharts.RowCount = 2;
             this.tableLayoutPanelCharts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelCharts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 0F));
-            this.tableLayoutPanelCharts.Size = new System.Drawing.Size(281, 741);
+            this.tableLayoutPanelCharts.Size = new System.Drawing.Size(533, 683);
             this.tableLayoutPanelCharts.TabIndex = 0;
             // 
             // _profileChart
             // 
-            chartArea3.AxisX.Title = "X [mm]";
-            chartArea3.AxisY.Title = "Z [mm]";
-            chartArea3.Name = "ChartArea1";
-            this._profileChart.ChartAreas.Add(chartArea3);
+            chartArea1.AxisX.Title = "X [mm]";
+            chartArea1.AxisY.Title = "Z [mm]";
+            chartArea1.Name = "ChartArea1";
+            this._profileChart.ChartAreas.Add(chartArea1);
             this._profileChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._profileChart.Location = new System.Drawing.Point(3, 3);
             this._profileChart.Name = "_profileChart";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series4.MarkerSize = 2;
-            series4.Name = "profile0";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series5.MarkerSize = 2;
-            series5.Name = "intensity0";
-            this._profileChart.Series.Add(series4);
-            this._profileChart.Series.Add(series5);
-            this._profileChart.Size = new System.Drawing.Size(275, 735);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series1.MarkerSize = 2;
+            series1.Name = "profile0";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series2.MarkerSize = 2;
+            series2.Name = "intensity0";
+            this._profileChart.Series.Add(series1);
+            this._profileChart.Series.Add(series2);
+            this._profileChart.Size = new System.Drawing.Size(527, 677);
             this._profileChart.TabIndex = 5;
             this._profileChart.Text = "_profileChart";
             this._profileChart.AxisViewChanged += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ViewEventArgs>(this._profileChart_AxisViewChanged);
@@ -198,19 +208,19 @@
             // 
             // _thicknessChart
             // 
-            chartArea4.AxisX.Title = "X [mm]";
-            chartArea4.AxisY.Title = "Z [mm]";
-            chartArea4.Name = "ChartArea2";
-            this._thicknessChart.ChartAreas.Add(chartArea4);
+            chartArea2.AxisX.Title = "X [mm]";
+            chartArea2.AxisY.Title = "Z [mm]";
+            chartArea2.Name = "ChartArea2";
+            this._thicknessChart.ChartAreas.Add(chartArea2);
             this._thicknessChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._thicknessChart.Location = new System.Drawing.Point(3, 744);
+            this._thicknessChart.Location = new System.Drawing.Point(3, 686);
             this._thicknessChart.Name = "_thicknessChart";
-            series6.ChartArea = "ChartArea2";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series6.MarkerSize = 2;
-            series6.Name = "Layer 1";
-            this._thicknessChart.Series.Add(series6);
-            this._thicknessChart.Size = new System.Drawing.Size(275, 1);
+            series3.ChartArea = "ChartArea2";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series3.MarkerSize = 2;
+            series3.Name = "Layer 1";
+            this._thicknessChart.Series.Add(series3);
+            this._thicknessChart.Size = new System.Drawing.Size(527, 1);
             this._thicknessChart.TabIndex = 5;
             this._thicknessChart.Text = "_thicknessChart";
             this._thicknessChart.AxisViewChanged += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ViewEventArgs>(this._thicknessChart_AxisViewChanged);
@@ -225,12 +235,12 @@
             this.tableLayoutPanelInfo.Controls.Add(this.labelViewMode, 0, 0);
             this.tableLayoutPanelInfo.Controls.Add(this.labelFrameIndex, 1, 0);
             this.tableLayoutPanelInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelInfo.Location = new System.Drawing.Point(0, 747);
+            this.tableLayoutPanelInfo.Location = new System.Drawing.Point(0, 689);
             this.tableLayoutPanelInfo.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelInfo.Name = "tableLayoutPanelInfo";
             this.tableLayoutPanelInfo.RowCount = 1;
             this.tableLayoutPanelInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelInfo.Size = new System.Drawing.Size(287, 20);
+            this.tableLayoutPanelInfo.Size = new System.Drawing.Size(539, 20);
             this.tableLayoutPanelInfo.TabIndex = 0;
             // 
             // labelViewMode
@@ -248,7 +258,7 @@
             // 
             this.labelFrameIndex.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelFrameIndex.AutoSize = true;
-            this.labelFrameIndex.Location = new System.Drawing.Point(218, 4);
+            this.labelFrameIndex.Location = new System.Drawing.Point(470, 4);
             this.labelFrameIndex.Margin = new System.Windows.Forms.Padding(4);
             this.labelFrameIndex.Name = "labelFrameIndex";
             this.labelFrameIndex.Size = new System.Drawing.Size(65, 12);
@@ -259,9 +269,9 @@
             // 
             this.elementHostBatchVisualizer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.elementHostBatchVisualizer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.elementHostBatchVisualizer.Location = new System.Drawing.Point(295, 3);
+            this.elementHostBatchVisualizer.Location = new System.Drawing.Point(547, 3);
             this.elementHostBatchVisualizer.Name = "elementHostBatchVisualizer";
-            this.elementHostBatchVisualizer.Size = new System.Drawing.Size(281, 741);
+            this.elementHostBatchVisualizer.Size = new System.Drawing.Size(533, 683);
             this.elementHostBatchVisualizer.TabIndex = 8;
             this.elementHostBatchVisualizer.Text = "elementHostBatchVisualizer";
             this.elementHostBatchVisualizer.Child = this.batchVisualizer2DUc3;
@@ -273,9 +283,9 @@
             this.panelSettings.Controls.Add(this.groupboxSensorSettings);
             this.panelSettings.Controls.Add(this._batchMode);
             this.panelSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSettings.Location = new System.Drawing.Point(3, 90);
+            this.panelSettings.Location = new System.Drawing.Point(3, 148);
             this.panelSettings.Name = "panelSettings";
-            this.panelSettings.Size = new System.Drawing.Size(259, 767);
+            this.panelSettings.Size = new System.Drawing.Size(259, 709);
             this.panelSettings.TabIndex = 1;
             // 
             // groupboxViewSettings
@@ -874,12 +884,13 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
+            this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.pictureBox1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 22);
             this.panel4.Margin = new System.Windows.Forms.Padding(0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(265, 65);
+            this.panel4.Size = new System.Drawing.Size(265, 123);
             this.panel4.TabIndex = 2;
             // 
             // pictureBox1
@@ -889,7 +900,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(20);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(265, 65);
+            this.pictureBox1.Size = new System.Drawing.Size(265, 123);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
@@ -897,18 +908,25 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.White;
-            this.panel5.Controls.Add(this.button1);
+            this.panel5.Controls.Add(this.btn_SaveLog);
+            this.panel5.Controls.Add(this.richTextBox1);
+            this.panel5.Controls.Add(this.btn_ConnectCTRL);
+            this.panel5.Controls.Add(this.btn_ScanCTRLS);
+            this.panel5.Controls.Add(this.btn_RapContinue);
+            this.panel5.Controls.Add(this.btn_StopRap);
+            this.panel5.Controls.Add(this.btn_StartRAP);
+            this.panel5.Controls.Add(this.listView_Controllers);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(265, 22);
             this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(585, 65);
+            this.panel5.Size = new System.Drawing.Size(1089, 123);
             this.panel5.TabIndex = 3;
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(23, 16);
+            this.button1.Location = new System.Drawing.Point(42, 45);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(181, 27);
             this.button1.TabIndex = 18;
@@ -974,11 +992,104 @@
             this.helpToolStripMenuItem.Text = "About";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
+            // listView_Controllers
+            // 
+            this.listView_Controllers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.IPAddress,
+            this.ControllerName});
+            this.listView_Controllers.HideSelection = false;
+            this.listView_Controllers.Location = new System.Drawing.Point(11, 11);
+            this.listView_Controllers.Margin = new System.Windows.Forms.Padding(2);
+            this.listView_Controllers.Name = "listView_Controllers";
+            this.listView_Controllers.Size = new System.Drawing.Size(240, 80);
+            this.listView_Controllers.TabIndex = 50;
+            this.listView_Controllers.UseCompatibleStateImageBehavior = false;
+            this.listView_Controllers.View = System.Windows.Forms.View.Details;
+            // 
+            // IPAddress
+            // 
+            this.IPAddress.Text = "IP Address";
+            this.IPAddress.Width = 107;
+            // 
+            // ControllerName
+            // 
+            this.ControllerName.Text = "Controller Name";
+            this.ControllerName.Width = 205;
+            // 
+            // btn_StartRAP
+            // 
+            this.btn_StartRAP.Location = new System.Drawing.Point(11, 95);
+            this.btn_StartRAP.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_StartRAP.Name = "btn_StartRAP";
+            this.btn_StartRAP.Size = new System.Drawing.Size(90, 19);
+            this.btn_StartRAP.TabIndex = 53;
+            this.btn_StartRAP.Text = "Start Rapid";
+            this.btn_StartRAP.UseVisualStyleBackColor = true;
+            // 
+            // btn_StopRap
+            // 
+            this.btn_StopRap.Location = new System.Drawing.Point(105, 95);
+            this.btn_StopRap.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_StopRap.Name = "btn_StopRap";
+            this.btn_StopRap.Size = new System.Drawing.Size(80, 19);
+            this.btn_StopRap.TabIndex = 54;
+            this.btn_StopRap.Text = "Stop Rapid";
+            this.btn_StopRap.UseVisualStyleBackColor = true;
+            // 
+            // btn_RapContinue
+            // 
+            this.btn_RapContinue.Location = new System.Drawing.Point(193, 95);
+            this.btn_RapContinue.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_RapContinue.Name = "btn_RapContinue";
+            this.btn_RapContinue.Size = new System.Drawing.Size(58, 19);
+            this.btn_RapContinue.TabIndex = 55;
+            this.btn_RapContinue.Text = "Continue";
+            this.btn_RapContinue.UseVisualStyleBackColor = true;
+            // 
+            // btn_ScanCTRLS
+            // 
+            this.btn_ScanCTRLS.Location = new System.Drawing.Point(255, 11);
+            this.btn_ScanCTRLS.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_ScanCTRLS.Name = "btn_ScanCTRLS";
+            this.btn_ScanCTRLS.Size = new System.Drawing.Size(104, 19);
+            this.btn_ScanCTRLS.TabIndex = 56;
+            this.btn_ScanCTRLS.Text = "Scan Controllers";
+            this.btn_ScanCTRLS.UseVisualStyleBackColor = true;
+            // 
+            // btn_ConnectCTRL
+            // 
+            this.btn_ConnectCTRL.Location = new System.Drawing.Point(255, 72);
+            this.btn_ConnectCTRL.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_ConnectCTRL.Name = "btn_ConnectCTRL";
+            this.btn_ConnectCTRL.Size = new System.Drawing.Size(104, 19);
+            this.btn_ConnectCTRL.TabIndex = 57;
+            this.btn_ConnectCTRL.Text = "Connect";
+            this.btn_ConnectCTRL.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(416, 11);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(559, 103);
+            this.richTextBox1.TabIndex = 58;
+            this.richTextBox1.Text = "";
+            // 
+            // btn_SaveLog
+            // 
+            this.btn_SaveLog.Location = new System.Drawing.Point(979, 48);
+            this.btn_SaveLog.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_SaveLog.Name = "btn_SaveLog";
+            this.btn_SaveLog.Size = new System.Drawing.Size(79, 24);
+            this.btn_SaveLog.TabIndex = 59;
+            this.btn_SaveLog.Text = "Save Log";
+            this.btn_SaveLog.UseVisualStyleBackColor = true;
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(850, 860);
+            this.ClientSize = new System.Drawing.Size(1354, 860);
             this.Controls.Add(this.tableLayoutPanelMain);
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(864, 714);
@@ -1081,5 +1192,15 @@
         private System.Windows.Forms.ToolStripMenuItem saveRecipeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveRecipeAsToolStripMenuItem;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListView listView_Controllers;
+        private System.Windows.Forms.ColumnHeader IPAddress;
+        private System.Windows.Forms.ColumnHeader ControllerName;
+        private System.Windows.Forms.Button btn_StartRAP;
+        private System.Windows.Forms.Button btn_StopRap;
+        private System.Windows.Forms.Button btn_RapContinue;
+        private System.Windows.Forms.Button btn_ScanCTRLS;
+        private System.Windows.Forms.Button btn_ConnectCTRL;
+        public System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button btn_SaveLog;
     }
 }
