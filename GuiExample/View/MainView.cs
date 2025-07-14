@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.Integration;
 using System.Windows.Threading;
+using Adapters;
 using FocalSpec.FsApiNet.Model;
 using FocalSpec.GuiExample.Annotations;
 using FocalSpec.GuiExample.Model;
@@ -26,6 +27,7 @@ using FocalSpec.GuiExample.Model.BatchMode;
 using FocalSpec.GuiExample.Model.Camera;
 using FocalSpec.GuiExample.Model.Export;
 using Photogrammetry;
+using Rapid;
 using Cursor = System.Windows.Forms.Cursor;
 
 namespace FocalSpec.GuiExample.View
@@ -129,7 +131,7 @@ namespace FocalSpec.GuiExample.View
 
         private PhotogrammetryView _photogrammetryView;
 
-     
+        private RapidFunctions rapidFunctions;
 
         /// <summary>
         /// Prepares the view for displaying measurements.
@@ -139,6 +141,7 @@ namespace FocalSpec.GuiExample.View
         
             _photogrammetryView = new PhotogrammetryView(this);
             InitializeComponent();
+            rapidFunctions = new RapidFunctions(this._photogrammetryView);
 
 			_uiDispatcher = Dispatcher.CurrentDispatcher;
             _parameters = SensorParameterStore.GetInstance();
