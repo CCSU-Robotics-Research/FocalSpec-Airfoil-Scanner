@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.Integration;
 using System.Windows.Threading;
+using ABB.Robotics.Controllers;
 using Adapters;
 using FocalSpec.FsApiNet.Model;
 using FocalSpec.GuiExample.Annotations;
@@ -28,6 +29,7 @@ using FocalSpec.GuiExample.Model.Camera;
 using FocalSpec.GuiExample.Model.Export;
 using Photogrammetry;
 using Rapid;
+using RobotStudio.Services.RobApi.Transport.RobAPI1Direct;
 using Cursor = System.Windows.Forms.Cursor;
 
 namespace FocalSpec.GuiExample.View
@@ -1963,18 +1965,56 @@ namespace FocalSpec.GuiExample.View
             OnSetRefractiveIndexes?.Invoke();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    // Opens the Robot Interface. Used to adjust config settings
+        //    if (_photogrammetryView.IsDisposed)
+        //    {
+        //        _photogrammetryView = new PhotogrammetryView(this);  // recreate it if it was closed before
+        //        _photogrammetryView.Show();
+        //    }
+        //    else if (!_photogrammetryView.Visible)
+        //    {
+        //        _photogrammetryView.Show();
+        //    }
+        //}
+
+        private void btn_ScanCTRLS_Click(object sender, EventArgs e)
         {
-            // Opens the Robot Interface. Used to adjust config settings
-            if (_photogrammetryView.IsDisposed)
+            ControllerInfoCollection ControllerList = rapidFunctions.ScanControllers();
+            ListViewItem item = null;
+            this.listView_Controllers.Items.Clear();
+            foreach (ControllerInfo controllerInfo in ControllerList)
             {
-                _photogrammetryView = new PhotogrammetryView(this);  // recreate it if it was closed before
-                _photogrammetryView.Show();
+                item = new ListViewItem(controllerInfo.IPAddress.ToString());
+                item.SubItems.Add(controllerInfo.ControllerName);
+                item.Tag = controllerInfo;
+                this.listView_Controllers.Items.Add(item);
             }
-            else if (!_photogrammetryView.Visible)
+        }
+
+        private void btn_ConnectCTRL_Click(object sender, EventArgs e)
+        {
+            if (btn_ConnectCTRL.Text == "Connect")
             {
-                _photogrammetryView.Show();
+                rapidFunctions.ConnectController(listView_Controllers.SelectedItems[0]);
+                rapidFunctions.controller.Logon(UserInfo.DefaultUser);
+                if (rapidFunctions.controller.Connected == true)
+                {
+                    btn_ConnectCTRL.Text = "Disconnect";
+                    if (rapidFunctions.controller.OperatingMode == ControllerOperatingMode.Auto)
+                    {
+                        rapidFunctions.tasks = rapidFunctions.controller.Rapid.GetTasks();
+                        //  rapidFunctions.tasks[0].Stop();
+                    }
+                    else
+                        MessageBox.Show("Automatic mode is required to start execution from a remote client.");
+                }
+                else
+                    LogMessage("Connect Failed");
             }
+            else
+                btn_ConnectCTRL.Text = "Connect";
         }
 
         private void SaveRecipe()
@@ -1983,6 +2023,30 @@ namespace FocalSpec.GuiExample.View
             OnSaveRecipe?.Invoke(_selectedRecipe);
         }
 
+        private void btn_StopRap_Click(object sender, EventArgs e)
+        {
+            rapidFunctions.Stop();
+        }
+
+        private void btn_StartRAP_Click(object sender, EventArgs e)
+        {
+            rapidFunctions.Start();
+        }
+
+        private void btn_RapContinue_Click(object sender, EventArgs e)
+        {
+            rapidFunctions.PhotoSequence();
+        }
+
+        private void btn_SaveLog_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog file = new SaveFileDialog();
+            file.Filter = "log files (*.log)|*.txt|All files (*.*)|*.*";
+            file.DefaultExt = ".log";
+
+            if (file.ShowDialog() == DialogResult.OK)
+                this.richTextBox1.SaveFile(file.FileName, RichTextBoxStreamType.PlainText);
+        }
         private void SaveRecipeAs()
         {
             if (Session.ViewMode != ViewMode.RealTime) return;
@@ -2061,6 +2125,16 @@ namespace FocalSpec.GuiExample.View
             if (minThickness < 5)
                 minThickness = 5;
             return minThickness;
+        }
+
+        // Log a string to the Log Buffer
+        private void LogMessage(string MSG)
+        {
+            Control.CheckForIllegalCrossThreadCalls = false;
+            this.richTextBox1.AppendText(DateTime.Now.ToString() + ":   ");
+            this.richTextBox1.AppendText(MSG);
+            this.richTextBox1.AppendText("\n\r");
+            this.richTextBox1.ScrollToCaret();
         }
     }
 }
