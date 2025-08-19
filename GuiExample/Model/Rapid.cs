@@ -119,13 +119,12 @@ namespace Rapid
                     controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
                     controllerWaiting.ValueChanged += new EventHandler<DataValueChangedEventArgs>(ControllerWaitCheck);
                     controllerScannerEnable = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "scannerEnable");
-                    //controllerScannerEnable.ValueChanged += new EventHandler<DataValueChangedEventArgs>(ScannerEnableCheck);
                     tasks = controller.Rapid.GetTasks();
                     tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed);
 
                     axis6Allowed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "axis6Allowed");
 
-                    using (m = Mastership.Request(controller.Rapid))
+                    using (m = Mastership.Request(controller))
                     {
                         // Perform operation
                         tasks[0].ResetProgramPointer();
