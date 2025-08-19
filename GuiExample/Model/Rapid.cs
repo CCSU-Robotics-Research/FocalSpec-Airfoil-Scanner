@@ -94,7 +94,7 @@ namespace Rapid
                     ControllerInfo controllerInfo = (ControllerInfo)item.Tag;
                     if (controllerInfo.Availability == Availability.Available)
                     {
-                        this.controller = ControllerFactory.CreateFrom(controllerInfo);
+                        this.controller = Controller.Connect(controllerInfo, ConnectionType.Standalone, false);
                     }
                     else
                     {
