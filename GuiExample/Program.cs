@@ -14,7 +14,6 @@ using System.Windows.Forms;
 using Adapters;
 using FocalSpec.GuiExample.Presenter;
 using FocalSpec.GuiExample.View;
-using Photogrammetry;
 
 namespace FocalSpec.GuiExample
 {
@@ -73,7 +72,7 @@ namespace FocalSpec.GuiExample
             if (_mainView != null)
             {
                 Application.Run(_mainView);
-            }            
+            }
         }
 
         public static MainView getMainView() { return _mainView; }

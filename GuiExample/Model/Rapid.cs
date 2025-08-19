@@ -5,9 +5,6 @@ using ABB.Robotics.Controllers.Discovery;
 using ABB.Robotics.Controllers.RapidDomain;
 using FocalSpec.GuiExample.View;
 using FocalSpec.GuiExample.Presenter;
-using FocalSpec.GuiExample;
-using BatchModePresenter = FocalSpec.GuiExample.View.BatchModePresenter;
-
 
 namespace Rapid
 {
@@ -33,11 +30,6 @@ namespace Rapid
 
         private bool _run;
 
-        double minimumMove = 5;
-
-        BatchModePresenter BatchModePresenter = new BatchModePresenter();
-
-
         public
         RapidData data5;
         RapidData data6;
@@ -49,9 +41,7 @@ namespace Rapid
         RapidData axis6Allowed;
 
         TaskWaiter taskWaiter = new TaskWaiter();
-        public Photogrammetry.PhotogrammetryView fr;
-
-        //FocalSpec.GuiExample.Presenter.BatchModePresenter batchModePresenter = Program.GetBatchModePresenter();
+        public MainView mainView;
         
         public decimal waittime = 100;
         string s;
@@ -61,11 +51,9 @@ namespace Rapid
         public bool _waiting = true;
         public bool _scannerEnable = true;
         public bool PhotosComplete = false;
-        public MainView mainView;
-        public RapidFunctions(Photogrammetry.PhotogrammetryView _form1)
+        public RapidFunctions(MainView _form1)
         {
-            this.fr = _form1;
-            this.mainView = _form1.mainView;
+            this.mainView = _form1;
 
         }
 
@@ -89,7 +77,7 @@ namespace Rapid
             catch (System.Exception ex)
             {
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
-                fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
                 return null;
             }
 
@@ -118,7 +106,7 @@ namespace Rapid
             catch (System.Exception ex)
             {
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
-                fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
         }
 
@@ -157,7 +145,7 @@ namespace Rapid
             catch (System.Exception ex)
             {
                 MessageBox.Show("An Error Has Occurred: " + ex.Message);
-                fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
 
         }
@@ -191,12 +179,12 @@ namespace Rapid
                         catch (System.InvalidOperationException ex)
                         {
                             MessageBox.Show("Mastership is held by another client." + ex.Message);
-                            fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                            mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
                         }
                         catch (System.Exception ex)
                         {
                             MessageBox.Show("Unexpected error occurred: " + ex.Message);
-                            fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                            mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
                         }
 
                     }
@@ -210,7 +198,7 @@ namespace Rapid
             {
 
                 MessageBox.Show("An Error Has Occurred: " + ex.Message);
-                fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
 
 
             }
@@ -246,7 +234,6 @@ namespace Rapid
 
                     if (_waiting == true)
                     {
-
                         using (m = Mastership.Request(controller.Rapid))
                         {
                             switch (sequenceStep)
@@ -348,24 +335,24 @@ namespace Rapid
             catch (System.InvalidOperationException ex)
             {
                 MessageBox.Show("Mastership is held by another client." + ex.Message);
-                fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
             catch (System.Exception ex)
             {
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
-                fr.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
         }
 
         // Event Handlers
         private void ProgramPointer_Changed(object sender, ProgramPositionEventArgs e)
         {
-            //The Below Line Logs the program pointer row for debugging
-            //fr.LogMessage(tasks[0].ProgramPointer.Range.Begin.Row.ToString());
+            // The Below Line Logs the program pointer row for debugging
+            mainView.LogMessage(tasks[0].ProgramPointer.Range.Begin.Row.ToString());
             _waiting = (Bool)controllerWaiting.Value;
             if (tasks[0].ProgramPointer.Routine == "ControllerWait" && _waiting == true)
             {
-                fr.LogMessage("Waiting");
+                mainView.LogMessage("Waiting");
             }
         }
 
@@ -378,23 +365,5 @@ namespace Rapid
             }
 
         }
-
-        //private void ScannerEnableCheck(object sender, DataValueChangedEventArgs e)
-        //{
-        //    _scannerEnable = (Bool)controllerScannerEnable.Value;
-        //    if (_scannerEnable)
-        //    {
-        //        mainView.getBatchMode().TriggerClearLogic();
-        //        mainView.getBatchMode().TriggerStartLogic();
-        //    }
-        //    else
-        //    {
-        //        mainView.getBatchMode().TriggerStopLogic();
-        //        mainView.getBatchMode().TriggerSaveLogic();
-        //    }
-
-        //}
-
-        //End Event Handlers
     }
 }

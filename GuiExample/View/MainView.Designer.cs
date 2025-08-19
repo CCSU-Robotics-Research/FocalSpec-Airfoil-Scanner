@@ -981,7 +981,7 @@
             this.btn_StopRap.Name = "btn_StopRap";
             this.btn_StopRap.Size = new System.Drawing.Size(80, 19);
             this.btn_StopRap.TabIndex = 54;
-            this.btn_StopRap.Text = "Stop Rapid";
+            this.btn_StopRap.Text = "Stop RAPID";
             this.btn_StopRap.UseVisualStyleBackColor = true;
             this.btn_StopRap.Click += new System.EventHandler(this.btn_StopRap_Click);
             // 
@@ -992,7 +992,7 @@
             this.btn_StartRAP.Name = "btn_StartRAP";
             this.btn_StartRAP.Size = new System.Drawing.Size(90, 19);
             this.btn_StartRAP.TabIndex = 53;
-            this.btn_StartRAP.Text = "Start Rapid";
+            this.btn_StartRAP.Text = "Start RAPID";
             this.btn_StartRAP.UseVisualStyleBackColor = true;
             this.btn_StartRAP.Click += new System.EventHandler(this.btn_StartRAP_Click);
             // 

@@ -27,7 +27,6 @@ using FocalSpec.GuiExample.Model;
 using FocalSpec.GuiExample.Model.BatchMode;
 using FocalSpec.GuiExample.Model.Camera;
 using FocalSpec.GuiExample.Model.Export;
-using Photogrammetry;
 using Rapid;
 using RobotStudio.Services.RobApi.Transport.RobAPI1Direct;
 using Cursor = System.Windows.Forms.Cursor;
@@ -131,19 +130,15 @@ namespace FocalSpec.GuiExample.View
         public bool IsSignalDetectionFilterSupported { get; set; }
         public bool LayerIntensityTypeSupported { get; set; }
 
-        private PhotogrammetryView _photogrammetryView;
-
         private RapidFunctions rapidFunctions;
 
         /// <summary>
         /// Prepares the view for displaying measurements.
         /// </summary>
         public MainView()
-        {
-        
-            _photogrammetryView = new PhotogrammetryView(this);
+        {       
             InitializeComponent();
-            rapidFunctions = new RapidFunctions(this._photogrammetryView);
+            rapidFunctions = new RapidFunctions(this);
 
 			_uiDispatcher = Dispatcher.CurrentDispatcher;
             _parameters = SensorParameterStore.GetInstance();
@@ -2128,7 +2123,7 @@ namespace FocalSpec.GuiExample.View
         }
 
         // Log a string to the Log Buffer
-        private void LogMessage(string MSG)
+        public void LogMessage(string MSG)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
             this.richTextBox1.AppendText(DateTime.Now.ToString() + ":   ");
