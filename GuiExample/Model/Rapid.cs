@@ -166,7 +166,7 @@ namespace Rapid
 
                         try
                         {
-                            using (m = Mastership.Request(controller.Rapid))
+                            using (m = Mastership.Request(controller))
                             {
                                 m.ReleaseOnDispose = true;
                                 controller.Rapid.Stop(ABB.Robotics.Controllers.RapidDomain.StopMode.Immediate);
@@ -211,7 +211,7 @@ namespace Rapid
             if (_waiting == true)
             {
                 //Things to do when robot is waiting 
-                using (m = Mastership.Request(controller.Rapid))
+                using (m = Mastership.Request(controller))
                 {
                     controllerWaiting.Value = new Bool(false);
                 }
@@ -234,7 +234,7 @@ namespace Rapid
 
                     if (_waiting == true)
                     {
-                        using (m = Mastership.Request(controller.Rapid))
+                        using (m = Mastership.Request(controller))
                         {
                             switch (sequenceStep)
                             {
@@ -273,7 +273,7 @@ namespace Rapid
                                     funcCall.StringValue = "\"XpertsBackEdgeTakeScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
-                              
+
                                     break;
                                 case 6:
                                     mainView.getBatchMode().TriggerStopLogic();
@@ -281,7 +281,7 @@ namespace Rapid
                                     funcCall.StringValue = "\"XpertsLeftEdgePreScan\"";
                                     controllerWaiting.Value = new Bool(false);
                                     _waiting = false;
-                                    
+
                                     break;
                                 case 7:
                                     mainView.getBatchMode().TriggerClearLogic();
