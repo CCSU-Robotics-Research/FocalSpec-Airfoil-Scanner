@@ -28,29 +28,18 @@ namespace Rapid
         public ABB.Robotics.Controllers.RapidDomain.Task[] tasks = null;
         Mastership m;
 
-        private bool _run;
-
         public
-        RapidData data5;
-        RapidData data6;
-        RapidData data7;
-        RapidData data8;
-        RapidData controllerWaiting;
-        RapidData controllerScannerEnable;
-        RapidData funcCall;
-        RapidData axis6Allowed;
+        RapidData controllerWaiting; // Useful
+        RapidData funcCall; // Useful
 
         TaskWaiter taskWaiter = new TaskWaiter();
         public MainView mainView;
         
-        public decimal waittime = 100;
-        string s;
+        public decimal waittime = 100; // Should probably be a const or something
         public string IP;
         public Controller controller = null;
 
-        public bool _waiting = true;
-        public bool _scannerEnable = true;
-        public bool PhotosComplete = false;
+        public bool _waiting = true; // Useful although is it used in the best way possible?
         public RapidFunctions(MainView _form1)
         {
             this.mainView = _form1;
@@ -59,7 +48,7 @@ namespace Rapid
 
        
 
-      
+        // Network stuff should probably be it's own module? Decoupled design anyone?
         //Controller Scanner
         //Scan for and add controllers to the list
         public ControllerInfoCollection ScanControllers()
@@ -117,12 +106,9 @@ namespace Rapid
                 if (controller.OperatingMode == ControllerOperatingMode.Auto)
                 {
                     controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
-                    controllerWaiting.ValueChanged += new EventHandler<DataValueChangedEventArgs>(ControllerWaitCheck);
-                    controllerScannerEnable = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "scannerEnable");
                     tasks = controller.Rapid.GetTasks();
-                    tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed);
+                    tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed); // When would the PP change? What is this event handler doing?
 
-                    axis6Allowed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "axis6Allowed");
 
                     using (m = Mastership.Request(controller))
                     {
@@ -154,9 +140,6 @@ namespace Rapid
         {
             try
             {
-                //Stop the Send data while loop
-                _run = false;
-
                 if (controller != null)
                 {
                     if (controller.Rapid.ExecutionStatus ==
@@ -204,25 +187,11 @@ namespace Rapid
 
 
         }
-        public void Continue()
-        {
-            Bool _waiting = (Bool)controllerWaiting.Value;
-            if (_waiting == true)
-            {
-                //Things to do when robot is waiting 
-                using (m = Mastership.Request(controller))
-                {
-                    controllerWaiting.Value = new Bool(false);
-                }
-            }
-        }
-
 
         public async void PhotoSequence()
         {
             int sequenceStep = 0;
             int numOfPhotoSteps = 13;
-            string hmm = funcCall.StringValue;
             
             try
             {
@@ -353,16 +322,6 @@ namespace Rapid
             {
                 mainView.LogMessage("Waiting");
             }
-        }
-
-        private void ControllerWaitCheck(object sender, DataValueChangedEventArgs e)
-        {
-            _waiting = (Bool)controllerWaiting.Value;
-            if (_waiting == true)
-            {
-                
-            }
-
         }
     }
 }
