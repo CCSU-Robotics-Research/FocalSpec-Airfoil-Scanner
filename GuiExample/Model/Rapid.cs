@@ -177,112 +177,124 @@ namespace Rapid
             int sequenceStep = 0;
             int numOfPhotoSteps = 13;
 
-            try
-            {
-
-
+            try{
                 while (sequenceStep < numOfPhotoSteps)
                 {
-
-                    if (_waiting == true)
+                    //skip loop until RAPID signals it's waiting for next command
+                    if (!_waiting)
                     {
-                        using (m = Mastership.Request(controller))
-                        {
-                            switch (sequenceStep)
-                            {
-                                case 0:
-                                    funcCall.StringValue = "\"XpertsPickUp\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 1:
-                                    funcCall.StringValue = "\"XpertsMoveFromPickUpToSensor\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 2:
-                                    funcCall.StringValue = "\"XpertsRightEdgePreScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 3:
-                                    mainView.getBatchMode().TriggerClearLogic();
-                                    mainView.getBatchMode().TriggerStartLogic();
-                                    funcCall.StringValue = "\"XpertsRightEdgeTakeScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 4:
-                                    mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\RightEdge.asc");
-                                    funcCall.StringValue = "\"XpertsBackEdgePreScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 5:
-                                    mainView.getBatchMode().TriggerClearLogic();
-                                    mainView.getBatchMode().TriggerStartLogic();
-                                    funcCall.StringValue = "\"XpertsBackEdgeTakeScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-
-                                    break;
-                                case 6:
-                                    mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\BackEdge.asc");
-                                    funcCall.StringValue = "\"XpertsLeftEdgePreScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-
-                                    break;
-                                case 7:
-                                    mainView.getBatchMode().TriggerClearLogic();
-                                    mainView.getBatchMode().TriggerStartLogic();
-                                    funcCall.StringValue = "\"XpertsLeftEdgeTakeScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 8:
-                                    mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\LeftEdge.asc");
-                                    funcCall.StringValue = "\"XpertsFrontEdgePreScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 9:
-                                    mainView.getBatchMode().TriggerClearLogic();
-                                    mainView.getBatchMode().TriggerStartLogic();
-                                    funcCall.StringValue = "\"XpertsFrontEdgeTakeScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 10:
-                                    mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\FrontEdge.asc");
-                                    funcCall.StringValue = "\"ScanToStand\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 11:
-                                    funcCall.StringValue = "\"DropItem\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 12:
-                                    funcCall.StringValue = "\"GoToInitialState\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 99:
-                                    break;
-                                default:
-                                    return;
-                            }
-                        }
-                        sequenceStep++;
+                        await taskWaiter.WaitSeconds(25);
+                        continue;
                     }
+                    using (m = Mastership.Request(controller))
+                    {
+                        /*Option to use table sequence instead of switch
+                        (RAID Function, What UI should do)
+                        var steps= new(string func, Actionui)[]{
+                            ("XpertsPickUp",null),
+                            ("XpertsMoveFromPickUpToSensor", null),
+                            ("XpertsRightEdgePreScan",null),
+                            ("XpertsRightEdgeTakeScan", StartScanUi),
+                            ("XpertsBackEdgePreScan", () => StopScanAndSaveUi(SaveRightEdge)),
+                            ...
+
+                        }
+                        */
+                        switch (sequenceStep)
+                        {
+                            case 0:
+                                funcCall.StringValue = "\"XpertsPickUp\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 1:
+                                funcCall.StringValue = "\"XpertsMoveFromPickUpToSensor\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 2:
+                                funcCall.StringValue = "\"XpertsRightEdgePreScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 3:
+                                mainView.getBatchMode().TriggerClearLogic();
+                                mainView.getBatchMode().TriggerStartLogic();
+                                funcCall.StringValue = "\"XpertsRightEdgeTakeScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 4:
+                                mainView.getBatchMode().TriggerStopLogic();
+                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\RightEdge.asc");
+                                funcCall.StringValue = "\"XpertsBackEdgePreScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 5:
+                                mainView.getBatchMode().TriggerClearLogic();
+                                mainView.getBatchMode().TriggerStartLogic();
+                                funcCall.StringValue = "\"XpertsBackEdgeTakeScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+
+                                break;
+                            case 6:
+                                mainView.getBatchMode().TriggerStopLogic();
+                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\BackEdge.asc");
+                                funcCall.StringValue = "\"XpertsLeftEdgePreScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+
+                                break;
+                            case 7:
+                                mainView.getBatchMode().TriggerClearLogic();
+                                mainView.getBatchMode().TriggerStartLogic();
+                                funcCall.StringValue = "\"XpertsLeftEdgeTakeScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 8:
+                                mainView.getBatchMode().TriggerStopLogic();
+                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\LeftEdge.asc");
+                                funcCall.StringValue = "\"XpertsFrontEdgePreScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 9:
+                                mainView.getBatchMode().TriggerClearLogic();
+                                mainView.getBatchMode().TriggerStartLogic();
+                                funcCall.StringValue = "\"XpertsFrontEdgeTakeScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 10:
+                                mainView.getBatchMode().TriggerStopLogic();
+                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\FrontEdge.asc");
+                                funcCall.StringValue = "\"ScanToStand\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 11:
+                                funcCall.StringValue = "\"DropItem\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 12:
+                                funcCall.StringValue = "\"GoToInitialState\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 99:
+                                break;
+                            default:
+                                return;
+                        }
+                    }
+                    sequenceStep++;
                     await taskWaiter.WaitSeconds(25);
                 }
+                
             }
             catch (System.InvalidOperationException ex)
             {
