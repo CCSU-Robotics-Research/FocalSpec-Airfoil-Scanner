@@ -9,15 +9,12 @@ using FocalSpec.GuiExample.Presenter;
 namespace Rapid
 {
        
-    class TaskWaiter
-    {
-
-        public async System.Threading.Tasks.Task WaitSeconds(int miliseconds)
-        {
+    class TaskWaiter{
+        public async System.Threading.Tasks.Task WaitSeconds(int miliseconds){
             await System.Threading.Tasks.Task.Delay(miliseconds);
         }
-
     }
+    
     class RapidFunctions
     {
         ABB.Robotics.Controllers.Controller objController;
@@ -34,7 +31,7 @@ namespace Rapid
 
         TaskWaiter taskWaiter = new TaskWaiter();
         public MainView mainView;
-        
+
         public decimal waittime = 100; // Should probably be a const or something
         public string IP;
         public Controller controller = null;
@@ -46,17 +43,13 @@ namespace Rapid
 
         }
 
-       
+
 
         // Network stuff should probably be it's own module? Decoupled design anyone?
         //Controller Scanner
         //Scan for and add controllers to the list
-        public ControllerInfoCollection ScanControllers()
-        {
-          
-
-            try
-            {
+        public ControllerInfoCollection ScanControllers(){
+            try{
                 // Create A Robo Studio Controller Connector
                 this.objNetworkWatcher = new NetworkScanner();
                 objNetworkWatcher.Scan();
@@ -73,27 +66,23 @@ namespace Rapid
         }
 
         //Connect to the Robo Studio Controller
-        public void ConnectController(ListViewItem CTRLSelect)
-        {
-            try
-            {
+        public void ConnectController(ListViewItem CTRLSelect){
+            try{
                 ListViewItem item = CTRLSelect;
-                if (item.Tag != null)
-                {
-                    ControllerInfo controllerInfo = (ControllerInfo)item.Tag;
-                    if (controllerInfo.Availability == Availability.Available)
-                    {
-                        this.controller = Controller.Connect(controllerInfo, ConnectionType.Standalone, false);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Selected controller not available.");
-                    }
+                //if not item or valid tag exit
+                if (item.Tag is not ControllerInfo info) {
+                    MessageBox.Show("Invalid selection.");
+                    return;
                 }
-
+                //exit if no controller availability
+                if (info.Availability != Availability.Available) {
+                    MessageBox.Show("Selected controller not available.");
+                    return;
+                }
+                //Connect to ABB controller using standalone mode
+                controller = controller.Connect(info, ConnectionType.Standalone, false);
             }
-            catch (System.Exception ex)
-            {
+            catch (System.Exception ex){
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
                 mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
@@ -192,7 +181,7 @@ namespace Rapid
         {
             int sequenceStep = 0;
             int numOfPhotoSteps = 13;
-            
+
             try
             {
 
