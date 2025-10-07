@@ -128,44 +128,36 @@ namespace Rapid
         }
 
         // Stop Everything
-        public void Stop()
-        {
-            try
-            {
-                if (controller != null)
-                {
-                    if (controller.Rapid.ExecutionStatus ==
-                           ABB.Robotics.Controllers.RapidDomain.ExecutionStatus.Running)
-                    {
-
-                        try
-                        {
-                            using (m = Mastership.Request(controller))
-                            {
-                                m.ReleaseOnDispose = true;
-                                controller.Rapid.Stop(ABB.Robotics.Controllers.RapidDomain.StopMode.Immediate);
-                                tasks[0].ResetProgramPointer();
-                            }
-
-
-
-                        }
-                        catch (System.InvalidOperationException ex)
-                        {
-                            MessageBox.Show("Mastership is held by another client." + ex.Message);
-                            mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
-                        }
-                        catch (System.Exception ex)
-                        {
-                            MessageBox.Show("Unexpected error occurred: " + ex.Message);
-                            mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
-                        }
-
-                    }
-
+        public void Stop(){
+            try{
+                //no controller nothing stops
+                if (controller != null) {
+                    return;
                 }
+                //If robot isn't currently executing, skip stop
+                if (controller.Rapid.ExecutionStatus != ExecutionStatus.Running) {
+                    return;
+                }
+                //Attempt to stop using Mastership
+                try {
+                    using (m = Mastership.Request(controller)) {
+                        //Ensures Mastership is released automatically on exit
+                        m.ReleaseOnDispose = true;
 
-
+                        controller.Rapid.Stop(ABB.Robotics.Controllers.RapidDomain.StopMode.Immediate);
+                        tasks[0].ResetProgramPointer();
+                    }
+                }
+                catch (System.InvalidOperationException ex)
+                {
+                    MessageBox.Show("Mastership is held by another client." + ex.Message);
+                    mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show("Unexpected error occurred: " + ex.Message);
+                    mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                }
 
             }
             catch (System.Exception ex)
