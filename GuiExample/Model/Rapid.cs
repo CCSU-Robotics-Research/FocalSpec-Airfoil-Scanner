@@ -5,6 +5,8 @@ using ABB.Robotics.Controllers.Discovery;
 using ABB.Robotics.Controllers.RapidDomain;
 using FocalSpec.GuiExample.View;
 using FocalSpec.GuiExample.Presenter;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Rapid
 {
@@ -42,7 +44,7 @@ namespace Rapid
             this.mainView = _form1;
 
         }
-        /*Options for table sequence
+        /*Options for table sequence*/
         private const string SaveRightEdge = @"C:\Users\Public\Downloads\RightEdge.asc";
         private const string SaveBackEdge  = @"C:\Users\Public\Downloads\BackEdge.asc";
         private const string SaveLeftEdge  = @"C:\Users\Public\Downloads\LeftEdge.asc";
@@ -79,7 +81,6 @@ namespace Rapid
                 batch.TriggerSaveLogic(path);
             }
         }
-        */
 
 
         // Network stuff should probably be it's own module? Decoupled design anyone?
@@ -210,63 +211,25 @@ namespace Rapid
 
 
         }
-        /*Option to use table sequence instead of switch
-        private enum UiAction {None, StartScan, Stop AndSave}
-        private sealed class SequenceStep{
-            public string RapidFunctionName{get; init; }
-            public UiAction Action {get; init; } = UiAction.None;
-            public string SavePath{get; init; }
-            public override string ToString() => RapidFunctionName;
-        }
-        private List<SequenceStep> BuildPhotoSequence() => new(){
-            new() {RapidFunctionName="XpertsPickUp"},
-            new() {RapidFunctionName="XpertsMoveFromPickUpToSensor"},
-            new() {RapidFunctionName="XpertsRightEdgePreScan"},
+       
+        public async void PhotoSequence() {
+            /*Option if table sequence used*/
+            var steps = BuildPhotoSequence();
+            int sequenceStep = 0;
+            int numOfPhotoSteps = steps.Count;
 
-            new() {RapidFunctionName="XpertsRightEdgeTakeScan", Action=UiAction.StartScan},
-            new() {RapidFunctionName="XpertsBackEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveRightEdge},
-
-            new() {RapidFunctionName="XpertsBackEdgeTakeScan", Action=UiAction.StartScan},
-            new() {RapidFunctionName="XpertsLeftEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveBackEdge},
-
-            new() {RapidFunctionName="XpertsLeftEdgeTakeScan", Action=UiAction.StartScan},
-            new() {RapidFunctionName="XpertsFrontEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveLeftEdge},
-
-            new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
-            new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge},
-
-            new() {RapidFunctionName="DropItem"},
-            new() {RapidFunctionName="GoToInitialState"}
-        };
-
-        private void ApplyUiAction(Sequence step){
-            switch(step.Action){
-                case UiAction.StartScan:
-                    StartScanUi();
-                    break;
-                case UiAction.StopScanAndSave:
-                    StopScanAndSaveUi(step.SavePath);
-                    break;
-                case UiAction.None:
-                default:
-                    break;
-            }
-        }
-        */
-        public async void PhotoSequence()
-        /*Option if table sequence used
-            var steps=BuildPhotoSequence();
-            int sequenceStep=0;
-            int numOfPhotoSteps=steps.Count;
-
-            try{
-                while(sequnceStep<numOfPhotoSteps){
-                    if(!_waiting){
+            try
+            {
+                while (sequnceStep < numOfPhotoSteps)
+                {
+                    if (!_waiting)
+                    {
                         await taskWaiter.WaitSeconds(25);
                         continue;
                     }
-                    using(m=Mastership.Request(controller)){
-                        var step=steps[sequenceStep];
+                    using (m = Mastership.Request(controller))
+                    {
+                        var step = steps[sequenceStep];
                         ApplyUiAction(step);
                         //Push next RAPID Func Call and Clear wait
                         SetFuncCall(step.RapidFunctionName);
@@ -277,6 +240,7 @@ namespace Rapid
                     sequenceStep++;
                     await taskWaiter.WaitSeconds(25);
                 }
+            }
             catch (System.InvalidOperationException ex)
             {
                 MessageBox.Show("Mastership is held by another client." + ex.Message);
@@ -287,8 +251,8 @@ namespace Rapid
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
                 mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
-        */
-        {
+        }
+        /*{
             int sequenceStep = 0;
             int numOfPhotoSteps = 13;
 
@@ -409,7 +373,53 @@ namespace Rapid
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
                 mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
+        }*/
+        /*Option to use table sequence instead of switch*/
+        private enum UiAction { None, StartScan, StopAndSave }
+        private sealed class SequenceStep
+        {
+            public string RapidFunctionName { get; init; }
+            public UiAction Action { get; init; } = UiAction.None;
+            public string SavePath { get; init; }
+            public override string ToString() => RapidFunctionName;
         }
+        private List<SequenceStep> BuildPhotoSequence() => new(){
+            new() {RapidFunctionName="XpertsPickUp"},
+            new() {RapidFunctionName="XpertsMoveFromPickUpToSensor"},
+            new() {RapidFunctionName="XpertsRightEdgePreScan"},
+
+            new() {RapidFunctionName="XpertsRightEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsBackEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveRightEdge},
+
+            new() {RapidFunctionName="XpertsBackEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsLeftEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveBackEdge},
+
+            new() {RapidFunctionName="XpertsLeftEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsFrontEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveLeftEdge},
+
+            new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge},
+
+            new() {RapidFunctionName="DropItem"},
+            new() {RapidFunctionName="GoToInitialState"}
+        };
+
+        private void ApplyUiAction(SequenceStep step)
+        {
+            switch (step.Action)
+            {
+                case UiAction.StartScan:
+                    StartScanUi();
+                    break;
+                case UiAction.StopScanAndSave:
+                    StopScanAndSaveUi(step.SavePath);
+                    break;
+                case UiAction.None:
+                default:
+                    break;
+            }
+        }
+
 
         // Event Handlers
         private void ProgramPointer_Changed(object sender, ProgramPositionEventArgs e)
