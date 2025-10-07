@@ -79,7 +79,7 @@ namespace Rapid
                     MessageBox.Show("Selected controller not available.");
                     return;
                 }
-                //Connect to ABB controller using standalone mode
+                //Connect to ABB controller using standalone mode (connects directly to robot without RobotStudio)
                 controller = controller.Connect(info, ConnectionType.Standalone, false);
             }
             catch (System.Exception ex){
@@ -88,32 +88,35 @@ namespace Rapid
             }
         }
 
-        public void Start()
-        {
-            try
-            {
-                if (controller.OperatingMode == ControllerOperatingMode.Auto)
-                {
-                    controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
-                    tasks = controller.Rapid.GetTasks();
-                    tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed); // When would the PP change? What is this event handler doing?
-
-
-                    using (m = Mastership.Request(controller))
-                    {
-                        // Perform operation
-                        tasks[0].ResetProgramPointer();
-                        controller.Rapid.Start();
-                        funcCall = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "funcCall");
-                        funcCall.StringValue = "\"\"";
-                    }
-
+        public void Start(){
+            try{
+                if (controller == null) {
+                    MessageBox.Show("No controller connected.");
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show(
-                        "Automatic mode is required to start execution from a remote client.");
+                if (controller.OperatingMode != ControllerOperatingMode.Auto) {
+                    MessageBox.Show("Automatic mode required to start.");
+                    return;
+                }
+                //Get handles to variables
+                controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
+                funcCall = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "funcCall");
 
+                //Retrieve all active tasks
+                tasks = controller.Rapid.GetTasks();
+                if (tasks == null || tasks.Length == 0) {
+                    MessageBox.Show("No RAID tasks available.");
+                    return;
+                }
+                //Monitor events whenever RAPID program pointer moves (PP moves when RAPID executes new instruction or enters/exits routine)
+                tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed); // When would the PP change?
+
+                //Mastership to control RAPID execution
+                using (m = Mastership.Request(controller)) {
+                    // Perform operation
+                    tasks[0].ResetProgramPointer();
+                    controller.Rapid.Start();
+                    funcCall.StringValue = "\"\"";
                 }
             }
             catch (System.Exception ex)
