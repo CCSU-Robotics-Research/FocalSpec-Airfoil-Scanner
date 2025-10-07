@@ -42,14 +42,53 @@ namespace Rapid
             this.mainView = _form1;
 
         }
+        /*Options for table sequence
+        private const string SaveRightEdge = @"C:\Users\Public\Downloads\RightEdge.asc";
+        private const string SaveBackEdge  = @"C:\Users\Public\Downloads\BackEdge.asc";
+        private const string SaveLeftEdge  = @"C:\Users\Public\Downloads\LeftEdge.asc";
+        private const string SaveFrontEdge = @"C:\Users\Public\Downloads\FrontEdge.asc";
+        
+        //Updates RAPID funcCall for robot to know which routine to execute next
+        private void SetFuncCall(string name) => funcCall.StringValue = $"\"{name}\"";
 
+        private void ClearWaitAndProceed(){
+            //release wait condition
+            contollerWaiting.Value=new Bool(false);
+
+            //marks robot no longer waiting
+            _waiting=false;
+        }
+
+        private void StartScanUi(){
+            //Access batch controller form main view
+            var batch=mainView.getBatchMode();
+
+            //clear previously buffered data
+            batch.TriggerClearLogic();
+
+            //Begin new scan
+            batch.TriggerStartLogic();
+        }
+
+        private void StopAndSaveUi(string path){
+            var batch=mainView.getBatchMode();
+            batch.TriggerStopLogic();
+
+            //if valid file path, save scan data
+            if(!string.IsNullorWhiteSpace(path)){
+                batch.TriggerSaveLogic(path);
+            }
+        }
+        */
 
 
         // Network stuff should probably be it's own module? Decoupled design anyone?
         //Controller Scanner
         //Scan for and add controllers to the list
-        public ControllerInfoCollection ScanControllers(){
-            try{
+        public ControllerInfoCollection ScanControllers()
+        {
+            try
+            {
                 // Create A Robo Studio Controller Connector
                 this.objNetworkWatcher = new NetworkScanner();
                 objNetworkWatcher.Scan();
@@ -171,8 +210,84 @@ namespace Rapid
 
 
         }
+        /*Option to use table sequence instead of switch
+        private enum UiAction {None, StartScan, Stop AndSave}
+        private sealed class SequenceStep{
+            public string RapidFunctionName{get; init; }
+            public UiAction Action {get; init; } = UiAction.None;
+            public string SavePath{get; init; }
+            public override string ToString() => RapidFunctionName;
+        }
+        private List<SequenceStep> BuildPhotoSequence() => new(){
+            new() {RapidFunctionName="XpertsPickUp"},
+            new() {RapidFunctionName="XpertsMoveFromPickUpToSensor"},
+            new() {RapidFunctionName="XpertsRightEdgePreScan"},
 
+            new() {RapidFunctionName="XpertsRightEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsBackEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveRightEdge},
+
+            new() {RapidFunctionName="XpertsBackEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsLeftEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveBackEdge},
+
+            new() {RapidFunctionName="XpertsLeftEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsFrontEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveLeftEdge},
+
+            new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge},
+
+            new() {RapidFunctionName="DropItem"},
+            new() {RapidFunctionName="GoToInitialState"}
+        };
+
+        private void ApplyUiAction(Sequence step){
+            switch(step.Action){
+                case UiAction.StartScan:
+                    StartScanUi();
+                    break;
+                case UiAction.StopScanAndSave:
+                    StopScanAndSaveUi(step.SavePath);
+                    break;
+                case UiAction.None:
+                default:
+                    break;
+            }
+        }
+        */
         public async void PhotoSequence()
+        /*Option if table sequence used
+            var steps=BuildPhotoSequence();
+            int sequenceStep=0;
+            int numOfPhotoSteps=steps.Count;
+
+            try{
+                while(sequnceStep<numOfPhotoSteps){
+                    if(!_waiting){
+                        await taskWaiter.WaitSeconds(25);
+                        continue;
+                    }
+                    using(m=Mastership.Request(controller)){
+                        var step=steps[sequenceStep];
+                        ApplyUiAction(step);
+                        //Push next RAPID Func Call and Clear wait
+                        SetFuncCall(step.RapidFunctionName);
+                        ClearWaitAndProceed();
+
+                        //RAPID proceeds,ProgramPointerChanged will fire as it runs.
+                    }
+                    sequenceStep++;
+                    await taskWaiter.WaitSeconds(25);
+                }
+            catch (System.InvalidOperationException ex)
+            {
+                MessageBox.Show("Mastership is held by another client." + ex.Message);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Unexpected error occurred: " + ex.Message);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+            }
+        */
         {
             int sequenceStep = 0;
             int numOfPhotoSteps = 13;
@@ -188,18 +303,6 @@ namespace Rapid
                     }
                     using (m = Mastership.Request(controller))
                     {
-                        /*Option to use table sequence instead of switch
-                        (RAID Function, What UI should do)
-                        var steps= new(string func, Actionui)[]{
-                            ("XpertsPickUp",null),
-                            ("XpertsMoveFromPickUpToSensor", null),
-                            ("XpertsRightEdgePreScan",null),
-                            ("XpertsRightEdgeTakeScan", StartScanUi),
-                            ("XpertsBackEdgePreScan", () => StopScanAndSaveUi(SaveRightEdge)),
-                            ...
-
-                        }
-                        */
                         switch (sequenceStep)
                         {
                             case 0:
