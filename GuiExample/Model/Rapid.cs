@@ -55,7 +55,7 @@ namespace Rapid
 
         private void ClearWaitAndProceed(){
             //release wait condition
-            contollerWaiting.Value=new Bool(false);
+            controllerWaiting.Value=new Bool(false);
 
             //marks robot no longer waiting
             _waiting=false;
@@ -77,7 +77,7 @@ namespace Rapid
             batch.TriggerStopLogic();
 
             //if valid file path, save scan data
-            if(!string.IsNullorWhiteSpace(path)){
+            if(!string.IsNullOrWhiteSpace(path)){
                 batch.TriggerSaveLogic(path);
             }
         }
@@ -120,7 +120,7 @@ namespace Rapid
                     return;
                 }
                 //Connect to ABB controller using standalone mode (connects directly to robot without RobotStudio)
-                controller = controller.Connect(info, ConnectionType.Standalone, false);
+                controller = Controller.Connect(info, ConnectionType.Standalone, false);
             }
             catch (System.Exception ex){
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
@@ -220,7 +220,7 @@ namespace Rapid
 
             try
             {
-                while (sequnceStep < numOfPhotoSteps)
+                while (sequenceStep < numOfPhotoSteps)
                 {
                     if (!_waiting)
                     {
@@ -411,8 +411,8 @@ namespace Rapid
                 case UiAction.StartScan:
                     StartScanUi();
                     break;
-                case UiAction.StopScanAndSave:
-                    StopScanAndSaveUi(step.SavePath);
+                case UiAction.StopAndSave:
+                    StopAndSaveUi(step.SavePath);
                     break;
                 case UiAction.None:
                 default:
