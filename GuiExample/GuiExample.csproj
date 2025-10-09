@@ -96,7 +96,7 @@
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\ABB\RobotStudio 2025\Bin\RobotStudio.Services.RobApi.dll</HintPath>
     </Reference>
     <Reference Include="RobotStudio.Services.RobApi.Desktop">
-      <HintPath>..\..\..\Program Files (x86)\ABB\RobotStudio 2025\Bin\RobotStudio.Services.RobApi.Desktop.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\ABB\RobotStudio 2025\Bin\RobotStudio.Services.RobApi.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
