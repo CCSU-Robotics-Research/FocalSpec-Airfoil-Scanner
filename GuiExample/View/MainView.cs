@@ -119,6 +119,7 @@ namespace FocalSpec.GuiExample.View
         private FormWindowState _lastWindowState;
 
         private readonly AdvancedView _advancedView;
+        private SensorSettingsView _sensorSettingsView;
         private FilterView _filterView;
         private readonly RefractionView _refractionView;
         private readonly PeakDetectionView _peakDetectionView;
@@ -138,19 +139,22 @@ namespace FocalSpec.GuiExample.View
         public MainView()
         {       
             InitializeComponent();
+
+            _sensorSettingsView = new SensorSettingsView();
+
             rapidFunctions = new RapidFunctions(this);
 
 			_uiDispatcher = Dispatcher.CurrentDispatcher;
             _parameters = SensorParameterStore.GetInstance();
 
-            radioButtonExportAll.Tag = ExportLayer.All;
-            radioButtonExportTop.Tag = ExportLayer.Top;
-            radioButtonExportBottom.Tag = ExportLayer.Bottom;
-            radioButtonExportBrightest.Tag = ExportLayer.BrightestAndTop;
+            _sensorSettingsView.radioButtonExportAll.Tag = ExportLayer.All;
+            _sensorSettingsView.radioButtonExportTop.Tag = ExportLayer.Top;
+            _sensorSettingsView.radioButtonExportBottom.Tag = ExportLayer.Bottom;
+            _sensorSettingsView.radioButtonExportBrightest.Tag = ExportLayer.BrightestAndTop;
 
-            comboboxLedPulseWidth.SelectedIndex = -1;
-            comboboxFrequency.SelectedIndex = -1;
-            comboBoxTop.SelectedIndex = comboBoxBottom.SelectedIndex = comboBoxBrightest.SelectedIndex = 0;
+            _sensorSettingsView.comboboxLedPulseWidth.SelectedIndex = -1;
+            _sensorSettingsView.comboboxFrequency.SelectedIndex = -1;
+            _sensorSettingsView.comboBoxTop.SelectedIndex = _sensorSettingsView.comboBoxBottom.SelectedIndex = _sensorSettingsView.comboBoxBrightest.SelectedIndex = 0;
 
             WindowState = FormWindowState.Maximized;
             _lastWindowState = WindowState;
@@ -230,8 +234,8 @@ namespace FocalSpec.GuiExample.View
             panelSettings.AutoScroll = true;
             _panel1OriginalWidth = 0;
 
-            comboBoxMaterialType.SelectedIndex = 0;
-            comboBoxSensitivity.SelectedIndex = 0;
+            _sensorSettingsView.comboBoxMaterialType.SelectedIndex = 0;
+            _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 0;
 
             _resizeTimer.AutoReset = true;
             _resizeTimer.SynchronizingObject = this;
@@ -262,7 +266,7 @@ namespace FocalSpec.GuiExample.View
         {
             _formLoaded = true;
 
-            checkBoxRawImage.Checked = !_parameters.IsPeakEnabled;
+            _sensorSettingsView.checkBoxRawImage.Checked = !_parameters.IsPeakEnabled;
             
             _filterView.PeakXFilterEnabled = IsXFilterSupported;
 
@@ -270,18 +274,18 @@ namespace FocalSpec.GuiExample.View
 
             if (!IsSignalDetectionFilterSupported)
             {
-                checkBoxHeightZeroAdjust.Location = new Point(checkBoxHeightZeroAdjust.Location.X, checkBoxHeightZeroAdjust.Location.Y - 26);
-                buttonAdvanced.Location = new Point(buttonAdvanced.Location.X, buttonAdvanced.Location.Y - 26);
-                buttonApply.Location = new Point(buttonApply.Location.X, buttonApply.Location.Y - 26);
-                groupboxSensorSettings.Size = new Size(groupboxSensorSettings.Width, groupboxSensorSettings.Height - 26);
-                groupboxViewSettings.Location = new Point(groupboxViewSettings.Location.X, groupboxViewSettings.Location.Y - 26);
-                groupboxSurface.Location = new Point(groupboxSurface.Location.X, groupboxSurface.Location.Y - 26);
+                _sensorSettingsView.checkBoxHeightZeroAdjust.Location = new Point(_sensorSettingsView.checkBoxHeightZeroAdjust.Location.X, _sensorSettingsView.checkBoxHeightZeroAdjust.Location.Y - 26);
+                _sensorSettingsView.buttonAdvanced.Location = new Point(_sensorSettingsView.buttonAdvanced.Location.X, _sensorSettingsView.buttonAdvanced.Location.Y - 26);
+                _sensorSettingsView.buttonApply.Location = new Point(_sensorSettingsView.buttonApply.Location.X, _sensorSettingsView.buttonApply.Location.Y - 26);
+                _sensorSettingsView.groupboxSensorSettings.Size = new Size(_sensorSettingsView.groupboxSensorSettings.Width, _sensorSettingsView.groupboxSensorSettings.Height - 26);
+                _sensorSettingsView.groupboxViewSettings.Location = new Point(_sensorSettingsView.groupboxViewSettings.Location.X, _sensorSettingsView.groupboxViewSettings.Location.Y - 26);
+                _sensorSettingsView.groupboxSurface.Location = new Point(_sensorSettingsView.groupboxSurface.Location.X, _sensorSettingsView.groupboxSurface.Location.Y - 26);
                 _batchMode.Location = new Point(_batchMode.Location.X, _batchMode.Location.Y - 26);
             }
 
             FitScrollbar();
 
-            buttonAdvanced.Enabled = IsHdrSupported || LayerIntensityTypeSupported;
+            _sensorSettingsView.buttonAdvanced.Enabled = IsHdrSupported || LayerIntensityTypeSupported;
 
             // All is selected by default.
             _selectedLayer = ExportLayer.All;
@@ -349,8 +353,8 @@ namespace FocalSpec.GuiExample.View
             if (_loadRecipeView.ShowDialog(this) == DialogResult.Cancel) return;
             _selectedRecipe = _loadRecipeView.SelectedRecipe;
 
-            comboBoxMaterialType.SelectedIndex = 0;
-            comboBoxSensitivity.SelectedIndex = 0;
+            _sensorSettingsView.comboBoxMaterialType.SelectedIndex = 0;
+            _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 0;
 
             _refractionView.Reset();
             
@@ -415,7 +419,7 @@ namespace FocalSpec.GuiExample.View
             }
 
             // CPU load get heavy on multiple layers if thickness is visible
-            _pollTimer.Interval = _selectedLayerIndex > 0 && checkBoxThickness.Checked ? (_selectedLayerIndex + 1) * 100 : 100;
+            _pollTimer.Interval = _selectedLayerIndex > 0 && _sensorSettingsView.checkBoxThickness.Checked ? (_selectedLayerIndex + 1) * 100 : 100;
             _pollTimer.Enabled = true;
         }
 
@@ -428,11 +432,11 @@ namespace FocalSpec.GuiExample.View
             if (_currentViewMode == ViewMode.RealTime)
             {
                 IsThicknessEnabled = _selectedLayerIndex > 0;
-                IsThicknessVisible = checkBoxThickness.Checked && _selectedLayerIndex > 0;
+                IsThicknessVisible = _sensorSettingsView.checkBoxThickness.Checked && _selectedLayerIndex > 0;
                 SetThicknessTitle();
             }
 
-            groupboxSurface.Invalidate();
+            _sensorSettingsView.groupboxSurface.Invalidate();
             OnProfileLayerSelected?.Invoke(_selectedLayer, _selectedLayerIndex);
             Cursor.Current = Cursors.Default;
         }
@@ -478,7 +482,7 @@ namespace FocalSpec.GuiExample.View
 
             double profileScale = 1;
 
-            if (radioButtonGraphUnitUm.Checked)
+            if (_sensorSettingsView.radioButtonGraphUnitUm.Checked)
             {
                 _profileChart.ChartAreas[0].AxisX.Minimum = _xMin * 1000;
                 _profileChart.ChartAreas[0].AxisX.Maximum = _xMax * 1000;
@@ -490,7 +494,7 @@ namespace FocalSpec.GuiExample.View
                 _profileChart.ChartAreas[0].AxisX.Maximum = _xMax;
             }
 
-            int maxLayer = checkBoxThickness.Checked ? 0 : _selectedLayerIndex >= 0 ? _selectedLayerIndex : _parameters.Layers.Length;
+            int maxLayer = _sensorSettingsView.checkBoxThickness.Checked ? 0 : _selectedLayerIndex >= 0 ? _selectedLayerIndex : _parameters.Layers.Length;
             double newMin = 0.0;
             lock (_chartLock)
             {
@@ -517,7 +521,7 @@ namespace FocalSpec.GuiExample.View
                         }
                     }
 
-                    if (!checkBoxIntensity.Checked) continue;
+                    if (!_sensorSettingsView.checkBoxIntensity.Checked) continue;
                     if (profile.LayerId < 0)
                     {
                         foreach (var point in profile.Points)
@@ -536,7 +540,7 @@ namespace FocalSpec.GuiExample.View
             }
             _profileChart.EndInit();
 
-            if (checkBoxThickness.Checked)
+            if (_sensorSettingsView.checkBoxThickness.Checked)
                 ShowThickness(profiles, profileScale);
 
             // scaling of x-axis minimum done based on received profile data
@@ -584,26 +588,26 @@ namespace FocalSpec.GuiExample.View
           
             if (!signal)
             {
-                textBoxAverageIntensity.BackColor = Color.LightCoral;
+                _sensorSettingsView.textBoxAverageIntensity.BackColor = Color.LightCoral;
                 // ReSharper disable once LocalizableElement
-                textBoxAverageIntensity.Text = "No signal";
+                _sensorSettingsView.textBoxAverageIntensity.Text = "No signal";
             }
             else
             {
                 if (averageIntensity < _targetIntensityMin)
                 {
-                    textBoxAverageIntensity.BackColor = Color.LightCoral;
-                    textBoxAverageIntensity.Text = string.Format("{0:0} (too low)", averageIntensity);
+                    _sensorSettingsView.textBoxAverageIntensity.BackColor = Color.LightCoral;
+                    _sensorSettingsView.textBoxAverageIntensity.Text = string.Format("{0:0} (too low)", averageIntensity);
                 }
                 else if (averageIntensity > _targetIntensityMax)
                 {
-                    textBoxAverageIntensity.BackColor = Color.LightCoral;
-                    textBoxAverageIntensity.Text = string.Format("{0:0} (too high)", averageIntensity);
+                    _sensorSettingsView.textBoxAverageIntensity.BackColor = Color.LightCoral;
+                    _sensorSettingsView.textBoxAverageIntensity.Text = string.Format("{0:0} (too high)", averageIntensity);
                 }
                 else
                 {
-                    textBoxAverageIntensity.BackColor = Color.LightGreen;
-                    textBoxAverageIntensity.Text = string.Format("{0:0} (OK)", averageIntensity);
+                    _sensorSettingsView.textBoxAverageIntensity.BackColor = Color.LightGreen;
+                    _sensorSettingsView.textBoxAverageIntensity.Text = string.Format("{0:0} (OK)", averageIntensity);
                 }
             }
 
@@ -658,7 +662,7 @@ namespace FocalSpec.GuiExample.View
             for (int i = 0; i < _thicknessChart.Series.Count; ++i)
                 _thicknessChart.Series[i].IsVisibleInLegend = i < _selectedLayerIndex;
 
-            if (radioButtonGraphUnitUm.Checked)
+            if (_sensorSettingsView.radioButtonGraphUnitUm.Checked)
             {
                 _thicknessChart.ChartAreas[0].AxisX.Minimum = _xMin * 1000;
                 _thicknessChart.ChartAreas[0].AxisX.Maximum = _xMax * 1000;
@@ -734,40 +738,40 @@ namespace FocalSpec.GuiExample.View
 
                     IsRawImageEnabled = true;
 					IsIntensityEnabled = !_isRawImageVisible;
-                    IsThicknessEnabled = _selectedLayerIndex > 0 && !_isRawImageVisible && !radioButtonExportAll.Checked;
+                    IsThicknessEnabled = _selectedLayerIndex > 0 && !_isRawImageVisible && !_sensorSettingsView.radioButtonExportAll.Checked;
 
-                    comboboxFrequency.Invoke((MethodInvoker)delegate{ comboboxFrequency.Enabled = !_isRawImageVisible; });       
-		            checkBoxExternalPulsing.Invoke((MethodInvoker)delegate{ checkBoxExternalPulsing.Enabled = !_isRawImageVisible; });
-					radioButtonExportAll.Invoke((MethodInvoker)delegate{ radioButtonExportAll.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.comboboxFrequency.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboboxFrequency.Enabled = !_isRawImageVisible; });       
+		            _sensorSettingsView.checkBoxExternalPulsing.Invoke((MethodInvoker)delegate{ _sensorSettingsView.checkBoxExternalPulsing.Enabled = !_isRawImageVisible; });
+					_sensorSettingsView.radioButtonExportAll.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonExportAll.Enabled = !_isRawImageVisible; });
 
-		            radioButtonExportTop.Invoke((MethodInvoker)delegate{ radioButtonExportTop.Enabled = !_isRawImageVisible; });
-                    comboBoxTop.Invoke((MethodInvoker)delegate{ comboBoxTop.Enabled = (!_isRawImageVisible && radioButtonExportTop.Checked); });
-					radioButtonExportBottom.Invoke((MethodInvoker)delegate{ radioButtonExportBottom.Enabled = !_isRawImageVisible; });
-                    comboBoxBottom.Invoke((MethodInvoker)delegate{ comboBoxBottom.Enabled = (!_isRawImageVisible && radioButtonExportBottom.Checked); });
-		            radioButtonExportBrightest.Invoke((MethodInvoker)delegate{ radioButtonExportBrightest.Enabled = !_isRawImageVisible; });
-                    comboBoxBrightest.Invoke((MethodInvoker)delegate{ comboBoxBrightest.Enabled = (!_isRawImageVisible && radioButtonExportBrightest.Checked); });
+		            _sensorSettingsView.radioButtonExportTop.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonExportTop.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.comboBoxTop.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboBoxTop.Enabled = (!_isRawImageVisible && _sensorSettingsView.radioButtonExportTop.Checked); });
+					_sensorSettingsView.radioButtonExportBottom.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonExportBottom.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.comboBoxBottom.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboBoxBottom.Enabled = (!_isRawImageVisible && _sensorSettingsView.radioButtonExportBottom.Checked); });
+		            _sensorSettingsView.radioButtonExportBrightest.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonExportBrightest.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.comboBoxBrightest.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboBoxBrightest.Enabled = (!_isRawImageVisible && _sensorSettingsView.radioButtonExportBrightest.Checked); });
 		           
-	                buttonFilter.Invoke((MethodInvoker)delegate{ buttonFilter.Enabled = !_isRawImageVisible; });			            
-		            checkBoxHeightZeroAdjust.Invoke((MethodInvoker)delegate{ checkBoxHeightZeroAdjust.Enabled = !_isRawImageVisible; });
+	                _sensorSettingsView.buttonFilter.Invoke((MethodInvoker)delegate{ _sensorSettingsView.buttonFilter.Enabled = !_isRawImageVisible; });			            
+		            _sensorSettingsView.checkBoxHeightZeroAdjust.Invoke((MethodInvoker)delegate{ _sensorSettingsView.checkBoxHeightZeroAdjust.Enabled = !_isRawImageVisible; });
 
-                    comboBoxMaterialType.Invoke((MethodInvoker) delegate{ comboBoxMaterialType.Enabled = !_isRawImageVisible; });
-                    comboBoxSensitivity.Invoke((MethodInvoker) delegate{ comboBoxSensitivity.Enabled = !_isRawImageVisible && comboBoxMaterialType.SelectedIndex != 0; });
-                    textBoxMinThickness.Invoke((MethodInvoker)delegate{ textBoxMinThickness.Enabled = !_isRawImageVisible; });
-                    buttonPeakDetection.Invoke((MethodInvoker) delegate{ buttonPeakDetection.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.comboBoxMaterialType.Invoke((MethodInvoker) delegate{ _sensorSettingsView.comboBoxMaterialType.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.comboBoxSensitivity.Invoke((MethodInvoker) delegate{ _sensorSettingsView.comboBoxSensitivity.Enabled = !_isRawImageVisible && _sensorSettingsView.comboBoxMaterialType.SelectedIndex != 0; });
+                    _sensorSettingsView.textBoxMinThickness.Invoke((MethodInvoker)delegate{ _sensorSettingsView.textBoxMinThickness.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.buttonPeakDetection.Invoke((MethodInvoker) delegate{ _sensorSettingsView.buttonPeakDetection.Enabled = !_isRawImageVisible; });
 
-                    radioButtonGraphUnitUm.Invoke((MethodInvoker)delegate{ radioButtonGraphUnitUm.Enabled = !_isRawImageVisible; });
-		            radioButtonGraphUnitMm.Invoke((MethodInvoker)delegate{ radioButtonGraphUnitMm.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.radioButtonGraphUnitUm.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonGraphUnitUm.Enabled = !_isRawImageVisible; });
+		            _sensorSettingsView.radioButtonGraphUnitMm.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonGraphUnitMm.Enabled = !_isRawImageVisible; });
 
-		            numericUpDownWindowSize.Invoke((MethodInvoker)delegate{ numericUpDownWindowSize.Enabled  = !_isRawImageVisible; });
+		            _sensorSettingsView.numericUpDownWindowSize.Invoke((MethodInvoker)delegate{ _sensorSettingsView.numericUpDownWindowSize.Enabled  = !_isRawImageVisible; });
                     
-		            buttonAdvanced.Invoke((MethodInvoker) delegate{ buttonAdvanced.Enabled = IsHdrSupported || LayerIntensityTypeSupported; });
+		            _sensorSettingsView.buttonAdvanced.Invoke((MethodInvoker) delegate{ _sensorSettingsView.buttonAdvanced.Enabled = IsHdrSupported || LayerIntensityTypeSupported; });
  
-	                textBoxAverageIntensity.Invoke((MethodInvoker)delegate{ textBoxAverageIntensity.Enabled = !_isRawImageVisible; });
+	                _sensorSettingsView.textBoxAverageIntensity.Invoke((MethodInvoker)delegate{ _sensorSettingsView.textBoxAverageIntensity.Enabled = !_isRawImageVisible; });
                     if (_isAgcSupported)
                     {
-                        checkBoxAgcEnabled.Invoke((MethodInvoker)delegate{ checkBoxAgcEnabled.Enabled = !_isRawImageVisible; });
-                        textBoxMaxPulseWidth.Invoke((MethodInvoker)delegate{ textBoxMaxPulseWidth.Enabled = (!_isRawImageVisible && checkBoxAgcEnabled.Checked); });
-                        textBoxAgcTargetIntensity.Invoke((MethodInvoker)delegate{ textBoxAgcTargetIntensity.Enabled = (!_isRawImageVisible && checkBoxAgcEnabled.Checked); });
+                        _sensorSettingsView.checkBoxAgcEnabled.Invoke((MethodInvoker)delegate{ _sensorSettingsView.checkBoxAgcEnabled.Enabled = !_isRawImageVisible; });
+                        _sensorSettingsView.textBoxMaxPulseWidth.Invoke((MethodInvoker)delegate{ _sensorSettingsView.textBoxMaxPulseWidth.Enabled = (!_isRawImageVisible && _sensorSettingsView.checkBoxAgcEnabled.Checked); });
+                        _sensorSettingsView.textBoxAgcTargetIntensity.Invoke((MethodInvoker)delegate{ _sensorSettingsView.textBoxAgcTargetIntensity.Enabled = (!_isRawImageVisible && _sensorSettingsView.checkBoxAgcEnabled.Checked); });
                     }
 
                     loadRecipeToolStripMenuItem.Enabled = !_isRawImageVisible;
@@ -786,46 +790,46 @@ namespace FocalSpec.GuiExample.View
                         IsIntensityEnabled = false;
                         IsThicknessEnabled = false;
                         IsThicknessVisible = false;
-                        checkBoxThickness.Invoke((MethodInvoker)delegate{ checkBoxThickness.Checked = false; });
+                        _sensorSettingsView.checkBoxThickness.Invoke((MethodInvoker)delegate{ _sensorSettingsView.checkBoxThickness.Checked = false; });
 
-                        checkBoxExternalPulsing.Invoke((MethodInvoker)delegate{ checkBoxExternalPulsing.Enabled = false; });
-                        comboboxFrequency.Invoke((MethodInvoker)delegate{ comboboxFrequency.Enabled = false; });
-	                    numericUpDownWindowSize.Invoke((MethodInvoker)delegate{ numericUpDownWindowSize.Enabled  = false; });
+                        _sensorSettingsView.checkBoxExternalPulsing.Invoke((MethodInvoker)delegate{ _sensorSettingsView.checkBoxExternalPulsing.Enabled = false; });
+                        _sensorSettingsView.comboboxFrequency.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboboxFrequency.Enabled = false; });
+	                    _sensorSettingsView.numericUpDownWindowSize.Invoke((MethodInvoker)delegate{ _sensorSettingsView.numericUpDownWindowSize.Enabled  = false; });
 
-	                    radioButtonGraphUnitUm.Invoke((MethodInvoker)delegate{ radioButtonGraphUnitUm.Enabled = false; });
-	                    radioButtonGraphUnitMm.Invoke((MethodInvoker)delegate{ radioButtonGraphUnitMm.Enabled = false; });
+	                    _sensorSettingsView.radioButtonGraphUnitUm.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonGraphUnitUm.Enabled = false; });
+	                    _sensorSettingsView.radioButtonGraphUnitMm.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonGraphUnitMm.Enabled = false; });
 	                }
 
-	                radioButtonExportAll.Invoke((MethodInvoker)delegate{ radioButtonExportAll.Enabled = !isRecording; });			
-	                radioButtonExportTop.Invoke((MethodInvoker)delegate{ radioButtonExportTop.Enabled = !isRecording; });
-	                radioButtonExportBottom.Invoke((MethodInvoker)delegate{ radioButtonExportBottom.Enabled = !isRecording; });
-	                radioButtonExportBrightest.Invoke((MethodInvoker)delegate{ radioButtonExportBrightest.Enabled = !isRecording; });
-                    comboBoxTop.Invoke((MethodInvoker)delegate{ comboBoxTop.Enabled = (!isRecording && radioButtonExportTop.Checked); });
-                    comboBoxBottom.Invoke((MethodInvoker)delegate{ comboBoxBottom.Enabled = (!isRecording && radioButtonExportBottom.Checked); });
-                    comboBoxBrightest.Invoke((MethodInvoker)delegate{ comboBoxBrightest.Enabled = (!isRecording && radioButtonExportBrightest.Checked); });
+	                _sensorSettingsView.radioButtonExportAll.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonExportAll.Enabled = !isRecording; });			
+	                _sensorSettingsView.radioButtonExportTop.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonExportTop.Enabled = !isRecording; });
+	                _sensorSettingsView.radioButtonExportBottom.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonExportBottom.Enabled = !isRecording; });
+	                _sensorSettingsView.radioButtonExportBrightest.Invoke((MethodInvoker)delegate{ _sensorSettingsView.radioButtonExportBrightest.Enabled = !isRecording; });
+                    _sensorSettingsView.comboBoxTop.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboBoxTop.Enabled = (!isRecording && _sensorSettingsView.radioButtonExportTop.Checked); });
+                    _sensorSettingsView.comboBoxBottom.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboBoxBottom.Enabled = (!isRecording && _sensorSettingsView.radioButtonExportBottom.Checked); });
+                    _sensorSettingsView.comboBoxBrightest.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboBoxBrightest.Enabled = (!isRecording && _sensorSettingsView.radioButtonExportBrightest.Checked); });
 		           
-	                buttonApply.Invoke((MethodInvoker)delegate{ buttonApply.Enabled = !isRecording; });
-	                buttonExportPeakData.Invoke((MethodInvoker)delegate{ buttonExportPeakData.Enabled = !isRecording; });
-	                buttonFilter.Invoke((MethodInvoker)delegate{ buttonFilter.Enabled = !isRecording; });
-	                comboboxLedPulseWidth.Invoke((MethodInvoker)delegate{ comboboxLedPulseWidth.Enabled = !isRecording; });
+	                _sensorSettingsView.buttonApply.Invoke((MethodInvoker)delegate{ _sensorSettingsView.buttonApply.Enabled = !isRecording; });
+	                _sensorSettingsView.buttonExportPeakData.Invoke((MethodInvoker)delegate{ _sensorSettingsView.buttonExportPeakData.Enabled = !isRecording; });
+	                _sensorSettingsView.buttonFilter.Invoke((MethodInvoker)delegate{ _sensorSettingsView.buttonFilter.Enabled = !isRecording; });
+	                _sensorSettingsView.comboboxLedPulseWidth.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboboxLedPulseWidth.Enabled = !isRecording; });
 					
-		            checkBoxHeightZeroAdjust.Invoke((MethodInvoker)delegate{ checkBoxHeightZeroAdjust.Enabled = !isRecording; });
+		            _sensorSettingsView.checkBoxHeightZeroAdjust.Invoke((MethodInvoker)delegate{ _sensorSettingsView.checkBoxHeightZeroAdjust.Enabled = !isRecording; });
 
-                    comboBoxMaterialType.Invoke((MethodInvoker)delegate{ comboBoxMaterialType.Enabled = !isRecording; });
-                    comboBoxSensitivity.Invoke((MethodInvoker)delegate{ comboBoxSensitivity.Enabled = !isRecording && comboBoxMaterialType.SelectedIndex != 0; });
-                    textBoxMinThickness.Invoke((MethodInvoker)delegate{ textBoxMinThickness.Enabled = !_isRawImageVisible; });
-                    buttonPeakDetection.Invoke((MethodInvoker)delegate{ buttonPeakDetection.Enabled = !isRecording; });
+                    _sensorSettingsView.comboBoxMaterialType.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboBoxMaterialType.Enabled = !isRecording; });
+                    _sensorSettingsView.comboBoxSensitivity.Invoke((MethodInvoker)delegate{ _sensorSettingsView.comboBoxSensitivity.Enabled = !isRecording && _sensorSettingsView.comboBoxMaterialType.SelectedIndex != 0; });
+                    _sensorSettingsView.textBoxMinThickness.Invoke((MethodInvoker)delegate{ _sensorSettingsView.textBoxMinThickness.Enabled = !_isRawImageVisible; });
+                    _sensorSettingsView.buttonPeakDetection.Invoke((MethodInvoker)delegate{ _sensorSettingsView.buttonPeakDetection.Enabled = !isRecording; });
 
-                    textBoxAverageIntensity.Invoke((MethodInvoker)delegate{ textBoxAverageIntensity.Enabled = !isRecording; });
+                    _sensorSettingsView.textBoxAverageIntensity.Invoke((MethodInvoker)delegate{ _sensorSettingsView.textBoxAverageIntensity.Enabled = !isRecording; });
 
                     if (_isAgcSupported)
                     {
-                        checkBoxAgcEnabled.Invoke((MethodInvoker)delegate{ checkBoxAgcEnabled.Enabled = !isRecording; });
-	                    textBoxMaxPulseWidth.Invoke((MethodInvoker)delegate{ textBoxMaxPulseWidth.Enabled = (!isRecording && checkBoxAgcEnabled.Checked); });
-	                    textBoxAgcTargetIntensity.Invoke((MethodInvoker)delegate{ textBoxAgcTargetIntensity.Enabled = (!isRecording && checkBoxAgcEnabled.Checked); });
+                        _sensorSettingsView.checkBoxAgcEnabled.Invoke((MethodInvoker)delegate{ _sensorSettingsView.checkBoxAgcEnabled.Enabled = !isRecording; });
+	                    _sensorSettingsView.textBoxMaxPulseWidth.Invoke((MethodInvoker)delegate{ _sensorSettingsView.textBoxMaxPulseWidth.Enabled = (!isRecording && _sensorSettingsView.checkBoxAgcEnabled.Checked); });
+	                    _sensorSettingsView.textBoxAgcTargetIntensity.Invoke((MethodInvoker)delegate{ _sensorSettingsView.textBoxAgcTargetIntensity.Enabled = (!isRecording && _sensorSettingsView.checkBoxAgcEnabled.Checked); });
                     }
 
-                    buttonAdvanced.Invoke((MethodInvoker) delegate{ buttonAdvanced.Enabled = !isRecording && (IsHdrSupported || LayerIntensityTypeSupported); });
+                    _sensorSettingsView.buttonAdvanced.Invoke((MethodInvoker) delegate{ _sensorSettingsView.buttonAdvanced.Enabled = !isRecording && (IsHdrSupported || LayerIntensityTypeSupported); });
 
                     loadRecipeToolStripMenuItem.Enabled = false;
                     saveRecipeToolStripMenuItem.Enabled = false;
@@ -871,7 +875,7 @@ namespace FocalSpec.GuiExample.View
             {
                 ucBatchVisualizer2D.Dispatcher?.BeginInvoke(new Action(() =>
                 {
-                    ucBatchVisualizer2D.ShowScan(recordContainer, batchConf, averagePixelWidth, _xWidth, MinLayerId, (int)(numericUpDownWindowSize.Value));
+                    ucBatchVisualizer2D.ShowScan(recordContainer, batchConf, averagePixelWidth, _xWidth, MinLayerId, (int)(_sensorSettingsView.numericUpDownWindowSize.Value));
                 }));
             }
         }
@@ -889,18 +893,18 @@ namespace FocalSpec.GuiExample.View
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event information.</param>
-        private void _buttonApply_Click(object sender, EventArgs e)
+        private void buttonApply_Click(object sender, EventArgs e)
         {
             try
             {
-                var ledPulseWidth = Convert.ToSingle(comboboxLedPulseWidth.Text, CultureInfo.InvariantCulture);
+                var ledPulseWidth = Convert.ToSingle(_sensorSettingsView.comboboxLedPulseWidth.Text, CultureInfo.InvariantCulture);
                 int? maxLedPulseWidth = null;
                 float? agcTargetIntensity = null;
-                var freq = Convert.ToInt32(comboboxFrequency.Text);
+                var freq = Convert.ToInt32(_sensorSettingsView.comboboxFrequency.Text);
                 if (freq <= 0)
                 {   // Do not allow set external pulsing by setting frequency to '0'. Checkbox if for that purpose.
                     freq = 1;
-                    comboboxFrequency.Text = freq.ToString();
+                    _sensorSettingsView.comboboxFrequency.Text = freq.ToString();
                 }
 
                 for (int i = 0; i < _parameters.Layers.Length; i++)
@@ -914,8 +918,8 @@ namespace FocalSpec.GuiExample.View
                 if (OnApplySensorSettings == null) return;
                 if (_isAgcSupported)
                 {
-                    maxLedPulseWidth = Convert.ToInt32(textBoxMaxPulseWidth.Text);
-                    agcTargetIntensity = Convert.ToSingle(textBoxAgcTargetIntensity.Text, CultureInfo.InvariantCulture);
+                    maxLedPulseWidth = Convert.ToInt32(_sensorSettingsView.textBoxMaxPulseWidth.Text);
+                    agcTargetIntensity = Convert.ToSingle(_sensorSettingsView.textBoxAgcTargetIntensity.Text, CultureInfo.InvariantCulture);
                 }
 
                 float minThickness = CheckMinThickness();
@@ -928,11 +932,11 @@ namespace FocalSpec.GuiExample.View
                 var detectionFilter = _peakDetectionView.DetectionFilter;
                 var averageIntensityFilter = _peakDetectionView.AverageIntensityFilter;
                 var threshold = _peakDetectionView.Threshold;
-                OnApplySensorSettings(ledPulseWidth, maxLedPulseWidth, freq, checkBoxExternalPulsing.Checked, checkBoxAgcEnabled.Checked, 
+                OnApplySensorSettings(ledPulseWidth, maxLedPulseWidth, freq, _sensorSettingsView.checkBoxExternalPulsing.Checked, _sensorSettingsView.checkBoxAgcEnabled.Checked, 
                     agcTargetIntensity, ref fir, ref averFirLength, ref detectionFilter, 
                     ref averageIntensityFilter, ref threshold, _advancedView.Hdr, 
                     _advancedView.VLow2, _advancedView.VLow3, _advancedView.Kp1Pos, _advancedView.Kp2Pos, minThickness, 
-                    comboBoxMaterialType.SelectedIndex - 1, comboBoxSensitivity.SelectedIndex - 1);
+                    _sensorSettingsView.comboBoxMaterialType.SelectedIndex - 1, _sensorSettingsView.comboBoxSensitivity.SelectedIndex - 1);
 
                 _peakDetectionView.FirLength = fir;
                 _peakDetectionView.AverFirLength = averFirLength;
@@ -963,7 +967,7 @@ namespace FocalSpec.GuiExample.View
             var averageIntensityFilter = _peakDetectionView.AverageIntensityFilter;
             var threshold = _peakDetectionView.Threshold;
             OnApplyFilterSettings(ref fir, ref averFirLength, ref detectionFilter,
-                ref averageIntensityFilter, ref threshold,minThickness, comboBoxMaterialType.SelectedIndex - 1, comboBoxSensitivity.SelectedIndex - 1);
+                ref averageIntensityFilter, ref threshold,minThickness, _sensorSettingsView.comboBoxMaterialType.SelectedIndex - 1, _sensorSettingsView.comboBoxSensitivity.SelectedIndex - 1);
 
             _peakDetectionView.FirLength = fir;
             _peakDetectionView.AverFirLength = averFirLength;
@@ -1022,7 +1026,7 @@ namespace FocalSpec.GuiExample.View
 
                 Properties.Settings.Default.Save();
 
-                var selectedExport = groupboxSurface.Controls.OfType<RadioButton>().FirstOrDefault(n => n.Checked);
+                var selectedExport = _sensorSettingsView.groupboxSurface.Controls.OfType<RadioButton>().FirstOrDefault(n => n.Checked);
 
                 if (selectedExport != null)
                 {
@@ -1077,7 +1081,7 @@ namespace FocalSpec.GuiExample.View
             {
                 OnWindowShown();
 
-                _buttonApply_Click(this, null);
+                buttonApply_Click(this, null);
 
                 var mouseTimer = new System.Timers.Timer { Interval = 1000 };
                 mouseTimer.Start();
@@ -1156,7 +1160,7 @@ namespace FocalSpec.GuiExample.View
 
                 if (_isRawImageVisible && IsThicknessVisible)
                 {
-                    checkBoxThickness.Checked = false;
+                    _sensorSettingsView.checkBoxThickness.Checked = false;
                     IsThicknessVisible = false;
                 }
 
@@ -1180,9 +1184,9 @@ namespace FocalSpec.GuiExample.View
 
                 });
 
-                checkBoxIntensity.Enabled = !_isRawImageVisible;
+                _sensorSettingsView.checkBoxIntensity.Enabled = !_isRawImageVisible;
                 if (_isRawImageVisible)
-                    checkBoxIntensity.Checked = false;
+                    _sensorSettingsView.checkBoxIntensity.Checked = false;
 
                 BatchView.EnableBatch = !_isRawImageVisible;
                 OnShowRawImage?.Invoke(_isRawImageVisible);
@@ -1218,24 +1222,24 @@ namespace FocalSpec.GuiExample.View
 
         public bool IsRawImageEnabled
         {
-            get => checkBoxRawImage.Enabled;
-            set => checkBoxRawImage.Enabled = value;
+            get => _sensorSettingsView.checkBoxRawImage.Enabled;
+            set => _sensorSettingsView.checkBoxRawImage.Enabled = value;
         }
 
         public bool IsIntensityEnabled
         {
-            get => checkBoxIntensity.Enabled;
+            get => _sensorSettingsView.checkBoxIntensity.Enabled;
             set
             {
-                checkBoxIntensity.Enabled = value; 
+                _sensorSettingsView.checkBoxIntensity.Enabled = value; 
                 SetProfileTitle();
             }
         }
 
         public bool IsThicknessEnabled
         {
-            get => checkBoxThickness.Enabled && _selectedLayerIndex > 0;
-            set => checkBoxThickness.Enabled = value;
+            get => _sensorSettingsView.checkBoxThickness.Enabled && _selectedLayerIndex > 0;
+            set => _sensorSettingsView.checkBoxThickness.Enabled = value;
         }
 
         public float CurrentLedPulseWidth
@@ -1247,9 +1251,9 @@ namespace FocalSpec.GuiExample.View
                     return;
                 }
 
-                comboboxLedPulseWidth.Invoke((MethodInvoker)delegate
+                _sensorSettingsView.comboboxLedPulseWidth.Invoke((MethodInvoker)delegate
                 {
-                    comboboxLedPulseWidth.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.0}", value);
+                    _sensorSettingsView.comboboxLedPulseWidth.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.0}", value);
                 });
             }
         }
@@ -1260,7 +1264,7 @@ namespace FocalSpec.GuiExample.View
         {
             if (settings.UiWindowHeight < 1 || settings.UiWindowHeight > 20)
                 settings.UiWindowHeight = 3;
-            numericUpDownWindowSize.Value = settings.UiWindowHeight;
+            _sensorSettingsView.numericUpDownWindowSize.Value = settings.UiWindowHeight;
 
 	        _xMin = Math.Round(settings.OpticalProfileMinX - 0.05, 1);
 	        _xMax = Math.Round(settings.OpticalProfileMaxX + 0.05, 1);
@@ -1268,31 +1272,31 @@ namespace FocalSpec.GuiExample.View
 
         public void LoadSensorParameters(bool isAgcSupported)
         {
-            checkBoxAgcEnabled.Enabled = isAgcSupported;
-            checkBoxAgcEnabled.Checked = isAgcSupported && _parameters.IsAgcEnabled;
+            _sensorSettingsView.checkBoxAgcEnabled.Enabled = isAgcSupported;
+            _sensorSettingsView.checkBoxAgcEnabled.Checked = isAgcSupported && _parameters.IsAgcEnabled;
 
-            textBoxAgcTargetIntensity.Enabled = isAgcSupported && _parameters.IsAgcEnabled;
-            textBoxAgcTargetIntensity.Text = isAgcSupported ? string.Format(CultureInfo.InvariantCulture, "{0:0.0}", _parameters.AgcTargetIntensity) : "N/A";
-            comboboxLedPulseWidth.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.0}", _parameters.LedPulseWidth);
+            _sensorSettingsView.textBoxAgcTargetIntensity.Enabled = isAgcSupported && _parameters.IsAgcEnabled;
+            _sensorSettingsView.textBoxAgcTargetIntensity.Text = isAgcSupported ? string.Format(CultureInfo.InvariantCulture, "{0:0.0}", _parameters.AgcTargetIntensity) : "N/A";
+            _sensorSettingsView.comboboxLedPulseWidth.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.0}", _parameters.LedPulseWidth);
 
-            textBoxMaxPulseWidth.Enabled = isAgcSupported && _parameters.IsAgcEnabled;
-            textBoxMaxPulseWidth.Text = isAgcSupported ? _parameters.MaxLedPulseWidth.ToString() : "N/A";
+            _sensorSettingsView.textBoxMaxPulseWidth.Enabled = isAgcSupported && _parameters.IsAgcEnabled;
+            _sensorSettingsView.textBoxMaxPulseWidth.Text = isAgcSupported ? _parameters.MaxLedPulseWidth.ToString() : "N/A";
 
-            checkBoxExternalPulsing.Checked = _parameters.IsExternalPulsingEnabled;
-            checkBoxHeightZeroAdjust.Checked = _parameters.OffsetY < 0;
-            checkBoxThickness.Checked = _parameters.IsThicknessMode;
+            _sensorSettingsView.checkBoxExternalPulsing.Checked = _parameters.IsExternalPulsingEnabled;
+            _sensorSettingsView.checkBoxHeightZeroAdjust.Checked = _parameters.OffsetY < 0;
+            _sensorSettingsView.checkBoxThickness.Checked = _parameters.IsThicknessMode;
 
             if (_formLoaded)
-                checkBoxRawImage.Checked = !_parameters.IsPeakEnabled;
+                _sensorSettingsView.checkBoxRawImage.Checked = !_parameters.IsPeakEnabled;
 
             // Do not allow set external pulsing by setting frequency to '0'. Checkbox should be used. 
             if (_parameters.Freq <= 0)
                 _parameters.Freq = 1;
 
             var frequencyString = _parameters.Freq.ToString();
-            if (!comboboxFrequency.Items.Contains(frequencyString))
-                comboboxFrequency.Items.Add(frequencyString);
-            comboboxFrequency.Text = frequencyString;
+            if (!_sensorSettingsView.comboboxFrequency.Items.Contains(frequencyString))
+                _sensorSettingsView.comboboxFrequency.Items.Add(frequencyString);
+            _sensorSettingsView.comboboxFrequency.Text = frequencyString;
 
             _xWidth = _parameters.SensorWidth;
 
@@ -1302,7 +1306,7 @@ namespace FocalSpec.GuiExample.View
                             _parameters.Layers.Length > 0 ? _parameters.Layers[0].MinThickness : 5;
             if (thickness < 5)
                 thickness = 5;
-            textBoxMinThickness.Text = thickness.ToString(CultureInfo.InvariantCulture);
+            _sensorSettingsView.textBoxMinThickness.Text = thickness.ToString(CultureInfo.InvariantCulture);
 
             _peakDetectionView.FirLength = _parameters.FirLength;
             _peakDetectionView.AverFirLength = _parameters.AverFirLength;
@@ -1343,7 +1347,7 @@ namespace FocalSpec.GuiExample.View
         /// </summary>
         /// <param name="sender">Not used.</param>
         /// <param name="e">Not used.</param>
-        private void ComboboxLedPulseWidth_Enter(object sender, EventArgs e)
+        private void comboboxLedPulseWidth_Enter(object sender, EventArgs e)
         {
             _ledPulseWidthHasFocus = true;
         }
@@ -1364,7 +1368,7 @@ namespace FocalSpec.GuiExample.View
 
         private void SetProfileTitle()
         {
-            _profileChart.Titles[0].Text = checkBoxIntensity.Checked ? "Layer Profile / Intensity" : "Layer Profile";
+            _profileChart.Titles[0].Text = _sensorSettingsView.checkBoxIntensity.Checked ? "Layer Profile / Intensity" : "Layer Profile";
         }
 
         private void SetThicknessTitle()
@@ -1388,36 +1392,36 @@ namespace FocalSpec.GuiExample.View
             if (!(sender is RadioButton radioButton))
                 return;
 
-            if (ReferenceEquals(radioButton, radioButtonExportAll) && radioButton.Checked)
+            if (ReferenceEquals(radioButton, _sensorSettingsView.radioButtonExportAll) && radioButton.Checked)
             {
                 _selectedLayer = ExportLayer.All;
                 _selectedLayerIndex = -1;
-                checkBoxThickness.Checked = false;
+                _sensorSettingsView.checkBoxThickness.Checked = false;
                 IsThicknessEnabled = false;
                 IsThicknessVisible = false;
             }
             else
             {
-                if (ReferenceEquals(radioButton, radioButtonExportTop) && radioButton.Checked)
+                if (ReferenceEquals(radioButton, _sensorSettingsView.radioButtonExportTop) && radioButton.Checked)
                 {
                     _selectedLayer = ExportLayer.Top;
-                    _selectedLayerIndex = comboBoxTop.SelectedIndex;
+                    _selectedLayerIndex = _sensorSettingsView.comboBoxTop.SelectedIndex;
                 }
-                else if (ReferenceEquals(radioButton, radioButtonExportBottom) && radioButton.Checked)
+                else if (ReferenceEquals(radioButton, _sensorSettingsView.radioButtonExportBottom) && radioButton.Checked)
                 {
                     _selectedLayer = ExportLayer.Bottom;
-                    _selectedLayerIndex = comboBoxBottom.SelectedIndex;
+                    _selectedLayerIndex = _sensorSettingsView.comboBoxBottom.SelectedIndex;
                 }
-                else if (ReferenceEquals(radioButton, radioButtonExportBrightest) && radioButton.Checked)
+                else if (ReferenceEquals(radioButton, _sensorSettingsView.radioButtonExportBrightest) && radioButton.Checked)
                 {
                     _selectedLayer = ExportLayer.BrightestAndTop;
-                    _selectedLayerIndex = comboBoxBrightest.SelectedIndex;
+                    _selectedLayerIndex = _sensorSettingsView.comboBoxBrightest.SelectedIndex;
                 }
 
                 if (_currentViewMode == ViewMode.RealTime)
                 {
                     IsThicknessEnabled = _selectedLayerIndex > 0;
-                    IsThicknessVisible = _selectedLayerIndex > 0 && checkBoxThickness.Checked;
+                    IsThicknessVisible = _selectedLayerIndex > 0 && _sensorSettingsView.checkBoxThickness.Checked;
                     SetThicknessTitle();
                 }
             }
@@ -1429,12 +1433,12 @@ namespace FocalSpec.GuiExample.View
             ResetSeries(true);
         }
 
-        private void CheckBoxAgcEnabled_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxAgcEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            textBoxAgcTargetIntensity.Enabled = checkBoxAgcEnabled.Checked;
-            textBoxMaxPulseWidth.Enabled = checkBoxAgcEnabled.Checked;
-            textBoxAgcTargetIntensity.Update();
-            textBoxMaxPulseWidth.Update();
+            _sensorSettingsView.textBoxAgcTargetIntensity.Enabled = _sensorSettingsView.checkBoxAgcEnabled.Checked;
+            _sensorSettingsView.textBoxMaxPulseWidth.Enabled = _sensorSettingsView.checkBoxAgcEnabled.Checked;
+            _sensorSettingsView.textBoxAgcTargetIntensity.Update();
+            _sensorSettingsView.textBoxMaxPulseWidth.Update();
         }
 
         private void graphUnitMm_CheckedChanged(object sender, EventArgs e)
@@ -1463,40 +1467,40 @@ namespace FocalSpec.GuiExample.View
 
         private void checkBoxHeightZeroAdjust_CheckedChanged(object sender, EventArgs e)
         {
-            _parameters.OffsetY = checkBoxHeightZeroAdjust.Checked ? -1 : 1;
+            _parameters.OffsetY = _sensorSettingsView.checkBoxHeightZeroAdjust.Checked ? -1 : 1;
         }
 
         private void EnableSurfaceSelections()
         {
-            comboBoxTop.Enabled = radioButtonExportTop.Checked;
-            comboBoxBottom.Enabled = radioButtonExportBottom.Checked;
-            comboBoxBrightest.Enabled = radioButtonExportBrightest.Checked;
+            _sensorSettingsView.comboBoxTop.Enabled = _sensorSettingsView.radioButtonExportTop.Checked;
+            _sensorSettingsView.comboBoxBottom.Enabled = _sensorSettingsView.radioButtonExportBottom.Checked;
+            _sensorSettingsView.comboBoxBrightest.Enabled = _sensorSettingsView.radioButtonExportBrightest.Checked;
         }
 
-        private void ComboBoxTop_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxTop_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedLayer = ExportLayer.Top;
-            _selectedLayerIndex = comboBoxTop.SelectedIndex;
+            _selectedLayerIndex = _sensorSettingsView.comboBoxTop.SelectedIndex;
             _layerSelectionTimer.Start();
         }
 
-        private void ComboBoxBottom_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxBottom_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedLayer = ExportLayer.Bottom;
-            _selectedLayerIndex = comboBoxBottom.SelectedIndex;
+            _selectedLayerIndex = _sensorSettingsView.comboBoxBottom.SelectedIndex;
             _layerSelectionTimer.Start();
         }
 
-        private void ComboBoxBrightest_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxBrightest_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedLayer = ExportLayer.BrightestAndTop;
-            _selectedLayerIndex = comboBoxBrightest.SelectedIndex;
+            _selectedLayerIndex = _sensorSettingsView.comboBoxBrightest.SelectedIndex;
             _layerSelectionTimer.Start();
         }
 
         private void checkBoxRawImage_CheckedChanged(object sender, EventArgs e)
         {
-            IsRawImageVisible = checkBoxRawImage.Checked;
+            IsRawImageVisible = _sensorSettingsView.checkBoxRawImage.Checked;
         }
 
         private void MainView_Resize(object sender, EventArgs e)
@@ -1573,14 +1577,14 @@ namespace FocalSpec.GuiExample.View
         {
             _profileChart.Invoke((MethodInvoker)delegate
             {
-                _profileChart.ChartAreas[0].AxisY2.Enabled = checkBoxIntensity.Checked ? AxisEnabled.True : AxisEnabled.False;
+                _profileChart.ChartAreas[0].AxisY2.Enabled = _sensorSettingsView.checkBoxIntensity.Checked ? AxisEnabled.True : AxisEnabled.False;
             });
             SetProfileTitle();
         }
 
         private void _profileChart_AxisViewChanged(object sender, ViewEventArgs e)
         {
-            if (checkBoxIntensity.Checked)
+            if (_sensorSettingsView.checkBoxIntensity.Checked)
             {
                 _profileChart.Invoke((MethodInvoker) delegate
                 {
@@ -1701,11 +1705,11 @@ namespace FocalSpec.GuiExample.View
             if (_profileCursorXPosition < _profileChart.ChartAreas[0].AxisX.ScaleView.ViewMinimum || _profileCursorXPosition > _profileChart.ChartAreas[0].AxisX.ScaleView.ViewMaximum) return;
             if (_profileCursorYPosition < _profileChart.ChartAreas[0].AxisY.ScaleView.ViewMinimum || _profileCursorYPosition > _profileChart.ChartAreas[0].AxisY.ScaleView.ViewMaximum) return;
 
-            string cursorX = radioButtonGraphUnitUm.Checked ? _profileCursorXPosition.ToString("0.##") : _profileCursorXPosition.ToString("0.###");
-            string cursorY = radioButtonGraphUnitUm.Checked ? _profileCursorYPosition.ToString("0.##") : _profileCursorYPosition.ToString("0.###");
+            string cursorX = _sensorSettingsView.radioButtonGraphUnitUm.Checked ? _profileCursorXPosition.ToString("0.##") : _profileCursorXPosition.ToString("0.###");
+            string cursorY = _sensorSettingsView.radioButtonGraphUnitUm.Checked ? _profileCursorYPosition.ToString("0.##") : _profileCursorYPosition.ToString("0.###");
             string cursorY2 = "";
 
-            if (checkBoxIntensity.Checked)
+            if (_sensorSettingsView.checkBoxIntensity.Checked)
             {
                 double intensity = 255 * (_profileCursorYPosition - _profileChart.ChartAreas[0].AxisY.Minimum) /
                                    (_profileChart.ChartAreas[0].AxisY.Maximum - _profileChart.ChartAreas[0].AxisY.Minimum);
@@ -1727,8 +1731,8 @@ namespace FocalSpec.GuiExample.View
                 if (_thicknessCursorXPosition < _thicknessChart.ChartAreas[0].AxisX.ScaleView.ViewMinimum || _thicknessCursorXPosition > _thicknessChart.ChartAreas[0].AxisX.ScaleView.ViewMaximum) return;
                 if (_thicknessCursorYPosition < _thicknessChart.ChartAreas[0].AxisY.ScaleView.ViewMinimum || _thicknessCursorYPosition > _thicknessChart.ChartAreas[0].AxisY.ScaleView.ViewMaximum) return;
 
-                string cursorX = radioButtonGraphUnitUm.Checked ? _thicknessCursorXPosition.ToString("0.##") : _thicknessCursorXPosition.ToString("0.###");
-                string cursorY = radioButtonGraphUnitUm.Checked ? _thicknessCursorYPosition.ToString("0.##") : _thicknessCursorYPosition.ToString("0.###");
+                string cursorX = _sensorSettingsView.radioButtonGraphUnitUm.Checked ? _thicknessCursorXPosition.ToString("0.##") : _thicknessCursorXPosition.ToString("0.###");
+                string cursorY = _sensorSettingsView.radioButtonGraphUnitUm.Checked ? _thicknessCursorYPosition.ToString("0.##") : _thicknessCursorYPosition.ToString("0.###");
 
                 string positionText = "(" + cursorX + ", " + cursorY + ")";
 
@@ -1806,9 +1810,9 @@ namespace FocalSpec.GuiExample.View
         {
             if (!IsHandleCreated) return;
 
-            numericUpDownWindowSize.Invoke((MethodInvoker)delegate
+            _sensorSettingsView.numericUpDownWindowSize.Invoke((MethodInvoker)delegate
             {
-                OnApplyUiSettings?.Invoke((int)numericUpDownWindowSize.Value);
+                OnApplyUiSettings?.Invoke((int)_sensorSettingsView.numericUpDownWindowSize.Value);
             });
             UpdateGraphScales();
 
@@ -1843,7 +1847,7 @@ namespace FocalSpec.GuiExample.View
 
         private void _buttonAdvanced_Click(object sender, EventArgs e)
         {
-            _advancedView.Location = new Point(buttonAdvanced.Right + 50, buttonAdvanced.Top);
+            _advancedView.Location = new Point(_sensorSettingsView.buttonAdvanced.Right + 50, _sensorSettingsView.buttonAdvanced.Top);
 
             _advancedView.IsHs = IsHsCamera;
             _advancedView.IsHdrEnabled = IsHdrSupported;
@@ -1853,7 +1857,7 @@ namespace FocalSpec.GuiExample.View
 
         private void _buttonFilter_Click(object sender, EventArgs e)
         {
-            _filterView.Location = new Point(buttonFilter.Right + 50, buttonFilter.Top + groupboxSurface.Top);
+            _filterView.Location = new Point(_sensorSettingsView.buttonFilter.Right + 50, _sensorSettingsView.buttonFilter.Top + _sensorSettingsView.groupboxSurface.Top);
             _filterView.ShowDialog(this);
 	        if (_filterView.ApplyFilters)
 	        {
@@ -1862,15 +1866,15 @@ namespace FocalSpec.GuiExample.View
 	        }
         }
 
-        private void ButtonPeakDetection_Click(object sender, EventArgs e)
+        private void buttonPeakDetection_Click(object sender, EventArgs e)
         {
             ApplyFilterChanges();
-            _peakDetectionView.Location = new Point(buttonPeakDetection.Right+50, buttonPeakDetection.Top + groupboxSensorSettings.Top);
+            _peakDetectionView.Location = new Point(_sensorSettingsView.buttonPeakDetection.Right+50, _sensorSettingsView.buttonPeakDetection.Top + _sensorSettingsView.groupboxSensorSettings.Top);
             _peakDetectionView.ShowDialog(this);
             if (_peakDetectionView.ValuesChanged)
             {
-                comboBoxMaterialType.SelectedIndex = 0;
-                comboBoxSensitivity.SelectedIndex = 0;
+                _sensorSettingsView.comboBoxMaterialType.SelectedIndex = 0;
+                _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 0;
                 ApplyFilterChanges();
             }
         }
@@ -1884,29 +1888,29 @@ namespace FocalSpec.GuiExample.View
             }
         }
 
-        private void ComboBoxMaterialType_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxMaterialType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxMaterialType.SelectedIndex == 0)
+            if (_sensorSettingsView.comboBoxMaterialType.SelectedIndex == 0)
             {
-                comboBoxSensitivity.SelectedIndex = 0;
-                comboBoxSensitivity.Enabled = false;
+                _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 0;
+                _sensorSettingsView.comboBoxSensitivity.Enabled = false;
             }
             else
             {
-                comboBoxSensitivity.Enabled = true;
-                if (comboBoxSensitivity.SelectedIndex == 0)
-                    comboBoxSensitivity.SelectedIndex = 1;
+                _sensorSettingsView.comboBoxSensitivity.Enabled = true;
+                if (_sensorSettingsView.comboBoxSensitivity.SelectedIndex == 0)
+                    _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 1;
                 ApplyFilterChanges();
             }
-            comboBoxSensitivity.Update();
+            _sensorSettingsView.comboBoxSensitivity.Update();
         }
 
-        private void ComboBoxSensitivity_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxSensitivity_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxSensitivity.SelectedIndex == 0)
+            if (_sensorSettingsView.comboBoxSensitivity.SelectedIndex == 0)
             {
-                comboBoxMaterialType.SelectedIndex = 0;
-                comboBoxMaterialType.Update();
+                _sensorSettingsView.comboBoxMaterialType.SelectedIndex = 0;
+                _sensorSettingsView.comboBoxMaterialType.Update();
             }
             else
             {
@@ -1916,7 +1920,7 @@ namespace FocalSpec.GuiExample.View
 
         private double GetZoomLimit()
         {
-            return radioButtonGraphUnitUm.Checked ? 0.001 : 0.000001;
+            return _sensorSettingsView.radioButtonGraphUnitUm.Checked ? 0.001 : 0.000001;
         }
 
         private void ResetSeries(bool invalidate = false)
@@ -1936,22 +1940,22 @@ namespace FocalSpec.GuiExample.View
             }
         }
 
-        private void CheckBoxThickness_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxThickness_CheckedChanged(object sender, EventArgs e)
         {
-            _thicknessChart.Visible = checkBoxThickness.Checked;
-            IsThicknessVisible = checkBoxThickness.Checked;
+            _thicknessChart.Visible = _sensorSettingsView.checkBoxThickness.Checked;
+            IsThicknessVisible = _sensorSettingsView.checkBoxThickness.Checked;
             OnSetThicknessMode?.Invoke(IsThicknessVisible);
         }
 
         private void textBoxMinThickness_TextChanged(object sender, EventArgs e)
         {
             float thickness = CheckMinThickness();
-            textBoxMinThickness.Text = thickness.ToString(CultureInfo.InvariantCulture);
+            _sensorSettingsView.textBoxMinThickness.Text = thickness.ToString(CultureInfo.InvariantCulture);
         }
 
         private void _buttonRefraction_Click(object sender, EventArgs e)
         {
-            _refractionView.Location = new Point(buttonRefraction.Right + 50, buttonRefraction.Top + groupboxViewSettings.Top);
+            _refractionView.Location = new Point(_sensorSettingsView.buttonRefraction.Right + 50, _sensorSettingsView.buttonRefraction.Top + _sensorSettingsView.groupboxViewSettings.Top);
             _refractionView.ShowDialog(this);
             for (int layer = 0; layer < _parameters.Layers.Length; layer++)
             {
@@ -2042,6 +2046,7 @@ namespace FocalSpec.GuiExample.View
             if (file.ShowDialog() == DialogResult.OK)
                 this.richTextBox1.SaveFile(file.FileName, RichTextBoxStreamType.PlainText);
         }
+
         private void SaveRecipeAs()
         {
             if (Session.ViewMode != ViewMode.RealTime) return;
@@ -2054,9 +2059,9 @@ namespace FocalSpec.GuiExample.View
 
         private void UpdateGraphScales()
         {
-            if (radioButtonGraphUnitMm.Checked)
+            if (_sensorSettingsView.radioButtonGraphUnitMm.Checked)
             {
-                double yScale = (double)numericUpDownWindowSize.Value / 2.0;
+                double yScale = (double)_sensorSettingsView.numericUpDownWindowSize.Value / 2.0;
                 _profileChart.ChartAreas[0].AxisY.Minimum = -yScale;
                 _profileChart.ChartAreas[0].AxisY.Maximum = yScale;
                 _profileChart.ChartAreas[0].AxisX.LabelStyle.Format = "{0:0.000}";
@@ -2072,7 +2077,7 @@ namespace FocalSpec.GuiExample.View
             }
             else
             {
-                double yScale = (double)numericUpDownWindowSize.Value / 2.0 * 1000;
+                double yScale = (double)_sensorSettingsView.numericUpDownWindowSize.Value / 2.0 * 1000;
                 _profileChart.ChartAreas[0].AxisY.Minimum = -yScale;
                 _profileChart.ChartAreas[0].AxisY.Maximum = yScale;
                 _profileChart.ChartAreas[0].AxisX.LabelStyle.Format = "{0:0.00}";
@@ -2111,7 +2116,7 @@ namespace FocalSpec.GuiExample.View
             float minThickness = 5;
             try
             {
-                minThickness = Convert.ToSingle(textBoxMinThickness.Text);
+                minThickness = Convert.ToSingle(_sensorSettingsView.textBoxMinThickness.Text);
             }
             catch (Exception)
             {
