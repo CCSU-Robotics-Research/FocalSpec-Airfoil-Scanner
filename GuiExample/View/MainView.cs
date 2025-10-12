@@ -272,17 +272,6 @@ namespace FocalSpec.GuiExample.View
 
             _peakDetectionView.IsPeakDetection = IsSignalDetectionFilterSupported;
 
-            if (!IsSignalDetectionFilterSupported)
-            {
-                _sensorSettingsView.checkBoxHeightZeroAdjust.Location = new Point(_sensorSettingsView.checkBoxHeightZeroAdjust.Location.X, _sensorSettingsView.checkBoxHeightZeroAdjust.Location.Y - 26);
-                _sensorSettingsView.buttonAdvanced.Location = new Point(_sensorSettingsView.buttonAdvanced.Location.X, _sensorSettingsView.buttonAdvanced.Location.Y - 26);
-                _sensorSettingsView.buttonApply.Location = new Point(_sensorSettingsView.buttonApply.Location.X, _sensorSettingsView.buttonApply.Location.Y - 26);
-                _sensorSettingsView.groupboxSensorSettings.Size = new Size(_sensorSettingsView.groupboxSensorSettings.Width, _sensorSettingsView.groupboxSensorSettings.Height - 26);
-                _sensorSettingsView.groupboxViewSettings.Location = new Point(_sensorSettingsView.groupboxViewSettings.Location.X, _sensorSettingsView.groupboxViewSettings.Location.Y - 26);
-                _sensorSettingsView.groupboxSurface.Location = new Point(_sensorSettingsView.groupboxSurface.Location.X, _sensorSettingsView.groupboxSurface.Location.Y - 26);
-                _batchMode.Location = new Point(_batchMode.Location.X, _batchMode.Location.Y - 26);
-            }
-
             FitScrollbar();
 
             _sensorSettingsView.buttonAdvanced.Enabled = IsHdrSupported || LayerIntensityTypeSupported;
@@ -301,7 +290,7 @@ namespace FocalSpec.GuiExample.View
         }
         public BatchModePresenter getBatchMode()
         {
-            return _batchMode;
+            return _sensorSettingsView._batchMode;
         }
         public ExportLayer getSelectedLayer()
         {
@@ -1099,7 +1088,7 @@ namespace FocalSpec.GuiExample.View
             _thicknessChart.MouseClick += _thicknessChart_MouseClick;
         }
 
-        public IBatchModeView BatchView => _batchMode;
+        public IBatchModeView BatchView => _sensorSettingsView._batchMode;
 
         public bool IsBatchVisualizerVisible
         {
@@ -2045,6 +2034,11 @@ namespace FocalSpec.GuiExample.View
 
             if (file.ShowDialog() == DialogResult.OK)
                 this.richTextBox1.SaveFile(file.FileName, RichTextBoxStreamType.PlainText);
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _sensorSettingsView.ShowDialog(this);
         }
 
         private void SaveRecipeAs()

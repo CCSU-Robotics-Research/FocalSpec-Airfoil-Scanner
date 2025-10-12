@@ -228,6 +228,12 @@
     <Compile Include="View\RefractionView.Designer.cs">
       <DependentUpon>RefractionView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\SensorSettingsView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SensorSettingsView.Designer.cs">
+      <DependentUpon>SensorSettingsView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\SetupView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\RefractionView.resx">
       <DependentUpon>RefractionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SensorSettingsView.resx">
+      <DependentUpon>SensorSettingsView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SetupView.resx">
       <DependentUpon>SetupView.cs</DependentUpon>

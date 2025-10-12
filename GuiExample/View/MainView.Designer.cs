@@ -45,7 +45,6 @@
             this.elementHostBatchVisualizer = new System.Windows.Forms.Integration.ElementHost();
             this.batchVisualizer2DUc3 = new FocalSpec.GuiExample.View.BatchVisualizer2DUc();
             this.panelSettings = new System.Windows.Forms.Panel();
-            this._batchMode = new FocalSpec.GuiExample.View.BatchModePresenter();
             this.panel4 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
@@ -65,6 +64,7 @@
             this.loadRecipeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveRecipeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveRecipeAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelDataVisualizers.SuspendLayout();
@@ -72,7 +72,6 @@
             ((System.ComponentModel.ISupportInitialize)(this._profileChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._thicknessChart)).BeginInit();
             this.tableLayoutPanelInfo.SuspendLayout();
-            this.panelSettings.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel5.SuspendLayout();
@@ -229,24 +228,11 @@
             // 
             // panelSettings
             // 
-            this.panelSettings.Controls.Add(this._batchMode);
             this.panelSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSettings.Location = new System.Drawing.Point(3, 148);
             this.panelSettings.Name = "panelSettings";
             this.panelSettings.Size = new System.Drawing.Size(259, 709);
             this.panelSettings.TabIndex = 1;
-            // 
-            // _batchMode
-            // 
-            this._batchMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._batchMode.IsBatchVisualizerVisible = false;
-            this._batchMode.IsConfigured = false;
-            this._batchMode.Location = new System.Drawing.Point(6, 656);
-            this._batchMode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this._batchMode.Name = "_batchMode";
-            this._batchMode.Size = new System.Drawing.Size(249, 242);
-            this._batchMode.TabIndex = 5;
-            this._batchMode.Load += new System.EventHandler(this._batchMode_Load);
             // 
             // panel4
             // 
@@ -393,6 +379,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.settingsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -439,6 +426,13 @@
             this.saveRecipeAsToolStripMenuItem.Text = "Save Recipe As";
             this.saveRecipeAsToolStripMenuItem.Click += new System.EventHandler(this.saveRecipeAsToolStripMenuItem_Click);
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 18);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -455,7 +449,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(864, 714);
             this.Name = "MainView";
-            this.Text = "MainView";
+            this.Text = "Airfoil Scanning Utility";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);
             this.Shown += new System.EventHandler(this.MainView_Shown);
             this.Resize += new System.EventHandler(this.MainView_Resize);
@@ -467,7 +461,6 @@
             ((System.ComponentModel.ISupportInitialize)(this._thicknessChart)).EndInit();
             this.tableLayoutPanelInfo.ResumeLayout(false);
             this.tableLayoutPanelInfo.PerformLayout();
-            this.panelSettings.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel5.ResumeLayout(false);
@@ -489,7 +482,6 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private BatchModePresenter _batchMode;
         private System.Windows.Forms.DataVisualization.Charting.Chart _profileChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart _thicknessChart;
         private System.Windows.Forms.Label labelFrameIndex;
@@ -511,5 +503,6 @@
         private System.Windows.Forms.Button btn_ConnectCTRL;
         public System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button btn_SaveLog;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }

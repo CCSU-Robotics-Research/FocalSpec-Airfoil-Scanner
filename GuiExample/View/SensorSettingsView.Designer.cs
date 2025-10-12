@@ -72,6 +72,7 @@
             this.comboboxLedPulseWidth = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this._batchMode = new FocalSpec.GuiExample.View.BatchModePresenter();
             this.groupboxViewSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWindowSize)).BeginInit();
             this.groupboxSurface.SuspendLayout();
@@ -634,16 +635,28 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Frequency [Hz]:";
             // 
+            // _batchMode
+            // 
+            this._batchMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._batchMode.IsBatchVisualizerVisible = false;
+            this._batchMode.IsConfigured = false;
+            this._batchMode.Location = new System.Drawing.Point(268, 283);
+            this._batchMode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._batchMode.Name = "_batchMode";
+            this._batchMode.Size = new System.Drawing.Size(249, 242);
+            this._batchMode.TabIndex = 8;
+            // 
             // SensorSettingsView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 419);
+            this.ClientSize = new System.Drawing.Size(527, 535);
+            this.Controls.Add(this._batchMode);
             this.Controls.Add(this.groupboxViewSettings);
             this.Controls.Add(this.groupboxSurface);
             this.Controls.Add(this.groupboxSensorSettings);
             this.Name = "SensorSettingsView";
-            this.Text = "SensorSettingsView";
+            this.Text = "Sensor Settings";
             this.groupboxViewSettings.ResumeLayout(false);
             this.groupboxViewSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWindowSize)).EndInit();
@@ -701,5 +714,6 @@
         public System.Windows.Forms.ComboBox comboboxLedPulseWidth;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
+        public BatchModePresenter _batchMode;
     }
 }
