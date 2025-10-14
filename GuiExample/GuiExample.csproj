@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,10 +74,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ABB.Robotics.Controllers.PC">
-      <HintPath>..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2025 SDK\ABB.Robotics.Controllers.PC.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\ABB\RobotStudio 2025\Bin\ABB.Robotics.Controllers.PC.dll</HintPath>
     </Reference>
     <Reference Include="FsApiNet">
-      <HintPath>..\API\FsApiNet.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Focalspec\FocalSpec Software Development Kit\API\x64\FsApiNet.dll</HintPath>
     </Reference>
     <Reference Include="Geometry">
       <HintPath>Lib\Geometry.dll</HintPath>
@@ -91,7 +93,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RobotStudio.Services.RobApi">
-      <HintPath>..\..\..\Program Files (x86)\ABB\RobotStudio 2025\Bin\RobotStudio.Services.RobApi.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\ABB\RobotStudio 2025\Bin\RobotStudio.Services.RobApi.dll</HintPath>
     </Reference>
     <Reference Include="RobotStudio.Services.RobApi.Desktop">
       <HintPath>..\..\..\Program Files (x86)\ABB\RobotStudio 2025\Bin\RobotStudio.Services.RobApi.Desktop.dll</HintPath>
@@ -136,6 +138,7 @@
     <Compile Include="Model\Export\ExportCsv.cs" />
     <Compile Include="Model\Export\ExportLayers.cs" />
     <Compile Include="Model\ApplicationSettings.cs" />
+    <Compile Include="Model\Helper.cs" />
     <Compile Include="Model\Rapid.cs" />
     <Compile Include="Model\Session.cs" />
     <Compile Include="Model\TriggerMode.cs" />
@@ -334,6 +337,10 @@ xcopy "$(ProjectDir)vevolog.conf" "$(TargetDir)" /y
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /Y /D "C:\Focalspec\FocalSpec Software Development Kit\FsLabViewExample\DLLs\x64\*.dll" "$(TargetDir)"
+</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
