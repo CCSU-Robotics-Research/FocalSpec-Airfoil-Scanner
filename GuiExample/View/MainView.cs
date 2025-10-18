@@ -153,8 +153,8 @@ namespace FocalSpec.GuiExample.View
             _sensorSettingsView.radioButtonExportBottom.Tag = ExportLayer.Bottom;
             _sensorSettingsView.radioButtonExportBrightest.Tag = ExportLayer.BrightestAndTop;
 
-            _sensorSettingsView.comboboxLedPulseWidth.SelectedIndex = -1;
-            _sensorSettingsView.comboboxFrequency.SelectedIndex = -1;
+            _sensorSettingsView.comboboxLedPulseWidth.SelectedIndex = 31;
+            _sensorSettingsView.comboboxFrequency.SelectedIndex = 4;
             _sensorSettingsView.comboBoxTop.SelectedIndex = _sensorSettingsView.comboBoxBottom.SelectedIndex = _sensorSettingsView.comboBoxBrightest.SelectedIndex = 0;
 
             WindowState = FormWindowState.Maximized;
@@ -235,8 +235,8 @@ namespace FocalSpec.GuiExample.View
             panelSettings.AutoScroll = true;
             _panel1OriginalWidth = 0;
 
-            _sensorSettingsView.comboBoxMaterialType.SelectedIndex = 0;
-            _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 0;
+            _sensorSettingsView.comboBoxMaterialType.SelectedIndex = 1;
+            _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 1;
 
             _resizeTimer.AutoReset = true;
             _resizeTimer.SynchronizingObject = this;
@@ -267,8 +267,7 @@ namespace FocalSpec.GuiExample.View
         {
             _formLoaded = true;
 
-            _sensorSettingsView.checkBoxRawImage.Checked = !_parameters.IsPeakEnabled;
-            
+            _sensorSettingsView.checkBoxRawImage.Checked = false;
             _filterView.PeakXFilterEnabled = IsXFilterSupported;
 
             _peakDetectionView.IsPeakDetection = IsSignalDetectionFilterSupported;
@@ -343,8 +342,8 @@ namespace FocalSpec.GuiExample.View
             if (_loadRecipeView.ShowDialog(this) == DialogResult.Cancel) return;
             _selectedRecipe = _loadRecipeView.SelectedRecipe;
 
-            _sensorSettingsView.comboBoxMaterialType.SelectedIndex = 0;
-            _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 0;
+            _sensorSettingsView.comboBoxMaterialType.SelectedIndex = 1;
+            _sensorSettingsView.comboBoxSensitivity.SelectedIndex = 1;
 
             _refractionView.Reset();
             
@@ -1253,7 +1252,7 @@ namespace FocalSpec.GuiExample.View
         public void LoadSettings(ApplicationSettings settings)
         {
             if (settings.UiWindowHeight < 1 || settings.UiWindowHeight > 20)
-                settings.UiWindowHeight = 3;
+                settings.UiWindowHeight = 20;
             _sensorSettingsView.numericUpDownWindowSize.Value = settings.UiWindowHeight;
 
 	        _xMin = Math.Round(settings.OpticalProfileMinX - 0.05, 1);
@@ -1272,8 +1271,8 @@ namespace FocalSpec.GuiExample.View
             _sensorSettingsView.textBoxMaxPulseWidth.Enabled = isAgcSupported && _parameters.IsAgcEnabled;
             _sensorSettingsView.textBoxMaxPulseWidth.Text = isAgcSupported ? _parameters.MaxLedPulseWidth.ToString() : "N/A";
 
-            _sensorSettingsView.checkBoxExternalPulsing.Checked = _parameters.IsExternalPulsingEnabled;
-            _sensorSettingsView.checkBoxHeightZeroAdjust.Checked = _parameters.OffsetY < 0;
+            _sensorSettingsView.checkBoxExternalPulsing.Checked = false;
+            _sensorSettingsView.checkBoxHeightZeroAdjust.Checked = true;
             _sensorSettingsView.checkBoxThickness.Checked = _parameters.IsThicknessMode;
 
             if (_formLoaded)
@@ -1286,16 +1285,15 @@ namespace FocalSpec.GuiExample.View
             var frequencyString = _parameters.Freq.ToString();
             if (!_sensorSettingsView.comboboxFrequency.Items.Contains(frequencyString))
                 _sensorSettingsView.comboboxFrequency.Items.Add(frequencyString);
-            _sensorSettingsView.comboboxFrequency.Text = frequencyString;
 
             _xWidth = _parameters.SensorWidth;
 
             _isAgcSupported = isAgcSupported;
 
             var thickness = _parameters.LayerMinThickness > 5 ? _parameters.LayerMinThickness :
-                            _parameters.Layers.Length > 0 ? _parameters.Layers[0].MinThickness : 5;
+                            _parameters.Layers.Length > 0 ? _parameters.Layers[0].MinThickness : 50;
             if (thickness < 5)
-                thickness = 5;
+                thickness = 50;
             _sensorSettingsView.textBoxMinThickness.Text = thickness.ToString(CultureInfo.InvariantCulture);
 
             _peakDetectionView.FirLength = _parameters.FirLength;
