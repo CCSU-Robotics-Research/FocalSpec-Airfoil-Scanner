@@ -276,9 +276,11 @@ namespace FocalSpec.GuiExample.View
 
             _sensorSettingsView.buttonAdvanced.Enabled = IsHdrSupported || LayerIntensityTypeSupported;
 
-            // All is selected by default.
-            _selectedLayer = ExportLayer.All;
-            _selectedLayerIndex = -1;
+            _sensorSettingsView.radioButtonExportTop.Checked = true;
+
+            // Top is selected by default.
+            _selectedLayer = ExportLayer.Top;
+            _selectedLayerIndex = 2;
             OnProfileLayerSelected?.Invoke(_selectedLayer, _selectedLayerIndex);
 
             Cursor.Current = Cursors.Default;
@@ -1253,7 +1255,7 @@ namespace FocalSpec.GuiExample.View
         {
             if (settings.UiWindowHeight < 1 || settings.UiWindowHeight > 20)
                 settings.UiWindowHeight = 20;
-            _sensorSettingsView.numericUpDownWindowSize.Value = settings.UiWindowHeight;
+            _sensorSettingsView.numericUpDownWindowSize.Value = 20;
 
 	        _xMin = Math.Round(settings.OpticalProfileMinX - 0.05, 1);
 	        _xMax = Math.Round(settings.OpticalProfileMaxX + 0.05, 1);
