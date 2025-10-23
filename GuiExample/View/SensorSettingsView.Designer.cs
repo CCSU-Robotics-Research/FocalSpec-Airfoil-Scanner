@@ -1,4 +1,6 @@
-﻿namespace FocalSpec.GuiExample.View
+﻿using System;
+
+namespace FocalSpec.GuiExample.View
 {
     partial class SensorSettingsView
     {
@@ -645,6 +647,7 @@
             this._batchMode.Name = "_batchMode";
             this._batchMode.Size = new System.Drawing.Size(249, 242);
             this._batchMode.TabIndex = 8;
+            this._batchMode.Load += new System.EventHandler(this._batchMode_Load);
             // 
             // SensorSettingsView
             // 
@@ -715,5 +718,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         public BatchModePresenter _batchMode;
+        private void _batchMode_Load(object sender, EventArgs e) { }
     }
+
+
 }

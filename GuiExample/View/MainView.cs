@@ -1450,10 +1450,6 @@ namespace FocalSpec.GuiExample.View
             UpdateGraphScales();
         }
 
-        private void _batchMode_Load(object sender, EventArgs e)
-        {
-        }
-
         private void checkBoxHeightZeroAdjust_CheckedChanged(object sender, EventArgs e)
         {
             _parameters.OffsetY = _sensorSettingsView.checkBoxHeightZeroAdjust.Checked ? -1 : 1;
