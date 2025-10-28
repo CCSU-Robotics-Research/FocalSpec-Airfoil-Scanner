@@ -141,6 +141,7 @@ namespace FocalSpec.GuiExample.View
             InitializeComponent();
 
             _sensorSettingsView = new SensorSettingsView();
+            var _ = _sensorSettingsView.Handle; // Force handle creation to avoid cross-thread exceptions later
 
             rapidFunctions = new RapidFunctions(this);
 
