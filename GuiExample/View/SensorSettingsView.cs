@@ -18,5 +18,11 @@ namespace FocalSpec.GuiExample.View
             _mainView = mainView;
             InitializeComponent();
         }
+
+        private void SensorSettingsView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;   // stop it from closing
+            this.Hide();       // just hide instead
+        }
     }
 }

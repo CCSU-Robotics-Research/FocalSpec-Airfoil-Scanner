@@ -2038,7 +2038,8 @@ namespace FocalSpec.GuiExample.View
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _sensorSettingsView.ShowDialog(this);
+            // Using Show since ShowDialog seems to reset the handle
+            _sensorSettingsView.Show(this);
         }
 
         private void SaveRecipeAs()

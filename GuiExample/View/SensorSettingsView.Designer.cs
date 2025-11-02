@@ -681,6 +681,7 @@
             this.Controls.Add(this.groupboxViewSettings);
             this.Controls.Add(this.groupboxSurface);
             this.Controls.Add(this.groupboxSensorSettings);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SensorSettingsView_FormClosing);
             this.Name = "SensorSettingsView";
             this.Text = "Sensor Settings";
             this.groupboxViewSettings.ResumeLayout(false);
