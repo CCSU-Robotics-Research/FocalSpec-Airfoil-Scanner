@@ -106,6 +106,7 @@
             this.buttonRefraction.TabIndex = 12;
             this.buttonRefraction.Text = "Refraction";
             this.buttonRefraction.UseVisualStyleBackColor = true;
+            this.buttonRefraction.Click += new System.EventHandler(_mainView._buttonRefraction_Click);
             // 
             // checkBoxThickness
             // 
@@ -117,6 +118,7 @@
             this.checkBoxThickness.TabIndex = 11;
             this.checkBoxThickness.Text = "Show Thickness";
             this.checkBoxThickness.UseVisualStyleBackColor = true;
+            this.checkBoxThickness.CheckedChanged += new System.EventHandler(_mainView.checkBoxThickness_CheckedChanged);
             // 
             // numericUpDownWindowSize
             // 
@@ -139,6 +141,7 @@
             0,
             0,
             0});
+            this.numericUpDownWindowSize.ValueChanged += new System.EventHandler(_mainView.numericUpDownWindowSize_ValueChanged);
             // 
             // checkBoxIntensity
             // 
@@ -150,6 +153,7 @@
             this.checkBoxIntensity.TabIndex = 9;
             this.checkBoxIntensity.Text = "Show Intensity";
             this.checkBoxIntensity.UseVisualStyleBackColor = true;
+            this.checkBoxIntensity.CheckedChanged += new System.EventHandler(_mainView.checkBoxIntensity_CheckedChanged);
             // 
             // checkBoxRawImage
             // 
@@ -161,6 +165,7 @@
             this.checkBoxRawImage.TabIndex = 6;
             this.checkBoxRawImage.Text = "Show Raw Image";
             this.checkBoxRawImage.UseVisualStyleBackColor = true;
+            this.checkBoxRawImage.CheckedChanged += new System.EventHandler(_mainView.checkBoxRawImage_CheckedChanged);
             // 
             // radioButtonGraphUnitUm
             // 
@@ -171,6 +176,7 @@
             this.radioButtonGraphUnitUm.TabIndex = 8;
             this.radioButtonGraphUnitUm.Text = "µm";
             this.radioButtonGraphUnitUm.UseVisualStyleBackColor = true;
+            this.radioButtonGraphUnitUm.CheckedChanged += new System.EventHandler(_mainView.graphUnitUm_CheckedChanged);
             // 
             // radioButtonGraphUnitMm
             // 
@@ -183,6 +189,7 @@
             this.radioButtonGraphUnitMm.TabStop = true;
             this.radioButtonGraphUnitMm.Text = "mm";
             this.radioButtonGraphUnitMm.UseVisualStyleBackColor = true;
+            this.radioButtonGraphUnitMm.CheckedChanged += new System.EventHandler(_mainView.graphUnitMm_CheckedChanged);
             // 
             // label7
             // 
@@ -229,6 +236,7 @@
             this.buttonFilter.TabIndex = 11;
             this.buttonFilter.Text = "Filter";
             this.buttonFilter.UseVisualStyleBackColor = true;
+            this.buttonFilter.Click += new System.EventHandler(_mainView._buttonFilter_Click);
             // 
             // comboBoxTop
             // 
@@ -247,6 +255,7 @@
             this.comboBoxTop.Name = "comboBoxTop";
             this.comboBoxTop.Size = new System.Drawing.Size(38, 24);
             this.comboBoxTop.TabIndex = 12;
+            this.comboBoxTop.SelectedIndexChanged += new System.EventHandler(_mainView.ComboBoxTop_SelectedIndexChanged);
             // 
             // comboBoxBottom
             // 
@@ -265,6 +274,7 @@
             this.comboBoxBottom.Name = "comboBoxBottom";
             this.comboBoxBottom.Size = new System.Drawing.Size(38, 24);
             this.comboBoxBottom.TabIndex = 13;
+            this.comboBoxBottom.SelectedIndexChanged += new System.EventHandler(_mainView.ComboBoxBottom_SelectedIndexChanged);
             // 
             // comboBoxBrightest
             // 
@@ -283,6 +293,7 @@
             this.comboBoxBrightest.Name = "comboBoxBrightest";
             this.comboBoxBrightest.Size = new System.Drawing.Size(38, 24);
             this.comboBoxBrightest.TabIndex = 14;
+            this.comboBoxBrightest.SelectedIndexChanged += new System.EventHandler(_mainView.ComboBoxBrightest_SelectedIndexChanged);
             // 
             // radioButtonExportAll
             // 
@@ -295,6 +306,7 @@
             this.radioButtonExportAll.TabStop = true;
             this.radioButtonExportAll.Text = "All";
             this.radioButtonExportAll.UseVisualStyleBackColor = true;
+            this.radioButtonExportAll.CheckedChanged += new System.EventHandler(_mainView.RadioButtonProfileLayer_CheckedChanged);
             // 
             // buttonExportPeakData
             // 
@@ -304,6 +316,7 @@
             this.buttonExportPeakData.TabIndex = 3;
             this.buttonExportPeakData.Text = "Export";
             this.buttonExportPeakData.UseVisualStyleBackColor = true;
+            this.buttonExportPeakData.Click += new System.EventHandler(_mainView._exportPeakData_Click);
             // 
             // radioButtonExportBrightest
             // 
@@ -314,6 +327,7 @@
             this.radioButtonExportBrightest.TabIndex = 2;
             this.radioButtonExportBrightest.Text = "Brightest Top";
             this.radioButtonExportBrightest.UseVisualStyleBackColor = true;
+            this.radioButtonExportBrightest.CheckedChanged += new System.EventHandler(_mainView.RadioButtonProfileLayer_CheckedChanged);
             // 
             // radioButtonExportBottom
             // 
@@ -324,6 +338,7 @@
             this.radioButtonExportBottom.TabIndex = 1;
             this.radioButtonExportBottom.Text = "Bottom";
             this.radioButtonExportBottom.UseVisualStyleBackColor = true;
+            this.radioButtonExportBrightest.CheckedChanged += new System.EventHandler(_mainView.RadioButtonProfileLayer_CheckedChanged);
             // 
             // radioButtonExportTop
             // 
@@ -334,6 +349,7 @@
             this.radioButtonExportTop.TabIndex = 0;
             this.radioButtonExportTop.Text = "Top";
             this.radioButtonExportTop.UseVisualStyleBackColor = true;
+            this.radioButtonExportBrightest.CheckedChanged += new System.EventHandler(_mainView.RadioButtonProfileLayer_CheckedChanged);
             // 
             // groupboxSensorSettings
             // 
@@ -374,6 +390,7 @@
             this.textBoxMinThickness.Name = "textBoxMinThickness";
             this.textBoxMinThickness.Size = new System.Drawing.Size(62, 23);
             this.textBoxMinThickness.TabIndex = 24;
+            this.textBoxMinThickness.TextChanged += new System.EventHandler(_mainView.textBoxMinThickness_TextChanged);
             // 
             // label11
             // 
@@ -404,6 +421,7 @@
             this.comboBoxSensitivity.Name = "comboBoxSensitivity";
             this.comboBoxSensitivity.Size = new System.Drawing.Size(132, 24);
             this.comboBoxSensitivity.TabIndex = 21;
+            this.comboBoxSensitivity.SelectedIndexChanged += new System.EventHandler(_mainView.ComboBoxSensitivity_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -426,6 +444,7 @@
             this.comboBoxMaterialType.Name = "comboBoxMaterialType";
             this.comboBoxMaterialType.Size = new System.Drawing.Size(132, 24);
             this.comboBoxMaterialType.TabIndex = 19;
+            this.comboBoxMaterialType.SelectedIndexChanged += new System.EventHandler(_mainView.ComboBoxMaterialType_SelectedIndexChanged);
             // 
             // label8
             // 
@@ -444,6 +463,8 @@
             this.buttonPeakDetection.TabIndex = 17;
             this.buttonPeakDetection.Text = "Custom";
             this.buttonPeakDetection.UseVisualStyleBackColor = true;
+            this.buttonPeakDetection.Click += new System.EventHandler(_mainView.ButtonPeakDetection_Click);
+            // 
             // 
             // buttonAdvanced
             // 
@@ -453,6 +474,7 @@
             this.buttonAdvanced.TabIndex = 16;
             this.buttonAdvanced.Text = "Advanced";
             this.buttonAdvanced.UseVisualStyleBackColor = true;
+            this.buttonAdvanced.Click += new System.EventHandler(_mainView._buttonAdvanced_Click);
             // 
             // checkBoxHeightZeroAdjust
             // 
@@ -463,6 +485,7 @@
             this.checkBoxHeightZeroAdjust.TabIndex = 9;
             this.checkBoxHeightZeroAdjust.Text = "Height Zero Adjustment";
             this.checkBoxHeightZeroAdjust.UseVisualStyleBackColor = true;
+            this.checkBoxHeightZeroAdjust.CheckedChanged += new System.EventHandler(_mainView.checkBoxHeightZeroAdjust_CheckedChanged);
             // 
             // textBoxAgcTargetIntensity
             // 
@@ -499,6 +522,7 @@
             this.checkBoxAgcEnabled.TabIndex = 6;
             this.checkBoxAgcEnabled.Text = "AGC Enabled";
             this.checkBoxAgcEnabled.UseVisualStyleBackColor = true;
+            this.checkBoxAgcEnabled.CheckedChanged += new System.EventHandler(_mainView.CheckBoxAgcEnabled_CheckedChanged);
             // 
             // label1
             // 
@@ -564,6 +588,7 @@
             this.buttonApply.TabIndex = 0;
             this.buttonApply.Text = "Apply";
             this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(_mainView.buttonApply_Click);
             // 
             // comboboxLedPulseWidth
             // 
@@ -616,6 +641,7 @@
             this.comboboxLedPulseWidth.Name = "comboboxLedPulseWidth";
             this.comboboxLedPulseWidth.Size = new System.Drawing.Size(62, 24);
             this.comboboxLedPulseWidth.TabIndex = 1;
+            this.comboboxLedPulseWidth.Enter += new System.EventHandler(_mainView.ComboboxLedPulseWidth_Enter);
             // 
             // label4
             // 

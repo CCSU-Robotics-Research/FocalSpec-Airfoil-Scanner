@@ -12,8 +12,10 @@ namespace FocalSpec.GuiExample.View
 {
     public partial class SensorSettingsView : Form
     {
-        public SensorSettingsView()
+        private MainView _mainView;
+        public SensorSettingsView(MainView mainView)
         {
+            _mainView = mainView;
             InitializeComponent();
         }
     }

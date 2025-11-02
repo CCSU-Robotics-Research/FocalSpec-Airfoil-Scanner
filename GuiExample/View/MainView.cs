@@ -140,7 +140,7 @@ namespace FocalSpec.GuiExample.View
         {       
             InitializeComponent();
 
-            _sensorSettingsView = new SensorSettingsView();
+            _sensorSettingsView = new SensorSettingsView(this);
 
             rapidFunctions = new RapidFunctions(this);
 
@@ -882,7 +882,7 @@ namespace FocalSpec.GuiExample.View
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event information.</param>
-        private void buttonApply_Click(object sender, EventArgs e)
+        public void buttonApply_Click(object sender, EventArgs e)
         {
             try
             {
@@ -970,7 +970,7 @@ namespace FocalSpec.GuiExample.View
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event information.</param>
-        private void _exportPeakData_Click(object sender, EventArgs e)
+        public void _exportPeakData_Click(object sender, EventArgs e)
         {
             if (IsRawImageVisible && _rawImageViewer != null)
             {
@@ -1336,7 +1336,7 @@ namespace FocalSpec.GuiExample.View
         /// </summary>
         /// <param name="sender">Not used.</param>
         /// <param name="e">Not used.</param>
-        private void comboboxLedPulseWidth_Enter(object sender, EventArgs e)
+        public void ComboboxLedPulseWidth_Enter(object sender, EventArgs e)
         {
             _ledPulseWidthHasFocus = true;
         }
@@ -1376,7 +1376,7 @@ namespace FocalSpec.GuiExample.View
             view.ShowDialog(this);
         }
 
-        private void RadioButtonProfileLayer_CheckedChanged(object sender, EventArgs e)
+        public void RadioButtonProfileLayer_CheckedChanged(object sender, EventArgs e)
         {
             if (!(sender is RadioButton radioButton))
                 return;
@@ -1422,7 +1422,7 @@ namespace FocalSpec.GuiExample.View
             ResetSeries(true);
         }
 
-        private void checkBoxAgcEnabled_CheckedChanged(object sender, EventArgs e)
+        public void CheckBoxAgcEnabled_CheckedChanged(object sender, EventArgs e)
         {
             _sensorSettingsView.textBoxAgcTargetIntensity.Enabled = _sensorSettingsView.checkBoxAgcEnabled.Checked;
             _sensorSettingsView.textBoxMaxPulseWidth.Enabled = _sensorSettingsView.checkBoxAgcEnabled.Checked;
@@ -1430,7 +1430,7 @@ namespace FocalSpec.GuiExample.View
             _sensorSettingsView.textBoxMaxPulseWidth.Update();
         }
 
-        private void graphUnitMm_CheckedChanged(object sender, EventArgs e)
+        public void graphUnitMm_CheckedChanged(object sender, EventArgs e)
         {
             _profileChart.ChartAreas[0].AxisX.ScaleView.ZoomReset(0);
             _profileChart.ChartAreas[0].AxisY.ScaleView.ZoomReset(0);
@@ -1440,7 +1440,7 @@ namespace FocalSpec.GuiExample.View
             UpdateGraphScales();
         }
 
-        private void graphUnitUm_CheckedChanged(object sender, EventArgs e)
+        public void graphUnitUm_CheckedChanged(object sender, EventArgs e)
         {
             _profileChart.ChartAreas[0].AxisX.ScaleView.ZoomReset(0);
             _profileChart.ChartAreas[0].AxisY.ScaleView.ZoomReset(0);
@@ -1454,7 +1454,7 @@ namespace FocalSpec.GuiExample.View
         {
         }
 
-        private void checkBoxHeightZeroAdjust_CheckedChanged(object sender, EventArgs e)
+        public void checkBoxHeightZeroAdjust_CheckedChanged(object sender, EventArgs e)
         {
             _parameters.OffsetY = _sensorSettingsView.checkBoxHeightZeroAdjust.Checked ? -1 : 1;
         }
@@ -1466,28 +1466,28 @@ namespace FocalSpec.GuiExample.View
             _sensorSettingsView.comboBoxBrightest.Enabled = _sensorSettingsView.radioButtonExportBrightest.Checked;
         }
 
-        private void comboBoxTop_SelectedIndexChanged(object sender, EventArgs e)
+        public void ComboBoxTop_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedLayer = ExportLayer.Top;
             _selectedLayerIndex = _sensorSettingsView.comboBoxTop.SelectedIndex;
             _layerSelectionTimer.Start();
         }
 
-        private void comboBoxBottom_SelectedIndexChanged(object sender, EventArgs e)
+        public void ComboBoxBottom_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedLayer = ExportLayer.Bottom;
             _selectedLayerIndex = _sensorSettingsView.comboBoxBottom.SelectedIndex;
             _layerSelectionTimer.Start();
         }
 
-        private void comboBoxBrightest_SelectedIndexChanged(object sender, EventArgs e)
+        public void ComboBoxBrightest_SelectedIndexChanged(object sender, EventArgs e)
         {
             _selectedLayer = ExportLayer.BrightestAndTop;
             _selectedLayerIndex = _sensorSettingsView.comboBoxBrightest.SelectedIndex;
             _layerSelectionTimer.Start();
         }
 
-        private void checkBoxRawImage_CheckedChanged(object sender, EventArgs e)
+        public void checkBoxRawImage_CheckedChanged(object sender, EventArgs e)
         {
             IsRawImageVisible = _sensorSettingsView.checkBoxRawImage.Checked;
         }
@@ -1562,7 +1562,7 @@ namespace FocalSpec.GuiExample.View
             SaveRecipeAs();
         }
 
-        private void checkBoxIntensity_CheckedChanged(object sender, EventArgs e)
+        public void checkBoxIntensity_CheckedChanged(object sender, EventArgs e)
         {
             _profileChart.Invoke((MethodInvoker)delegate
             {
@@ -1795,7 +1795,7 @@ namespace FocalSpec.GuiExample.View
             }
         }
 
-        private void numericUpDownWindowSize_ValueChanged(object sender, EventArgs e)
+        public void numericUpDownWindowSize_ValueChanged(object sender, EventArgs e)
         {
             if (!IsHandleCreated) return;
 
@@ -1834,7 +1834,7 @@ namespace FocalSpec.GuiExample.View
             _resetThicknessCursor = false;
         }
 
-        private void _buttonAdvanced_Click(object sender, EventArgs e)
+        public void _buttonAdvanced_Click(object sender, EventArgs e)
         {
             _advancedView.Location = new Point(_sensorSettingsView.buttonAdvanced.Right + 50, _sensorSettingsView.buttonAdvanced.Top);
 
@@ -1844,7 +1844,7 @@ namespace FocalSpec.GuiExample.View
             _advancedView.ShowDialog(this);
         }
 
-        private void _buttonFilter_Click(object sender, EventArgs e)
+        public void _buttonFilter_Click(object sender, EventArgs e)
         {
             _filterView.Location = new Point(_sensorSettingsView.buttonFilter.Right + 50, _sensorSettingsView.buttonFilter.Top + _sensorSettingsView.groupboxSurface.Top);
             _filterView.ShowDialog(this);
@@ -1855,7 +1855,7 @@ namespace FocalSpec.GuiExample.View
 	        }
         }
 
-        private void buttonPeakDetection_Click(object sender, EventArgs e)
+        public void ButtonPeakDetection_Click(object sender, EventArgs e)
         {
             ApplyFilterChanges();
             _peakDetectionView.Location = new Point(_sensorSettingsView.buttonPeakDetection.Right+50, _sensorSettingsView.buttonPeakDetection.Top + _sensorSettingsView.groupboxSensorSettings.Top);
@@ -1877,7 +1877,7 @@ namespace FocalSpec.GuiExample.View
             }
         }
 
-        private void comboBoxMaterialType_SelectedIndexChanged(object sender, EventArgs e)
+        public void ComboBoxMaterialType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_sensorSettingsView.comboBoxMaterialType.SelectedIndex == 0)
             {
@@ -1894,7 +1894,7 @@ namespace FocalSpec.GuiExample.View
             _sensorSettingsView.comboBoxSensitivity.Update();
         }
 
-        private void comboBoxSensitivity_SelectedIndexChanged(object sender, EventArgs e)
+        public void ComboBoxSensitivity_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_sensorSettingsView.comboBoxSensitivity.SelectedIndex == 0)
             {
@@ -1929,20 +1929,20 @@ namespace FocalSpec.GuiExample.View
             }
         }
 
-        private void checkBoxThickness_CheckedChanged(object sender, EventArgs e)
+        public void checkBoxThickness_CheckedChanged(object sender, EventArgs e)
         {
             _thicknessChart.Visible = _sensorSettingsView.checkBoxThickness.Checked;
             IsThicknessVisible = _sensorSettingsView.checkBoxThickness.Checked;
             OnSetThicknessMode?.Invoke(IsThicknessVisible);
         }
 
-        private void textBoxMinThickness_TextChanged(object sender, EventArgs e)
+        public void textBoxMinThickness_TextChanged(object sender, EventArgs e)
         {
             float thickness = CheckMinThickness();
             _sensorSettingsView.textBoxMinThickness.Text = thickness.ToString(CultureInfo.InvariantCulture);
         }
 
-        private void _buttonRefraction_Click(object sender, EventArgs e)
+        public void _buttonRefraction_Click(object sender, EventArgs e)
         {
             _refractionView.Location = new Point(_sensorSettingsView.buttonRefraction.Right + 50, _sensorSettingsView.buttonRefraction.Top + _sensorSettingsView.groupboxViewSettings.Top);
             _refractionView.ShowDialog(this);
