@@ -137,10 +137,11 @@ namespace FocalSpec.GuiExample.View
         /// Prepares the view for displaying measurements.
         /// </summary>
         public MainView()
-        {       
-            InitializeComponent();
-
+        {
             _sensorSettingsView = new SensorSettingsView(this);
+            var _ = _sensorSettingsView.Handle;
+
+            InitializeComponent();
 
             rapidFunctions = new RapidFunctions(this);
 
