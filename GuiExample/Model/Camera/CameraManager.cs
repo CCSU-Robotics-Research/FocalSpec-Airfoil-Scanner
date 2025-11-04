@@ -182,12 +182,12 @@ namespace FocalSpec.GuiExample.Model.Camera
                     status = _camera.GetParameter(_cameraId, SensorParameter.LedDuration, out int ledDuration);
                     pulseWidth = ledDuration;
                 }
-/*
+
                 if (status != CameraStatusCode.Ok)
                 {
                     // Should never happen though.
                     throw new InvalidOperationException("Sensor connection issue.");
-                }*/
+                }
                 return pulseWidth;
             }
         }

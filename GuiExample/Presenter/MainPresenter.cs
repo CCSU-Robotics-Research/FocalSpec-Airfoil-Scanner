@@ -138,9 +138,9 @@ namespace FocalSpec.GuiExample.Presenter
                 case CameraStatusCode.CameraErrorApiAlreadyLoaded:
                 case CameraStatusCode.CameraErrorMissingLibraryFiles:
                 case CameraStatusCode.CameraErrorInvalidSoftwareVersion:
-                 /*   MessageBox.Show($"Could not initialize camera.\n\nError code {cameraStatus}", @"Initialize sensor");
+                   MessageBox.Show($"Could not initialize camera.\n\nError code {cameraStatus}", @"Initialize sensor");
                     _cameraManager.Close();
-                    return;*/
+                    return;
                 default:
                     break;
             }
@@ -267,12 +267,12 @@ namespace FocalSpec.GuiExample.Presenter
 	        string assemblyVersion = $"{version.Major}.{version.Minor}.{version.Build}";
 
 	        string fsSystemInfo = $"FSSDK GuiExample v. {assemblyVersion}";
-	       /* if(_cameraManager.CameraVersion.Length > 0)
+	        if(_cameraManager.CameraVersion.Length > 0)
 		        fsSystemInfo += $" | Firmware v. {_cameraManager.CameraVersion}";
 	        if(_cameraManager.CameraSn.Length > 0)
 		        fsSystemInfo += $" | CameraId {_cameraManager.CameraSn}";
 	        if(_cameraManager.DeviceSerialNumber.Length > 0)
-		        fsSystemInfo += $" | LCI sensor S/N: {_cameraManager.DeviceSerialNumber}";*/
+		        fsSystemInfo += $" | LCI sensor S/N: {_cameraManager.DeviceSerialNumber}";
 
             SetTargetIntensityLimits();
 
