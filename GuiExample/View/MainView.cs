@@ -2023,11 +2023,12 @@ namespace FocalSpec.GuiExample.View
         private void btn_StartRAP_Click(object sender, EventArgs e)
         {
             rapidFunctions.Start();
+            rapidFunctions.PhotoSequence();
         }
 
         private void btn_RapContinue_Click(object sender, EventArgs e)
         {
-            rapidFunctions.PhotoSequence();
+            rapidFunctions.Resume();
         }
 
         private void btn_SaveLog_Click(object sender, EventArgs e)

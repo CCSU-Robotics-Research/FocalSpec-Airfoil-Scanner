@@ -7,6 +7,7 @@ using FocalSpec.GuiExample.View;
 using FocalSpec.GuiExample.Presenter;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Rapid
 {
@@ -35,10 +36,17 @@ namespace Rapid
         public MainView mainView;
 
         public decimal waittime = 100; // Should probably be a const or something
-        public string IP;
+       // public string IP;
         public Controller controller = null;
 
         public bool _waiting = true; // Useful although is it used in the best way possible?
+
+        //sequence state
+        private bool sequenceRunning;
+        private int sequenceStep;
+        private List<SequenceStep> steps;
+        private CancellationTokenSource sequenceCounts;
+
         public RapidFunctions(MainView _form1)
         {
             this.mainView = _form1;
@@ -49,7 +57,7 @@ namespace Rapid
         private const string SaveBackEdge  = @"C:\Users\Public\Downloads\BackEdge.asc";
         private const string SaveLeftEdge  = @"C:\Users\Public\Downloads\LeftEdge.asc";
         private const string SaveFrontEdge = @"C:\Users\Public\Downloads\FrontEdge.asc";
-        
+
         //Updates RAPID funcCall for robot to know which routine to execute next
         private void SetFuncCall(string name) => funcCall.StringValue = $"\"{name}\"";
 
@@ -80,6 +88,21 @@ namespace Rapid
             if(!string.IsNullOrWhiteSpace(path)){
                 batch.TriggerSaveLogic(path);
             }
+        }
+
+        private bool WaitGate()
+        {
+            if (tasks == null || tasks.Length == 0) return false;
+            var pp = tasks[0].ProgramPointer;
+            if (pp == null || controllerWaiting == null) return false;
+            return pp.Routine == "ControllerWait" && (Bool)controllerWaiting.Value == true;
+        }
+        private void SafeProceed(string nextFunc)
+        {
+            if (!WaitGate())
+                return;
+            SetFuncCall(nextFunc);
+            ClearWaitAndProceed();
         }
 
 
@@ -128,7 +151,7 @@ namespace Rapid
             }
         }
 
-        public void Start(){
+        public async void Start(){
             try{
                 if (controller == null) {
                     MessageBox.Show("No controller connected.");
@@ -151,13 +174,20 @@ namespace Rapid
                 //Monitor events whenever RAPID program pointer moves (PP moves when RAPID executes new instruction or enters/exits routine)
                 tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed); // When would the PP change?
 
+                steps = BuildPhotoSequence();
+                sequenceStep = 0;
                 //Mastership to control RAPID execution
-                using (m = Mastership.Request(controller)) {
+                using (m = Mastership.Request(controller))
+                {
+                    controllerWaiting.Value = new Bool(true);
+                    funcCall.StringValue = "\"\"";
+
                     // Perform operation
                     tasks[0].ResetProgramPointer();
                     controller.Rapid.Start();
-                    funcCall.StringValue = "\"\"";
                 }
+                await System.Threading.Tasks.Task.Delay(100);
+                _ = RunSequenceLoop();
             }
             catch (System.Exception ex)
             {
@@ -171,7 +201,9 @@ namespace Rapid
         public void Stop(){
             try{
                 //no controller nothing stops
-                if (controller != null) {
+                if (controller == null) {
+                    sequenceCounts?.Cancel();
+                    sequenceRunning = false;
                     return;
                 }
                 //If robot isn't currently executing, skip stop
@@ -180,12 +212,14 @@ namespace Rapid
                 }
                 //Attempt to stop using Mastership
                 try {
-                    using (m = Mastership.Request(controller)) {
-                        //Ensures Mastership is released automatically on exit
-                        m.ReleaseOnDispose = true;
+                    using (m = Mastership.Request(controller))
+                    {
+                        controller.Rapid.Stop(StopMode.Cycle);
+                    }
 
-                        controller.Rapid.Stop(ABB.Robotics.Controllers.RapidDomain.StopMode.Immediate);
-                        tasks[0].ResetProgramPointer();
+                    if (tasks != null && tasks.Length > 0)
+                    {
+                        tasks[0].ProgramPointerChanged -= ProgramPointer_Changed;
                     }
                 }
                 catch (System.InvalidOperationException ex)
@@ -211,34 +245,144 @@ namespace Rapid
 
 
         }
-       
-        public async void PhotoSequence() {
-            /*Option if table sequence used*/
-            var steps = BuildPhotoSequence();
-            int sequenceStep = 0;
-            int numOfPhotoSteps = steps.Count;
+
+        public void Resume()
+        {
+            try
+            {
+                if (controller == null)
+                {
+                    return;
+                }
+
+                if (controller.OperatingMode != ControllerOperatingMode.Auto)
+                {
+                    MessageBox.Show("Switch controller to Auto to step.");
+                    return;
+                }
+                if (sequenceRunning)
+                {
+                    if (!WaitGate())
+                    {
+                        using (Mastership.Request(controller))
+                        {
+                            if(controller.Rapid.ExecutionStatus != ExecutionStatus.Running)
+                            {
+                                controller.Rapid.Start();
+                                mainView.LogMessage("RAPID to reach wait gate");
+                            }
+                            else
+                            {
+                                mainView.LogMessage("Already Running");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mainView.LogMessage("At gate");
+                    }
+                    return;
+                }
+                if (WaitGate())
+                {
+                    _ = RunSequenceLoop();
+                    mainView.LogMessage("Resume sequence");
+                    return;
+                }
+                // if program is stopped (not at gate), resume motion to reach the gate
+                using (Mastership.Request(controller))
+                {
+                    if (controller.Rapid.ExecutionStatus != ExecutionStatus.Running)
+                    {
+                        controller.Rapid.Start();
+                        mainView.LogMessage("Started RAPID to reach next wait gate…");
+                    }
+                    else
+                    {
+                        mainView.LogMessage("Not at wait gate yet");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error continuing: " + ex.Message);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+            }
+        }
+
+        public async System.Threading.Tasks.Task RunSequenceLoop()
+        {
+            if (steps == null || steps.Count == 0)
+            {
+                steps = BuildPhotoSequence();
+                if (sequenceStep < 0 || sequenceStep >= steps.Count) sequenceStep = 0;
+            }
+            if (sequenceRunning) return;
+
+            sequenceRunning = true;
+            sequenceCounts?.Cancel();           // kill any old token
+            sequenceCounts = new CancellationTokenSource();
 
             try
             {
-                while (sequenceStep < numOfPhotoSteps)
+                while (sequenceStep < steps.Count && !sequenceCounts.IsCancellationRequested)
                 {
-                    if (!_waiting)
+                    if (!WaitGate())
                     {
-                        await taskWaiter.WaitSeconds(25);
+                        await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
+                        continue;
+                    }
+
+                    using (Mastership.Request(controller))
+                    {
+                        var step = steps[sequenceStep];
+                        ApplyUiAction(step);
+                        SafeProceed(step.RapidFunctionName);   // sets funcCall + extern_wait := FALSE
+                    }
+
+                    sequenceStep++;
+                    await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
+                }
+            }
+            catch (OperationCanceledException) { /* expected on Stop */ }
+            finally
+            {
+                sequenceRunning = false;
+                sequenceCounts?.Dispose();
+                sequenceCounts = null;
+            }
+        }
+
+
+
+        public async void PhotoSequence() {
+            steps = BuildPhotoSequence();
+            sequenceStep = 0;
+            int numOfPhotoSteps = steps.Count;
+            if (sequenceRunning) 
+            {
+                return;
+            }
+            sequenceRunning = true;
+            sequenceCounts = new CancellationTokenSource();
+
+            try
+            {
+                while (sequenceStep < numOfPhotoSteps && !sequenceCounts.IsCancellationRequested)
+                {
+                    if (!WaitGate())
+                    {
+                        await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
                         continue;
                     }
                     using (m = Mastership.Request(controller))
                     {
                         var step = steps[sequenceStep];
                         ApplyUiAction(step);
-                        //Push next RAPID Func Call and Clear wait
-                        SetFuncCall(step.RapidFunctionName);
-                        ClearWaitAndProceed();
-
-                        //RAPID proceeds,ProgramPointerChanged will fire as it runs.
+                        SafeProceed(step.RapidFunctionName);
                     }
                     sequenceStep++;
-                    await taskWaiter.WaitSeconds(25);
+                    await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
                 }
             }
             catch (System.InvalidOperationException ex)
@@ -250,6 +394,10 @@ namespace Rapid
             {
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
                 mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+            }
+            finally
+            {
+                sequenceRunning = false;
             }
         }
         /*{
