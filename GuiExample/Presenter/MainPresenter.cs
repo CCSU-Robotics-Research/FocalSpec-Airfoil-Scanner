@@ -138,7 +138,7 @@ namespace FocalSpec.GuiExample.Presenter
                 case CameraStatusCode.CameraErrorApiAlreadyLoaded:
                 case CameraStatusCode.CameraErrorMissingLibraryFiles:
                 case CameraStatusCode.CameraErrorInvalidSoftwareVersion:
-                    MessageBox.Show($"Could not initialize camera.\n\nError code {cameraStatus}", @"Initialize sensor");
+                   MessageBox.Show($"Could not initialize camera.\n\nError code {cameraStatus}", @"Initialize sensor");
                     _cameraManager.Close();
                     return;
                 default:

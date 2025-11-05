@@ -5,19 +5,19 @@ using ABB.Robotics.Controllers.Discovery;
 using ABB.Robotics.Controllers.RapidDomain;
 using FocalSpec.GuiExample.View;
 using FocalSpec.GuiExample.Presenter;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Rapid
 {
        
-    class TaskWaiter
-    {
-
-        public async System.Threading.Tasks.Task WaitSeconds(int miliseconds)
-        {
+    class TaskWaiter{
+        public async System.Threading.Tasks.Task WaitSeconds(int miliseconds){
             await System.Threading.Tasks.Task.Delay(miliseconds);
         }
-
     }
+    
     class RapidFunctions
     {
         ABB.Robotics.Controllers.Controller objController;
@@ -28,44 +28,89 @@ namespace Rapid
         public ABB.Robotics.Controllers.RapidDomain.Task[] tasks = null;
         Mastership m;
 
-        private bool _run;
-
         public
-        RapidData data5;
-        RapidData data6;
-        RapidData data7;
-        RapidData data8;
-        RapidData controllerWaiting;
-        RapidData controllerScannerEnable;
-        RapidData funcCall;
-        RapidData axis6Allowed;
+        RapidData controllerWaiting; // Useful
+        RapidData funcCall; // Useful
 
         TaskWaiter taskWaiter = new TaskWaiter();
         public MainView mainView;
-        
-        public decimal waittime = 100;
-        string s;
-        public string IP;
+
+        public decimal waittime = 100; // Should probably be a const or something
+       // public string IP;
         public Controller controller = null;
 
-        public bool _waiting = true;
-        public bool _scannerEnable = true;
-        public bool PhotosComplete = false;
+        public bool _waiting = true; // Useful although is it used in the best way possible?
+
+        //sequence state
+        private bool sequenceRunning;
+        private int sequenceStep;
+        private List<SequenceStep> steps;
+        private CancellationTokenSource sequenceCounts;
+
         public RapidFunctions(MainView _form1)
         {
             this.mainView = _form1;
 
         }
+        /*Options for table sequence*/
+        private const string SaveRightEdge = @"C:\Users\Public\Downloads\RightEdge.asc";
+        private const string SaveBackEdge  = @"C:\Users\Public\Downloads\BackEdge.asc";
+        private const string SaveLeftEdge  = @"C:\Users\Public\Downloads\LeftEdge.asc";
+        private const string SaveFrontEdge = @"C:\Users\Public\Downloads\FrontEdge.asc";
 
-       
+        //Updates RAPID funcCall for robot to know which routine to execute next
+        private void SetFuncCall(string name) => funcCall.StringValue = $"\"{name}\"";
 
-      
+        private void ClearWaitAndProceed(){
+            //release wait condition
+            controllerWaiting.Value=new Bool(false);
+
+            //marks robot no longer waiting
+            _waiting=false;
+        }
+
+        private void StartScanUi(){
+            //Access batch controller form main view
+            var batch=mainView.getBatchMode();
+
+            //clear previously buffered data
+            batch.TriggerClearLogic();
+
+            //Begin new scan
+            batch.TriggerStartLogic();
+        }
+
+        private void StopAndSaveUi(string path){
+            var batch=mainView.getBatchMode();
+            batch.TriggerStopLogic();
+
+            //if valid file path, save scan data
+            if(!string.IsNullOrWhiteSpace(path)){
+                batch.TriggerSaveLogic(path);
+            }
+        }
+
+        private bool WaitGate()
+        {
+            if (tasks == null || tasks.Length == 0) return false;
+            var pp = tasks[0].ProgramPointer;
+            if (pp == null || controllerWaiting == null) return false;
+            return pp.Routine == "ControllerWait" && (Bool)controllerWaiting.Value == true;
+        }
+        private void SafeProceed(string nextFunc)
+        {
+            if (!WaitGate())
+                return;
+            SetFuncCall(nextFunc);
+            ClearWaitAndProceed();
+        }
+
+
+        // Network stuff should probably be it's own module? Decoupled design anyone?
         //Controller Scanner
         //Scan for and add controllers to the list
         public ControllerInfoCollection ScanControllers()
         {
-          
-
             try
             {
                 // Create A Robo Studio Controller Connector
@@ -84,62 +129,65 @@ namespace Rapid
         }
 
         //Connect to the Robo Studio Controller
-        public void ConnectController(ListViewItem CTRLSelect)
-        {
-            try
-            {
+        public void ConnectController(ListViewItem CTRLSelect){
+            try{
                 ListViewItem item = CTRLSelect;
-                if (item.Tag != null)
-                {
-                    ControllerInfo controllerInfo = (ControllerInfo)item.Tag;
-                    if (controllerInfo.Availability == Availability.Available)
-                    {
-                        this.controller = Controller.Connect(controllerInfo, ConnectionType.Standalone, false);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Selected controller not available.");
-                    }
+                //if not item or valid tag exit
+                if (item.Tag is not ControllerInfo info) {
+                    MessageBox.Show("Invalid selection.");
+                    return;
                 }
-
+                //exit if no controller availability
+                if (info.Availability != Availability.Available) {
+                    MessageBox.Show("Selected controller not available.");
+                    return;
+                }
+                //Connect to ABB controller using standalone mode (connects directly to robot without RobotStudio)
+                controller = Controller.Connect(info, ConnectionType.Standalone, false);
             }
-            catch (System.Exception ex)
-            {
+            catch (System.Exception ex){
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
                 mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
         }
 
-        public void Start()
-        {
-            try
-            {
-                if (controller.OperatingMode == ControllerOperatingMode.Auto)
-                {
-                    controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
-                    controllerWaiting.ValueChanged += new EventHandler<DataValueChangedEventArgs>(ControllerWaitCheck);
-                    controllerScannerEnable = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "scannerEnable");
-                    tasks = controller.Rapid.GetTasks();
-                    tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed);
-
-                    axis6Allowed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "axis6Allowed");
-
-                    using (m = Mastership.Request(controller))
-                    {
-                        // Perform operation
-                        tasks[0].ResetProgramPointer();
-                        controller.Rapid.Start();
-                        funcCall = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "funcCall");
-                        funcCall.StringValue = "\"\"";
-                    }
-
+        public async void Start(){
+            try{
+                if (controller == null) {
+                    MessageBox.Show("No controller connected.");
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show(
-                        "Automatic mode is required to start execution from a remote client.");
-
+                if (controller.OperatingMode != ControllerOperatingMode.Auto) {
+                    MessageBox.Show("Automatic mode required to start.");
+                    return;
                 }
+                //Get handles to variables
+                controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
+                funcCall = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "funcCall");
+
+                //Retrieve all active tasks
+                tasks = controller.Rapid.GetTasks();
+                if (tasks == null || tasks.Length == 0) {
+                    MessageBox.Show("No RAID tasks available.");
+                    return;
+                }
+                //Monitor events whenever RAPID program pointer moves (PP moves when RAPID executes new instruction or enters/exits routine)
+                tasks[0].ProgramPointerChanged += new EventHandler<ProgramPositionEventArgs>(ProgramPointer_Changed); // When would the PP change?
+
+                steps = BuildPhotoSequence();
+                sequenceStep = 0;
+                //Mastership to control RAPID execution
+                using (m = Mastership.Request(controller))
+                {
+                    controllerWaiting.Value = new Bool(true);
+                    funcCall.StringValue = "\"\"";
+
+                    // Perform operation
+                    tasks[0].ResetProgramPointer();
+                    controller.Rapid.Start();
+                }
+                await System.Threading.Tasks.Task.Delay(100);
+                _ = RunSequenceLoop();
             }
             catch (System.Exception ex)
             {
@@ -150,47 +198,40 @@ namespace Rapid
         }
 
         // Stop Everything
-        public void Stop()
-        {
-            try
-            {
-                //Stop the Send data while loop
-                _run = false;
-
-                if (controller != null)
-                {
-                    if (controller.Rapid.ExecutionStatus ==
-                           ABB.Robotics.Controllers.RapidDomain.ExecutionStatus.Running)
+        public void Stop(){
+            try{
+                //no controller nothing stops
+                if (controller == null) {
+                    sequenceCounts?.Cancel();
+                    sequenceRunning = false;
+                    return;
+                }
+                //If robot isn't currently executing, skip stop
+                if (controller.Rapid.ExecutionStatus != ExecutionStatus.Running) {
+                    return;
+                }
+                //Attempt to stop using Mastership
+                try {
+                    using (m = Mastership.Request(controller))
                     {
-
-                        try
-                        {
-                            using (m = Mastership.Request(controller))
-                            {
-                                m.ReleaseOnDispose = true;
-                                controller.Rapid.Stop(ABB.Robotics.Controllers.RapidDomain.StopMode.Immediate);
-                                tasks[0].ResetProgramPointer();
-                            }
-
-
-
-                        }
-                        catch (System.InvalidOperationException ex)
-                        {
-                            MessageBox.Show("Mastership is held by another client." + ex.Message);
-                            mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
-                        }
-                        catch (System.Exception ex)
-                        {
-                            MessageBox.Show("Unexpected error occurred: " + ex.Message);
-                            mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
-                        }
-
+                        controller.Rapid.Stop(StopMode.Cycle);
                     }
 
+                    if (tasks != null && tasks.Length > 0)
+                    {
+                        tasks[0].ProgramPointerChanged -= ProgramPointer_Changed;
+                    }
                 }
-
-
+                catch (System.InvalidOperationException ex)
+                {
+                    MessageBox.Show("Mastership is held by another client." + ex.Message);
+                    mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show("Unexpected error occurred: " + ex.Message);
+                    mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+                }
 
             }
             catch (System.Exception ex)
@@ -204,131 +245,144 @@ namespace Rapid
 
 
         }
-        public void Continue()
+
+        public void Resume()
         {
-            Bool _waiting = (Bool)controllerWaiting.Value;
-            if (_waiting == true)
+            try
             {
-                //Things to do when robot is waiting 
-                using (m = Mastership.Request(controller))
+                if (controller == null)
                 {
-                    controllerWaiting.Value = new Bool(false);
+                    return;
                 }
+
+                if (controller.OperatingMode != ControllerOperatingMode.Auto)
+                {
+                    MessageBox.Show("Switch controller to Auto to step.");
+                    return;
+                }
+                if (sequenceRunning)
+                {
+                    if (!WaitGate())
+                    {
+                        using (Mastership.Request(controller))
+                        {
+                            if(controller.Rapid.ExecutionStatus != ExecutionStatus.Running)
+                            {
+                                controller.Rapid.Start();
+                                mainView.LogMessage("RAPID to reach wait gate");
+                            }
+                            else
+                            {
+                                mainView.LogMessage("Already Running");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mainView.LogMessage("At gate");
+                    }
+                    return;
+                }
+                if (WaitGate())
+                {
+                    _ = RunSequenceLoop();
+                    mainView.LogMessage("Resume sequence");
+                    return;
+                }
+                // if program is stopped (not at gate), resume motion to reach the gate
+                using (Mastership.Request(controller))
+                {
+                    if (controller.Rapid.ExecutionStatus != ExecutionStatus.Running)
+                    {
+                        controller.Rapid.Start();
+                        mainView.LogMessage("Started RAPID to reach next wait gate…");
+                    }
+                    else
+                    {
+                        mainView.LogMessage("Not at wait gate yet");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error continuing: " + ex.Message);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+            }
+        }
+
+        public async System.Threading.Tasks.Task RunSequenceLoop()
+        {
+            if (steps == null || steps.Count == 0)
+            {
+                steps = BuildPhotoSequence();
+                if (sequenceStep < 0 || sequenceStep >= steps.Count) sequenceStep = 0;
+            }
+            if (sequenceRunning) return;
+
+            sequenceRunning = true;
+            sequenceCounts?.Cancel();           // kill any old token
+            sequenceCounts = new CancellationTokenSource();
+
+            try
+            {
+                while (sequenceStep < steps.Count && !sequenceCounts.IsCancellationRequested)
+                {
+                    if (!WaitGate())
+                    {
+                        await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
+                        continue;
+                    }
+
+                    using (Mastership.Request(controller))
+                    {
+                        var step = steps[sequenceStep];
+                        ApplyUiAction(step);
+                        SafeProceed(step.RapidFunctionName);   // sets funcCall + extern_wait := FALSE
+                    }
+
+                    sequenceStep++;
+                    await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
+                }
+            }
+            catch (OperationCanceledException) { /* expected on Stop */ }
+            finally
+            {
+                sequenceRunning = false;
+                sequenceCounts?.Dispose();
+                sequenceCounts = null;
             }
         }
 
 
-        public async void PhotoSequence()
-        {
-            int sequenceStep = 0;
-            int numOfPhotoSteps = 13;
-            string hmm = funcCall.StringValue;
-            
+
+        public async void PhotoSequence() {
+            steps = BuildPhotoSequence();
+            sequenceStep = 0;
+            int numOfPhotoSteps = steps.Count;
+            if (sequenceRunning) 
+            {
+                return;
+            }
+            sequenceRunning = true;
+            sequenceCounts = new CancellationTokenSource();
+
             try
             {
-
-
-                while (sequenceStep < numOfPhotoSteps)
+                while (sequenceStep < numOfPhotoSteps && !sequenceCounts.IsCancellationRequested)
                 {
-
-                    if (_waiting == true)
+                    if (!WaitGate())
                     {
-                        using (m = Mastership.Request(controller))
-                        {
-                            switch (sequenceStep)
-                            {
-                                case 0:
-                                    funcCall.StringValue = "\"XpertsPickUp\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 1:
-                                    funcCall.StringValue = "\"XpertsMoveFromPickUpToSensor\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 2:
-                                    funcCall.StringValue = "\"XpertsRightEdgePreScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 3:
-                                    mainView.getBatchMode().TriggerClearLogic();
-                                    mainView.getBatchMode().TriggerStartLogic();
-                                    funcCall.StringValue = "\"XpertsRightEdgeTakeScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 4:
-                                    mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\RightEdge.asc");
-                                    funcCall.StringValue = "\"XpertsBackEdgePreScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 5:
-                                    mainView.getBatchMode().TriggerClearLogic();
-                                    mainView.getBatchMode().TriggerStartLogic();
-                                    funcCall.StringValue = "\"XpertsBackEdgeTakeScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-
-                                    break;
-                                case 6:
-                                    mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\BackEdge.asc");
-                                    funcCall.StringValue = "\"XpertsLeftEdgePreScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-
-                                    break;
-                                case 7:
-                                    mainView.getBatchMode().TriggerClearLogic();
-                                    mainView.getBatchMode().TriggerStartLogic();
-                                    funcCall.StringValue = "\"XpertsLeftEdgeTakeScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 8:
-                                    mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\LeftEdge.asc");
-                                    funcCall.StringValue = "\"XpertsFrontEdgePreScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 9:
-                                    mainView.getBatchMode().TriggerClearLogic();
-                                    mainView.getBatchMode().TriggerStartLogic();
-                                    funcCall.StringValue = "\"XpertsFrontEdgeTakeScan\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 10:
-                                    mainView.getBatchMode().TriggerStopLogic();
-                                    mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\FrontEdge.asc");
-                                    funcCall.StringValue = "\"ScanToStand\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 11:
-                                    funcCall.StringValue = "\"DropItem\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 12:
-                                    funcCall.StringValue = "\"GoToInitialState\"";
-                                    controllerWaiting.Value = new Bool(false);
-                                    _waiting = false;
-                                    break;
-                                case 99:
-                                    break;
-                                default:
-                                    return;
-                            }
-                        }
-                        sequenceStep++;
+                        await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
+                        continue;
                     }
-                    await taskWaiter.WaitSeconds(25);
+                    using (m = Mastership.Request(controller))
+                    {
+                        var step = steps[sequenceStep];
+                        ApplyUiAction(step);
+                        SafeProceed(step.RapidFunctionName);
+                    }
+                    sequenceStep++;
+                    await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
                 }
             }
             catch (System.InvalidOperationException ex)
@@ -341,7 +395,179 @@ namespace Rapid
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
                 mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
+            finally
+            {
+                sequenceRunning = false;
+            }
         }
+        /*{
+            int sequenceStep = 0;
+            int numOfPhotoSteps = 13;
+
+            try{
+                while (sequenceStep < numOfPhotoSteps)
+                {
+                    //skip loop until RAPID signals it's waiting for next command
+                    if (!_waiting)
+                    {
+                        await taskWaiter.WaitSeconds(25);
+                        continue;
+                    }
+                    using (m = Mastership.Request(controller))
+                    {
+                        switch (sequenceStep)
+                        {
+                            case 0:
+                                funcCall.StringValue = "\"XpertsPickUp\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 1:
+                                funcCall.StringValue = "\"XpertsMoveFromPickUpToSensor\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 2:
+                                funcCall.StringValue = "\"XpertsRightEdgePreScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 3:
+                                mainView.getBatchMode().TriggerClearLogic();
+                                mainView.getBatchMode().TriggerStartLogic();
+                                funcCall.StringValue = "\"XpertsRightEdgeTakeScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 4:
+                                mainView.getBatchMode().TriggerStopLogic();
+                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\RightEdge.asc");
+                                funcCall.StringValue = "\"XpertsBackEdgePreScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 5:
+                                mainView.getBatchMode().TriggerClearLogic();
+                                mainView.getBatchMode().TriggerStartLogic();
+                                funcCall.StringValue = "\"XpertsBackEdgeTakeScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+
+                                break;
+                            case 6:
+                                mainView.getBatchMode().TriggerStopLogic();
+                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\BackEdge.asc");
+                                funcCall.StringValue = "\"XpertsLeftEdgePreScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+
+                                break;
+                            case 7:
+                                mainView.getBatchMode().TriggerClearLogic();
+                                mainView.getBatchMode().TriggerStartLogic();
+                                funcCall.StringValue = "\"XpertsLeftEdgeTakeScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 8:
+                                mainView.getBatchMode().TriggerStopLogic();
+                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\LeftEdge.asc");
+                                funcCall.StringValue = "\"XpertsFrontEdgePreScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 9:
+                                mainView.getBatchMode().TriggerClearLogic();
+                                mainView.getBatchMode().TriggerStartLogic();
+                                funcCall.StringValue = "\"XpertsFrontEdgeTakeScan\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 10:
+                                mainView.getBatchMode().TriggerStopLogic();
+                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\FrontEdge.asc");
+                                funcCall.StringValue = "\"ScanToStand\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 11:
+                                funcCall.StringValue = "\"DropItem\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 12:
+                                funcCall.StringValue = "\"GoToInitialState\"";
+                                controllerWaiting.Value = new Bool(false);
+                                _waiting = false;
+                                break;
+                            case 99:
+                                break;
+                            default:
+                                return;
+                        }
+                    }
+                    sequenceStep++;
+                    await taskWaiter.WaitSeconds(25);
+                }
+                
+            }
+            catch (System.InvalidOperationException ex)
+            {
+                MessageBox.Show("Mastership is held by another client." + ex.Message);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Unexpected error occurred: " + ex.Message);
+                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
+            }
+        }*/
+        /*Option to use table sequence instead of switch*/
+        private enum UiAction { None, StartScan, StopAndSave }
+        private sealed class SequenceStep
+        {
+            public string RapidFunctionName { get; init; }
+            public UiAction Action { get; init; } = UiAction.None;
+            public string SavePath { get; init; }
+            public override string ToString() => RapidFunctionName;
+        }
+        private List<SequenceStep> BuildPhotoSequence() => new(){
+            new() {RapidFunctionName="XpertsPickUp"},
+            new() {RapidFunctionName="XpertsMoveFromPickUpToSensor"},
+            new() {RapidFunctionName="XpertsRightEdgePreScan"},
+
+            new() {RapidFunctionName="XpertsRightEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsBackEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveRightEdge},
+
+            new() {RapidFunctionName="XpertsBackEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsLeftEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveBackEdge},
+
+            new() {RapidFunctionName="XpertsLeftEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="XpertsFrontEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveLeftEdge},
+
+            new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
+            new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge},
+
+            new() {RapidFunctionName="DropItem"},
+            new() {RapidFunctionName="GoToInitialState"}
+        };
+
+        private void ApplyUiAction(SequenceStep step)
+        {
+            switch (step.Action)
+            {
+                case UiAction.StartScan:
+                    StartScanUi();
+                    break;
+                case UiAction.StopAndSave:
+                    StopAndSaveUi(step.SavePath);
+                    break;
+                case UiAction.None:
+                default:
+                    break;
+            }
+        }
+
 
         // Event Handlers
         private void ProgramPointer_Changed(object sender, ProgramPositionEventArgs e)
@@ -353,16 +579,6 @@ namespace Rapid
             {
                 mainView.LogMessage("Waiting");
             }
-        }
-
-        private void ControllerWaitCheck(object sender, DataValueChangedEventArgs e)
-        {
-            _waiting = (Bool)controllerWaiting.Value;
-            if (_waiting == true)
-            {
-                
-            }
-
         }
     }
 }
