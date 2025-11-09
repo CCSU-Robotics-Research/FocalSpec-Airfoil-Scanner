@@ -136,6 +136,8 @@ namespace FocalSpec.GuiExample.View
 
             TextBoxBatchLength.Text = _newBatchConfiguration.BatchLength.ToString(CultureInfo.InvariantCulture);
 
+            selection.SelectedIndex = 1;
+
             switch (selection.SelectedIndex)
             {
                 case 0:
@@ -177,7 +179,7 @@ namespace FocalSpec.GuiExample.View
                     _newBatchConfiguration.TriggerMode = TriggerMode.Internal;
 
                     TextBoxLineSpeed.Enabled = true;
-                    TextBoxLineSpeed.Text = _newBatchConfiguration.LineSpeed.ToString(CultureInfo.InvariantCulture);
+                    TextBoxLineSpeed.Text = "1.2";
 
                     TextBoxTriggerFreq.Enabled = true;
                     TextBoxTriggerFreq.Text = _newBatchConfiguration.TriggerFrequency.ToString(CultureInfo.InvariantCulture);
