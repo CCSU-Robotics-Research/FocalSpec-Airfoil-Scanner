@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelDataVisualizers = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelCharts = new System.Windows.Forms.TableLayoutPanel();
@@ -142,23 +142,23 @@
             // 
             // _profileChart
             // 
-            chartArea3.AxisX.Title = "X [mm]";
-            chartArea3.AxisY.Title = "Z [mm]";
-            chartArea3.Name = "ChartArea1";
-            this._profileChart.ChartAreas.Add(chartArea3);
+            chartArea1.AxisX.Title = "X [mm]";
+            chartArea1.AxisY.Title = "Z [mm]";
+            chartArea1.Name = "ChartArea1";
+            this._profileChart.ChartAreas.Add(chartArea1);
             this._profileChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._profileChart.Location = new System.Drawing.Point(3, 3);
             this._profileChart.Name = "_profileChart";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series4.MarkerSize = 2;
-            series4.Name = "profile0";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series5.MarkerSize = 2;
-            series5.Name = "intensity0";
-            this._profileChart.Series.Add(series4);
-            this._profileChart.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series1.MarkerSize = 2;
+            series1.Name = "profile0";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series2.MarkerSize = 2;
+            series2.Name = "intensity0";
+            this._profileChart.Series.Add(series1);
+            this._profileChart.Series.Add(series2);
             this._profileChart.Size = new System.Drawing.Size(527, 677);
             this._profileChart.TabIndex = 5;
             this._profileChart.Text = "_profileChart";
@@ -167,18 +167,18 @@
             // 
             // _thicknessChart
             // 
-            chartArea4.AxisX.Title = "X [mm]";
-            chartArea4.AxisY.Title = "Z [mm]";
-            chartArea4.Name = "ChartArea2";
-            this._thicknessChart.ChartAreas.Add(chartArea4);
+            chartArea2.AxisX.Title = "X [mm]";
+            chartArea2.AxisY.Title = "Z [mm]";
+            chartArea2.Name = "ChartArea2";
+            this._thicknessChart.ChartAreas.Add(chartArea2);
             this._thicknessChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._thicknessChart.Location = new System.Drawing.Point(3, 686);
             this._thicknessChart.Name = "_thicknessChart";
-            series6.ChartArea = "ChartArea2";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series6.MarkerSize = 2;
-            series6.Name = "Layer 1";
-            this._thicknessChart.Series.Add(series6);
+            series3.ChartArea = "ChartArea2";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series3.MarkerSize = 2;
+            series3.Name = "Layer 1";
+            this._thicknessChart.Series.Add(series3);
             this._thicknessChart.Size = new System.Drawing.Size(527, 1);
             this._thicknessChart.TabIndex = 5;
             this._thicknessChart.Text = "_thicknessChart";
@@ -387,9 +387,9 @@
             // 
             this.terminalsettingsGroup.Controls.Add(this.showHideTerminal);
             this.terminalsettingsGroup.Controls.Add(this.btn_SaveLog);
-            this.terminalsettingsGroup.Location = new System.Drawing.Point(855, 3);
+            this.terminalsettingsGroup.Location = new System.Drawing.Point(10, 22);
             this.terminalsettingsGroup.Name = "terminalsettingsGroup";
-            this.terminalsettingsGroup.Size = new System.Drawing.Size(135, 117);
+            this.terminalsettingsGroup.Size = new System.Drawing.Size(135, 77);
             this.terminalsettingsGroup.TabIndex = 2;
             this.terminalsettingsGroup.TabStop = false;
             this.terminalsettingsGroup.Text = "Terminal Settings";
@@ -419,7 +419,7 @@
             // terminaloutputGroup
             // 
             this.terminaloutputGroup.Controls.Add(this.richTextBox1);
-            this.terminaloutputGroup.Location = new System.Drawing.Point(10, 3);
+            this.terminaloutputGroup.Location = new System.Drawing.Point(151, 3);
             this.terminaloutputGroup.Name = "terminaloutputGroup";
             this.terminaloutputGroup.Size = new System.Drawing.Size(839, 117);
             this.terminaloutputGroup.TabIndex = 59;
@@ -456,48 +456,48 @@
             this.saveRecipeToolStripMenuItem,
             this.saveRecipeAsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 18);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 19);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.openToolStripMenuItem.Text = "Calibration Setup";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // loadRecipeToolStripMenuItem
             // 
             this.loadRecipeToolStripMenuItem.Name = "loadRecipeToolStripMenuItem";
-            this.loadRecipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadRecipeToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.loadRecipeToolStripMenuItem.Text = "Load Recipe";
             this.loadRecipeToolStripMenuItem.Click += new System.EventHandler(this.loadRecipeToolStripMenuItem_Click);
             // 
             // saveRecipeToolStripMenuItem
             // 
             this.saveRecipeToolStripMenuItem.Name = "saveRecipeToolStripMenuItem";
-            this.saveRecipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveRecipeToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.saveRecipeToolStripMenuItem.Text = "Save Recipe";
             this.saveRecipeToolStripMenuItem.Click += new System.EventHandler(this.saveRecipeToolStripMenuItem_Click);
             // 
             // saveRecipeAsToolStripMenuItem
             // 
             this.saveRecipeAsToolStripMenuItem.Name = "saveRecipeAsToolStripMenuItem";
-            this.saveRecipeAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveRecipeAsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.saveRecipeAsToolStripMenuItem.Text = "Save Recipe As";
             this.saveRecipeAsToolStripMenuItem.Click += new System.EventHandler(this.saveRecipeAsToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 18);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 19);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(52, 18);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(52, 19);
             this.helpToolStripMenuItem.Text = "About";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
