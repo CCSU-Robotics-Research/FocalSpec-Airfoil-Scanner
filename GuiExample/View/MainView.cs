@@ -2127,14 +2127,32 @@ namespace FocalSpec.GuiExample.View
             return minThickness;
         }
 
-        // Log a string to the Log Buffer
-        public void LogMessage(string MSG)
+        private void btn_HideTerminal_Click(object sender, EventArgs e)
         {
-            Control.CheckForIllegalCrossThreadCalls = false;
-            this.richTextBox1.AppendText(DateTime.Now.ToString() + ":   ");
-            this.richTextBox1.AppendText(MSG);
-            this.richTextBox1.AppendText("\n\r");
-            this.richTextBox1.ScrollToCaret();
+            if (showHideTerminal.Text == "Hide Terminal")
+            {
+                terminaloutputGroup.Visible = false;
+                btn_SaveLog.Visible = false;
+
+                showHideTerminal.Text = "Show Terminal";
+            }
+            else
+            {
+                terminaloutputGroup.Visible = true;
+                btn_SaveLog.Visible = true;
+
+                showHideTerminal.Text = "Hide Terminal";
+            }
         }
+
+                // Log a string to the Log Buffer
+                public void LogMessage(string MSG)
+                {
+                    Control.CheckForIllegalCrossThreadCalls = false;
+                    this.richTextBox1.AppendText(DateTime.Now.ToString() + ":   ");
+                    this.richTextBox1.AppendText(MSG);
+                    this.richTextBox1.AppendText("\n\r");
+                    this.richTextBox1.ScrollToCaret();
+                }
     }
 }
