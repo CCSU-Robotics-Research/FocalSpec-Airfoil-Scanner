@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelDataVisualizers = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelCharts = new System.Windows.Forms.TableLayoutPanel();
@@ -56,6 +55,7 @@
             this.btn_ScanCTRLS = new System.Windows.Forms.Button();
             this.btn_ConnectCTRL = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.terminalsettingsGroup = new System.Windows.Forms.GroupBox();
             this.showHideTerminal = new System.Windows.Forms.Button();
@@ -70,7 +70,6 @@
             this.saveRecipeAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelDataVisualizers.SuspendLayout();
             this.tableLayoutPanelCharts.SuspendLayout();
@@ -81,11 +80,11 @@
             this.rapidControlsGroup.SuspendLayout();
             this.controllerSettingsGroup.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel5.SuspendLayout();
             this.terminalsettingsGroup.SuspendLayout();
             this.terminaloutputGroup.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanelMain
@@ -102,8 +101,8 @@
             this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanelMain.Name = "tableLayoutPanelMain";
             this.tableLayoutPanelMain.RowCount = 3;
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 123F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 122F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelMain.Size = new System.Drawing.Size(1354, 860);
             this.tableLayoutPanelMain.TabIndex = 0;
@@ -143,23 +142,23 @@
             // 
             // _profileChart
             // 
-            chartArea1.AxisX.Title = "X [mm]";
-            chartArea1.AxisY.Title = "Z [mm]";
-            chartArea1.Name = "ChartArea1";
-            this._profileChart.ChartAreas.Add(chartArea1);
+            chartArea3.AxisX.Title = "X [mm]";
+            chartArea3.AxisY.Title = "Z [mm]";
+            chartArea3.Name = "ChartArea1";
+            this._profileChart.ChartAreas.Add(chartArea3);
             this._profileChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._profileChart.Location = new System.Drawing.Point(3, 3);
             this._profileChart.Name = "_profileChart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series1.MarkerSize = 2;
-            series1.Name = "profile0";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series2.MarkerSize = 2;
-            series2.Name = "intensity0";
-            this._profileChart.Series.Add(series1);
-            this._profileChart.Series.Add(series2);
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series4.MarkerSize = 2;
+            series4.Name = "profile0";
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series5.MarkerSize = 2;
+            series5.Name = "intensity0";
+            this._profileChart.Series.Add(series4);
+            this._profileChart.Series.Add(series5);
             this._profileChart.Size = new System.Drawing.Size(527, 677);
             this._profileChart.TabIndex = 5;
             this._profileChart.Text = "_profileChart";
@@ -168,18 +167,18 @@
             // 
             // _thicknessChart
             // 
-            chartArea2.AxisX.Title = "X [mm]";
-            chartArea2.AxisY.Title = "Z [mm]";
-            chartArea2.Name = "ChartArea2";
-            this._thicknessChart.ChartAreas.Add(chartArea2);
+            chartArea4.AxisX.Title = "X [mm]";
+            chartArea4.AxisY.Title = "Z [mm]";
+            chartArea4.Name = "ChartArea2";
+            this._thicknessChart.ChartAreas.Add(chartArea4);
             this._thicknessChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._thicknessChart.Location = new System.Drawing.Point(3, 686);
             this._thicknessChart.Name = "_thicknessChart";
-            series3.ChartArea = "ChartArea2";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
-            series3.MarkerSize = 2;
-            series3.Name = "Layer 1";
-            this._thicknessChart.Series.Add(series3);
+            series6.ChartArea = "ChartArea2";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
+            series6.MarkerSize = 2;
+            series6.Name = "Layer 1";
+            this._thicknessChart.Series.Add(series6);
             this._thicknessChart.Size = new System.Drawing.Size(527, 1);
             this._thicknessChart.TabIndex = 5;
             this._thicknessChart.Text = "_thicknessChart";
@@ -251,7 +250,7 @@
             this.rapidControlsGroup.Controls.Add(this.btn_StartRAP);
             this.rapidControlsGroup.Controls.Add(this.btn_StopRap);
             this.rapidControlsGroup.Controls.Add(this.btn_RapContinue);
-            this.rapidControlsGroup.Location = new System.Drawing.Point(9, 365);
+            this.rapidControlsGroup.Location = new System.Drawing.Point(14, 183);
             this.rapidControlsGroup.Name = "rapidControlsGroup";
             this.rapidControlsGroup.Size = new System.Drawing.Size(236, 100);
             this.rapidControlsGroup.TabIndex = 1;
@@ -296,9 +295,9 @@
             this.controllerSettingsGroup.Controls.Add(this.listView_Controllers);
             this.controllerSettingsGroup.Controls.Add(this.btn_ScanCTRLS);
             this.controllerSettingsGroup.Controls.Add(this.btn_ConnectCTRL);
-            this.controllerSettingsGroup.Location = new System.Drawing.Point(9, 20);
+            this.controllerSettingsGroup.Location = new System.Drawing.Point(14, 20);
             this.controllerSettingsGroup.Name = "controllerSettingsGroup";
-            this.controllerSettingsGroup.Size = new System.Drawing.Size(236, 339);
+            this.controllerSettingsGroup.Size = new System.Drawing.Size(236, 157);
             this.controllerSettingsGroup.TabIndex = 0;
             this.controllerSettingsGroup.TabStop = false;
             this.controllerSettingsGroup.Text = "Controller Settings";
@@ -312,7 +311,7 @@
             this.listView_Controllers.Location = new System.Drawing.Point(5, 18);
             this.listView_Controllers.Margin = new System.Windows.Forms.Padding(2);
             this.listView_Controllers.Name = "listView_Controllers";
-            this.listView_Controllers.Size = new System.Drawing.Size(226, 287);
+            this.listView_Controllers.Size = new System.Drawing.Size(226, 108);
             this.listView_Controllers.TabIndex = 50;
             this.listView_Controllers.UseCompatibleStateImageBehavior = false;
             this.listView_Controllers.View = System.Windows.Forms.View.Details;
@@ -329,7 +328,7 @@
             // 
             // btn_ScanCTRLS
             // 
-            this.btn_ScanCTRLS.Location = new System.Drawing.Point(5, 309);
+            this.btn_ScanCTRLS.Location = new System.Drawing.Point(5, 130);
             this.btn_ScanCTRLS.Margin = new System.Windows.Forms.Padding(2);
             this.btn_ScanCTRLS.Name = "btn_ScanCTRLS";
             this.btn_ScanCTRLS.Size = new System.Drawing.Size(104, 19);
@@ -340,7 +339,7 @@
             // 
             // btn_ConnectCTRL
             // 
-            this.btn_ConnectCTRL.Location = new System.Drawing.Point(127, 309);
+            this.btn_ConnectCTRL.Location = new System.Drawing.Point(127, 130);
             this.btn_ConnectCTRL.Margin = new System.Windows.Forms.Padding(2);
             this.btn_ConnectCTRL.Name = "btn_ConnectCTRL";
             this.btn_ConnectCTRL.Size = new System.Drawing.Size(104, 19);
@@ -354,11 +353,23 @@
             this.panel4.BackColor = System.Drawing.Color.White;
             this.panel4.Controls.Add(this.pictureBox1);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 22);
+            this.panel4.Location = new System.Drawing.Point(0, 23);
             this.panel4.Margin = new System.Windows.Forms.Padding(0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(265, 123);
+            this.panel4.Size = new System.Drawing.Size(265, 122);
             this.panel4.TabIndex = 2;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = global::FocalSpec.GuiExample.Properties.Resources.logo;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(20);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(265, 122);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
             // 
             // panel5
             // 
@@ -366,19 +377,19 @@
             this.panel5.Controls.Add(this.terminalsettingsGroup);
             this.panel5.Controls.Add(this.terminaloutputGroup);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(265, 22);
+            this.panel5.Location = new System.Drawing.Point(265, 23);
             this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1089, 123);
+            this.panel5.Size = new System.Drawing.Size(1089, 122);
             this.panel5.TabIndex = 3;
             // 
             // terminalsettingsGroup
             // 
             this.terminalsettingsGroup.Controls.Add(this.showHideTerminal);
             this.terminalsettingsGroup.Controls.Add(this.btn_SaveLog);
-            this.terminalsettingsGroup.Location = new System.Drawing.Point(855, 35);
+            this.terminalsettingsGroup.Location = new System.Drawing.Point(855, 3);
             this.terminalsettingsGroup.Name = "terminalsettingsGroup";
-            this.terminalsettingsGroup.Size = new System.Drawing.Size(222, 54);
+            this.terminalsettingsGroup.Size = new System.Drawing.Size(135, 117);
             this.terminalsettingsGroup.TabIndex = 2;
             this.terminalsettingsGroup.TabStop = false;
             this.terminalsettingsGroup.Text = "Terminal Settings";
@@ -396,10 +407,10 @@
             // 
             // btn_SaveLog
             // 
-            this.btn_SaveLog.Location = new System.Drawing.Point(140, 18);
+            this.btn_SaveLog.Location = new System.Drawing.Point(5, 46);
             this.btn_SaveLog.Margin = new System.Windows.Forms.Padding(2);
             this.btn_SaveLog.Name = "btn_SaveLog";
-            this.btn_SaveLog.Size = new System.Drawing.Size(79, 24);
+            this.btn_SaveLog.Size = new System.Drawing.Size(123, 24);
             this.btn_SaveLog.TabIndex = 59;
             this.btn_SaveLog.Text = "Save Log";
             this.btn_SaveLog.UseVisualStyleBackColor = true;
@@ -433,7 +444,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(265, 22);
+            this.menuStrip1.Size = new System.Drawing.Size(265, 23);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -451,28 +462,28 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Calibration Setup";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // loadRecipeToolStripMenuItem
             // 
             this.loadRecipeToolStripMenuItem.Name = "loadRecipeToolStripMenuItem";
-            this.loadRecipeToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.loadRecipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadRecipeToolStripMenuItem.Text = "Load Recipe";
             this.loadRecipeToolStripMenuItem.Click += new System.EventHandler(this.loadRecipeToolStripMenuItem_Click);
             // 
             // saveRecipeToolStripMenuItem
             // 
             this.saveRecipeToolStripMenuItem.Name = "saveRecipeToolStripMenuItem";
-            this.saveRecipeToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.saveRecipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveRecipeToolStripMenuItem.Text = "Save Recipe";
             this.saveRecipeToolStripMenuItem.Click += new System.EventHandler(this.saveRecipeToolStripMenuItem_Click);
             // 
             // saveRecipeAsToolStripMenuItem
             // 
             this.saveRecipeAsToolStripMenuItem.Name = "saveRecipeAsToolStripMenuItem";
-            this.saveRecipeAsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.saveRecipeAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveRecipeAsToolStripMenuItem.Text = "Save Recipe As";
             this.saveRecipeAsToolStripMenuItem.Click += new System.EventHandler(this.saveRecipeAsToolStripMenuItem_Click);
             // 
@@ -489,18 +500,6 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(52, 18);
             this.helpToolStripMenuItem.Text = "About";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(20);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(265, 123);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
             // 
             // MainView
             // 
@@ -527,12 +526,12 @@
             this.rapidControlsGroup.ResumeLayout(false);
             this.controllerSettingsGroup.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel5.ResumeLayout(false);
             this.terminalsettingsGroup.ResumeLayout(false);
             this.terminaloutputGroup.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

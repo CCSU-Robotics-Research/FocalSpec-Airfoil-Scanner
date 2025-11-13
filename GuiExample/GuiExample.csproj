@@ -307,6 +307,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="Resources\logo1.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\RawImageViewer.xaml">
