@@ -31,6 +31,8 @@ namespace Rapid
         public
         RapidData controllerWaiting; // Useful
         RapidData funcCall; // Useful
+        RapidData travelSpeed;
+        RapidData scanSpeed;
 
         TaskWaiter taskWaiter = new TaskWaiter();
         public MainView mainView;
@@ -149,6 +151,17 @@ namespace Rapid
                 MessageBox.Show("Unexpected error occurred: " + ex.Message);
                 mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
             }
+        }
+
+        public void SetTravelSpeed(int speed)
+        {
+            // Shouldn't be possible because of the input limitations, but just in case
+            if (speed < 0 || speed > 200) {
+                return;
+            }
+
+            travelSpeed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "travel_speed");
+
         }
 
         public async void Start(){
