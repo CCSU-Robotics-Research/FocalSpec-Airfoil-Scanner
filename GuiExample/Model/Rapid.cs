@@ -156,11 +156,21 @@ namespace Rapid
         public void SetTravelSpeed(int speed)
         {
             // Shouldn't be possible because of the input limitations, but just in case
-            if (speed < 0 || speed > 200) {
+            if (speed < 0 || speed > 250) {
                 return;
             }
 
-            travelSpeed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "travel_speed");
+            travelSpeed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "travelSpeed");
+            RapidDataType rdt = controller.Rapid.GetRapidDataType("T_ROB1", "TRob1Main", "travelSpeed");
+            UserDefined speedData = new UserDefined(rdt);
+            speedData = (UserDefined) travelSpeed.Value;
+            speedData.FillFromString2("[" + speed + ",500,5000,1000]");
+            using (m = Mastership.Request(controller))
+            {
+                travelSpeed.Value = speedData;
+            }
+                
+            Console.WriteLine(speedData);
 
         }
 
