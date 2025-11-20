@@ -183,8 +183,6 @@ namespace Rapid
             {
                 scanSpeed.Value = speedData;
             }
-
-            Console.WriteLine(scanSpeed.Value);
         }
 
         public async void Start(){
