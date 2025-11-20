@@ -177,12 +177,14 @@ namespace Rapid
             scanSpeed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "scanSpeed");
             RapidDataType rdt = controller.Rapid.GetRapidDataType("T_ROB1", "TRob1Main", "scanSpeed");
             UserDefined speedData = new UserDefined(rdt);
-            speedData = (UserDefined)travelSpeed.Value;
+            speedData = (UserDefined) scanSpeed.Value;
             speedData.FillFromString2("[" + speed + ",500,5000,1000]");
             using (m = Mastership.Request(controller))
             {
                 scanSpeed.Value = speedData;
             }
+
+            Console.WriteLine(scanSpeed.Value);
         }
 
         public async void Start(){
