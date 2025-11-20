@@ -11,13 +11,7 @@ using System.Threading;
 
 namespace Rapid
 {
-       
-    class TaskWaiter{
-        public async System.Threading.Tasks.Task WaitSeconds(int miliseconds){
-            await System.Threading.Tasks.Task.Delay(miliseconds);
-        }
-    }
-    
+
     class RapidFunctions
     {
         ABB.Robotics.Controllers.Controller objController;
@@ -29,19 +23,17 @@ namespace Rapid
         Mastership m;
 
         public
-        RapidData controllerWaiting; // Useful
-        RapidData funcCall; // Useful
+        RapidData controllerWaiting; 
+        RapidData funcCall; 
         RapidData travelSpeed;
         RapidData scanSpeed;
 
-        TaskWaiter taskWaiter = new TaskWaiter();
         public MainView mainView;
 
-        public decimal waittime = 100; // Should probably be a const or something
-       // public string IP;
+        // public string IP;
         public Controller controller = null;
 
-        public bool _waiting = true; // Useful although is it used in the best way possible?
+        public bool _waiting = true;
 
         //sequence state
         private bool sequenceRunning;
@@ -155,23 +147,24 @@ namespace Rapid
 
         public void SetTravelSpeed(int speed)
         {
+            // TODO: Investigate why speed isn't always set before running
             // Shouldn't be possible because of the input limitations, but just in case
             if (speed < 0 || speed > 250) {
                 return;
             }
 
+            // Accessing rapid data types requires this dance
             travelSpeed = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "travelSpeed");
             RapidDataType rdt = controller.Rapid.GetRapidDataType("T_ROB1", "TRob1Main", "travelSpeed");
             UserDefined speedData = new UserDefined(rdt);
             speedData = (UserDefined) travelSpeed.Value;
+            // Ok so, first of all if you try to use FillFromString it says it's obsolete
+            // And then it tells you to use FillFromString2, 2!!!!, they literally just made a new version lmfao
             speedData.FillFromString2("[" + speed + ",500,5000,1000]");
             using (m = Mastership.Request(controller))
             {
                 travelSpeed.Value = speedData;
             }
-                
-            Console.WriteLine(speedData);
-
         }
 
         public async void Start(){
@@ -221,7 +214,7 @@ namespace Rapid
         }
 
         // Stop Everything
-        public void Stop(){
+        public void Stop(bool immediate = false) {
             try{
                 //no controller nothing stops
                 if (controller == null) {
@@ -237,7 +230,13 @@ namespace Rapid
                 try {
                     using (m = Mastership.Request(controller))
                     {
-                        controller.Rapid.Stop(StopMode.Cycle);
+                        if (immediate)
+                        {
+                            controller.Rapid.Stop(StopMode.Immediate);
+                        } else
+                        {
+                            controller.Rapid.Stop(StopMode.Cycle);
+                        }
                     }
 
                     if (tasks != null && tasks.Length > 0)
@@ -423,129 +422,7 @@ namespace Rapid
                 sequenceRunning = false;
             }
         }
-        /*{
-            int sequenceStep = 0;
-            int numOfPhotoSteps = 13;
-
-            try{
-                while (sequenceStep < numOfPhotoSteps)
-                {
-                    //skip loop until RAPID signals it's waiting for next command
-                    if (!_waiting)
-                    {
-                        await taskWaiter.WaitSeconds(25);
-                        continue;
-                    }
-                    using (m = Mastership.Request(controller))
-                    {
-                        switch (sequenceStep)
-                        {
-                            case 0:
-                                funcCall.StringValue = "\"XpertsPickUp\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 1:
-                                funcCall.StringValue = "\"XpertsMoveFromPickUpToSensor\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 2:
-                                funcCall.StringValue = "\"XpertsRightEdgePreScan\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 3:
-                                mainView.getBatchMode().TriggerClearLogic();
-                                mainView.getBatchMode().TriggerStartLogic();
-                                funcCall.StringValue = "\"XpertsRightEdgeTakeScan\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 4:
-                                mainView.getBatchMode().TriggerStopLogic();
-                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\RightEdge.asc");
-                                funcCall.StringValue = "\"XpertsBackEdgePreScan\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 5:
-                                mainView.getBatchMode().TriggerClearLogic();
-                                mainView.getBatchMode().TriggerStartLogic();
-                                funcCall.StringValue = "\"XpertsBackEdgeTakeScan\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-
-                                break;
-                            case 6:
-                                mainView.getBatchMode().TriggerStopLogic();
-                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\BackEdge.asc");
-                                funcCall.StringValue = "\"XpertsLeftEdgePreScan\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-
-                                break;
-                            case 7:
-                                mainView.getBatchMode().TriggerClearLogic();
-                                mainView.getBatchMode().TriggerStartLogic();
-                                funcCall.StringValue = "\"XpertsLeftEdgeTakeScan\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 8:
-                                mainView.getBatchMode().TriggerStopLogic();
-                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\LeftEdge.asc");
-                                funcCall.StringValue = "\"XpertsFrontEdgePreScan\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 9:
-                                mainView.getBatchMode().TriggerClearLogic();
-                                mainView.getBatchMode().TriggerStartLogic();
-                                funcCall.StringValue = "\"XpertsFrontEdgeTakeScan\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 10:
-                                mainView.getBatchMode().TriggerStopLogic();
-                                mainView.getBatchMode().TriggerSaveLogic("C:\\Users\\Public\\Downloads\\FrontEdge.asc");
-                                funcCall.StringValue = "\"ScanToStand\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 11:
-                                funcCall.StringValue = "\"DropItem\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 12:
-                                funcCall.StringValue = "\"GoToInitialState\"";
-                                controllerWaiting.Value = new Bool(false);
-                                _waiting = false;
-                                break;
-                            case 99:
-                                break;
-                            default:
-                                return;
-                        }
-                    }
-                    sequenceStep++;
-                    await taskWaiter.WaitSeconds(25);
-                }
-                
-            }
-            catch (System.InvalidOperationException ex)
-            {
-                MessageBox.Show("Mastership is held by another client." + ex.Message);
-                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("Unexpected error occurred: " + ex.Message);
-                mainView.LogMessage(ex.Message + ex.Source + ex.StackTrace);
-            }
-        }*/
-        /*Option to use table sequence instead of switch*/
+        
         private enum UiAction { None, StartScan, StopAndSave }
         private sealed class SequenceStep
         {

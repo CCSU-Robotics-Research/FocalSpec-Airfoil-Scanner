@@ -2059,6 +2059,16 @@ namespace FocalSpec.GuiExample.View
             rapidFunctions.SetTravelSpeed((int) travelSpeedUpDown.Value);
         }
 
+        private void estop_button_Click(object sender, EventArgs e)
+        {
+            rapidFunctions.Stop(true);
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+           _sensorSettingsView._batchMode.UpdateInternalTriggeringFreq(numericUpDown1.Value);
+        }
+
         private void UpdateGraphScales()
         {
             if (_sensorSettingsView.radioButtonGraphUnitMm.Checked)
