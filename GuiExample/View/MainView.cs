@@ -263,7 +263,7 @@ namespace FocalSpec.GuiExample.View
             _layerSelectionTimer.Elapsed += OnLayerSelection;
         }
 
-        private void OnLoad(object sender, EventArgs eventArgs)
+        private void OnLoad(object sender, EventArgs e)
         {
             _formLoaded = true;
 
@@ -334,6 +334,8 @@ namespace FocalSpec.GuiExample.View
         public event LoadRecipeHandler OnLoadRecipe;
 
         public event SaveRecipeHandler OnSaveRecipe;
+
+        public event Action<double> OnBatchLineSpeedChanged;
 
         public void SelectRecipe(string lastRecipe = null)
         {
@@ -1990,6 +1992,7 @@ namespace FocalSpec.GuiExample.View
                 rapidFunctions.controller.Logon(UserInfo.DefaultUser);
                 if (rapidFunctions.controller.Connected == true)
                 {
+                    enableRapidSettings();
                     btn_ConnectCTRL.Text = "Disconnect";
                     if (rapidFunctions.controller.OperatingMode == ControllerOperatingMode.Auto)
                     {
@@ -2004,6 +2007,16 @@ namespace FocalSpec.GuiExample.View
             }
             else
                 btn_ConnectCTRL.Text = "Connect";
+        }
+
+        private void enableRapidSettings()
+        {
+            btn_StartRAP.Enabled = true;
+            btn_StopRap.Enabled = true;
+            btn_RapContinue.Enabled = true;
+            travelSpeedUpDown.Enabled = true;
+            scanSpeedUpDown.Enabled = true;
+            estop_button.Enabled = true;
         }
 
         private void SaveRecipe()
@@ -2053,7 +2066,7 @@ namespace FocalSpec.GuiExample.View
             if (!string.IsNullOrEmpty(_selectedRecipe))
                 SaveRecipe();
         }
-
+        // TODO: Disable these buttons and prevent these events if no robot is connected
         private void travelSpeedUpDown_ValueChanged(object sender, EventArgs e)
         {
             rapidFunctions.SetTravelSpeed((int) travelSpeedUpDown.Value);
@@ -2064,9 +2077,10 @@ namespace FocalSpec.GuiExample.View
             rapidFunctions.Stop(true);
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void scanSpeedUpDown_ValueChanged(object sender, EventArgs e)
         {
-           _sensorSettingsView._batchMode.UpdateInternalTriggeringFreq(numericUpDown1.Value);
+            OnBatchLineSpeedChanged?.Invoke((double) scanSpeedUpDown.Value * 0.06);
+            rapidFunctions.SetScanSpeed((int) scanSpeedUpDown.Value);
         }
 
         private void UpdateGraphScales()

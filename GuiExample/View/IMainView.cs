@@ -7,11 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using FocalSpec.GuiExample.Model;
 using FocalSpec.GuiExample.Model.BatchMode;
 using FocalSpec.GuiExample.Model.Camera;
 using FocalSpec.GuiExample.Model.Export;
+using System;
+using System.Collections.Generic;
 
 namespace FocalSpec.GuiExample.View
 {
@@ -146,6 +147,8 @@ namespace FocalSpec.GuiExample.View
         event LoadRecipeHandler OnLoadRecipe;
 
         event SaveRecipeHandler OnSaveRecipe;
+
+        event Action<double> OnBatchLineSpeedChanged;
 
         /// <summary>
         /// Event triggers when user is closing window.
