@@ -211,7 +211,7 @@ namespace FocalSpec.GuiExample.Presenter
             Flush();
             _mainView.BatchView.EnableClear = false;
             // Pass the ***intended*** frequency set up in the live mode.
-	        if (_freqUpdatedRequired)
+            if (_freqUpdatedRequired)
 	        {
 		        _cameraManager.SetFreq(configuration.TriggerFrequency, configuration.TriggerMode == TriggerMode.External);
 	        }

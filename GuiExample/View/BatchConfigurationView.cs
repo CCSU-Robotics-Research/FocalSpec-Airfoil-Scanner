@@ -47,6 +47,8 @@ namespace FocalSpec.GuiExample.View
             _newBatchConfiguration = batchConfiguration.Clone();
             newBatchConfiguration = _newBatchConfiguration;
 
+            _newBatchConfiguration.TriggerMode = TriggerMode.Internal;
+            _newBatchConfiguration.LineSpeed = 1.2;
             ComboBoxTrigger.SelectedIndex = _newBatchConfiguration.TriggerMode == TriggerMode.Internal ? 1 : 0;
 
             UpdateReadonlyFields(_newBatchConfiguration);
@@ -135,8 +137,7 @@ namespace FocalSpec.GuiExample.View
             }
 
             TextBoxBatchLength.Text = _newBatchConfiguration.BatchLength.ToString(CultureInfo.InvariantCulture);
-
-            selection.SelectedIndex = 1;
+         
 
             switch (selection.SelectedIndex)
             {
@@ -145,7 +146,7 @@ namespace FocalSpec.GuiExample.View
 
                     TextBoxLineSpeed.Enabled = false;
                     // ReSharper disable once LocalizableElement
-                    TextBoxLineSpeed.Text = "N/A";
+                    TextBoxLineSpeed.Text = _newBatchConfiguration.LineSpeed.ToString(CultureInfo.InvariantCulture);
 
                     // Commented out, for external triggering this value is used for adjusting image height (z-range)
                     //  TextBoxTriggerFreq.Enabled = false;
@@ -179,7 +180,8 @@ namespace FocalSpec.GuiExample.View
                     _newBatchConfiguration.TriggerMode = TriggerMode.Internal;
 
                     TextBoxLineSpeed.Enabled = true;
-                    TextBoxLineSpeed.Text = "1.2";
+                    _newBatchConfiguration.LineSpeed = 1.2;
+                    TextBoxLineSpeed.Text = _newBatchConfiguration.LineSpeed.ToString(CultureInfo.InvariantCulture);
 
                     TextBoxTriggerFreq.Enabled = true;
                     TextBoxTriggerFreq.Text = _newBatchConfiguration.TriggerFrequency.ToString(CultureInfo.InvariantCulture);
