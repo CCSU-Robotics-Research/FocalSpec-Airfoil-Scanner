@@ -29,8 +29,16 @@ namespace FocalSpec.GuiExample.View
 
         private void SensorSettingsView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;   // stop it from closing
-            this.Hide();       // just hide instead
+            // Close if the whole application is
+            if (e.CloseReason == CloseReason.FormOwnerClosing)
+            {
+                return;
+            } else
+            {
+                // Else just hide it to maintain the handle
+                e.Cancel = true;
+                Hide();
+            }
         }
 
         /* When moving buttons from MainView to this settings menu, the events and their heavily entrenched logic did not carry over.
