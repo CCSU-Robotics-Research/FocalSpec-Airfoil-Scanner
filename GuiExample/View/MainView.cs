@@ -1043,9 +1043,6 @@ namespace FocalSpec.GuiExample.View
         /// <param name="e">Form closing event information.</param>
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // We must get rid of the persistent settings handle or else it will hang
-            // TODO: Look into a better way of closing the settings window, it still hangs just a bit
-            _sensorSettingsView.Dispose();
             _isClosing = true;
             _pollTimer.Enabled = false;
 
