@@ -88,6 +88,7 @@ namespace FocalSpec.GuiExample.Presenter
             _mainView.OnWindowShown += OnWindowShown;
 
             cameraManager.OnPointCloudReceivedEvent += OnPointCloudReceived;
+            _batchConfiguration.TriggerFrequency = Defines.DefaultTriggerFrequency;
         }
 
         /// <summary> 

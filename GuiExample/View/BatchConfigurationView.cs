@@ -47,8 +47,6 @@ namespace FocalSpec.GuiExample.View
             _newBatchConfiguration = batchConfiguration.Clone();
             newBatchConfiguration = _newBatchConfiguration;
 
-            _newBatchConfiguration.TriggerMode = TriggerMode.Internal;
-            _newBatchConfiguration.LineSpeed = 1.2;
             ComboBoxTrigger.SelectedIndex = _newBatchConfiguration.TriggerMode == TriggerMode.Internal ? 1 : 0;
 
             UpdateReadonlyFields(_newBatchConfiguration);
@@ -180,7 +178,6 @@ namespace FocalSpec.GuiExample.View
                     _newBatchConfiguration.TriggerMode = TriggerMode.Internal;
 
                     TextBoxLineSpeed.Enabled = true;
-                    _newBatchConfiguration.LineSpeed = 1.2;
                     TextBoxLineSpeed.Text = _newBatchConfiguration.LineSpeed.ToString(CultureInfo.InvariantCulture);
 
                     TextBoxTriggerFreq.Enabled = true;
