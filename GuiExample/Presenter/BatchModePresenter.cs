@@ -363,5 +363,17 @@ namespace FocalSpec.GuiExample.Presenter
                 _mainView.BatchView.IsConfigured = true;
             }
         }
+
+        /// <summary>
+        /// Update configured line speed (m/min) from UI.
+        /// </summary>
+        /// <param name="lineSpeed">Line speed in m/min.</param>
+        public void SetLineSpeed(double lineSpeed)
+        {
+            // update internal batch configuration used when starting a batch
+            _batchConfiguration.LineSpeed = lineSpeed;
+            // mark that frequency/related parameters should be applied before next batch start
+            _freqUpdatedRequired = true;
+        }
     }
 }

@@ -44,6 +44,14 @@
             this.elementHostBatchVisualizer = new System.Windows.Forms.Integration.ElementHost();
             this.batchVisualizer2DUc3 = new FocalSpec.GuiExample.View.BatchVisualizer2DUc();
             this.panelSettings = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.scanSpeedUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.travelSpeedLabel = new System.Windows.Forms.Label();
+            this.travelSpeedUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.estop_button = new System.Windows.Forms.Button();
             this.rapidControlsGroup = new System.Windows.Forms.GroupBox();
             this.btn_StartRAP = new System.Windows.Forms.Button();
             this.btn_StopRap = new System.Windows.Forms.Button();
@@ -77,6 +85,9 @@
             ((System.ComponentModel.ISupportInitialize)(this._thicknessChart)).BeginInit();
             this.tableLayoutPanelInfo.SuspendLayout();
             this.panelSettings.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scanSpeedUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.travelSpeedUpDown)).BeginInit();
             this.rapidControlsGroup.SuspendLayout();
             this.controllerSettingsGroup.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -237,6 +248,8 @@
             // 
             // panelSettings
             // 
+            this.panelSettings.Controls.Add(this.groupBox1);
+            this.panelSettings.Controls.Add(this.estop_button);
             this.panelSettings.Controls.Add(this.rapidControlsGroup);
             this.panelSettings.Controls.Add(this.controllerSettingsGroup);
             this.panelSettings.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -244,6 +257,131 @@
             this.panelSettings.Name = "panelSettings";
             this.panelSettings.Size = new System.Drawing.Size(259, 709);
             this.panelSettings.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.scanSpeedUpDown);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.travelSpeedLabel);
+            this.groupBox1.Controls.Add(this.travelSpeedUpDown);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Location = new System.Drawing.Point(14, 290);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(231, 47);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Speed Control";
+            // 
+            // scanSpeedUpDown
+            // 
+            this.scanSpeedUpDown.Enabled = false;
+            this.scanSpeedUpDown.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.scanSpeedUpDown.Location = new System.Drawing.Point(155, 19);
+            this.scanSpeedUpDown.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.scanSpeedUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.scanSpeedUpDown.Name = "scanSpeedUpDown";
+            this.scanSpeedUpDown.Size = new System.Drawing.Size(38, 20);
+            this.scanSpeedUpDown.TabIndex = 5;
+            this.scanSpeedUpDown.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.scanSpeedUpDown.ValueChanged += new System.EventHandler(this.scanSpeedUpDown_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(88, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "mm/s";
+            // 
+            // travelSpeedLabel
+            // 
+            this.travelSpeedLabel.AutoSize = true;
+            this.travelSpeedLabel.Location = new System.Drawing.Point(6, 22);
+            this.travelSpeedLabel.Name = "travelSpeedLabel";
+            this.travelSpeedLabel.Size = new System.Drawing.Size(40, 13);
+            this.travelSpeedLabel.TabIndex = 2;
+            this.travelSpeedLabel.Text = "Travel:";
+            // 
+            // travelSpeedUpDown
+            // 
+            this.travelSpeedUpDown.Enabled = false;
+            this.travelSpeedUpDown.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.travelSpeedUpDown.Location = new System.Drawing.Point(48, 19);
+            this.travelSpeedUpDown.Maximum = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.travelSpeedUpDown.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.travelSpeedUpDown.Name = "travelSpeedUpDown";
+            this.travelSpeedUpDown.Size = new System.Drawing.Size(38, 20);
+            this.travelSpeedUpDown.TabIndex = 0;
+            this.travelSpeedUpDown.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.travelSpeedUpDown.ValueChanged += new System.EventHandler(this.travelSpeedUpDown_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(195, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(33, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "mm/s";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(121, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Scan:";
+            // 
+            // estop_button
+            // 
+            this.estop_button.BackColor = System.Drawing.Color.Red;
+            this.estop_button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.estop_button.Enabled = false;
+            this.estop_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.estop_button.Font = new System.Drawing.Font("Microsoft Sans Serif", 23.25F);
+            this.estop_button.ForeColor = System.Drawing.Color.White;
+            this.estop_button.Location = new System.Drawing.Point(14, 389);
+            this.estop_button.Name = "estop_button";
+            this.estop_button.Size = new System.Drawing.Size(236, 174);
+            this.estop_button.TabIndex = 3;
+            this.estop_button.Text = "EMERGENCY STOP";
+            this.estop_button.UseVisualStyleBackColor = false;
+            this.estop_button.Click += new System.EventHandler(this.estop_button_Click);
             // 
             // rapidControlsGroup
             // 
@@ -259,10 +397,11 @@
             // 
             // btn_StartRAP
             // 
+            this.btn_StartRAP.Enabled = false;
             this.btn_StartRAP.Location = new System.Drawing.Point(5, 18);
             this.btn_StartRAP.Margin = new System.Windows.Forms.Padding(2);
             this.btn_StartRAP.Name = "btn_StartRAP";
-            this.btn_StartRAP.Size = new System.Drawing.Size(87, 77);
+            this.btn_StartRAP.Size = new System.Drawing.Size(71, 77);
             this.btn_StartRAP.TabIndex = 53;
             this.btn_StartRAP.Text = "Start RAPID";
             this.btn_StartRAP.UseVisualStyleBackColor = true;
@@ -270,21 +409,23 @@
             // 
             // btn_StopRap
             // 
-            this.btn_StopRap.Location = new System.Drawing.Point(96, 18);
+            this.btn_StopRap.Enabled = false;
+            this.btn_StopRap.Location = new System.Drawing.Point(83, 18);
             this.btn_StopRap.Margin = new System.Windows.Forms.Padding(2);
             this.btn_StopRap.Name = "btn_StopRap";
-            this.btn_StopRap.Size = new System.Drawing.Size(73, 77);
+            this.btn_StopRap.Size = new System.Drawing.Size(71, 77);
             this.btn_StopRap.TabIndex = 54;
-            this.btn_StopRap.Text = "Stop RAPID";
+            this.btn_StopRap.Text = "Pause RAPID";
             this.btn_StopRap.UseVisualStyleBackColor = true;
             this.btn_StopRap.Click += new System.EventHandler(this.btn_StopRap_Click);
             // 
             // btn_RapContinue
             // 
-            this.btn_RapContinue.Location = new System.Drawing.Point(173, 18);
+            this.btn_RapContinue.Enabled = false;
+            this.btn_RapContinue.Location = new System.Drawing.Point(160, 18);
             this.btn_RapContinue.Margin = new System.Windows.Forms.Padding(2);
             this.btn_RapContinue.Name = "btn_RapContinue";
-            this.btn_RapContinue.Size = new System.Drawing.Size(58, 77);
+            this.btn_RapContinue.Size = new System.Drawing.Size(71, 77);
             this.btn_RapContinue.TabIndex = 55;
             this.btn_RapContinue.Text = "Continue";
             this.btn_RapContinue.UseVisualStyleBackColor = true;
@@ -523,6 +664,10 @@
             this.tableLayoutPanelInfo.ResumeLayout(false);
             this.tableLayoutPanelInfo.PerformLayout();
             this.panelSettings.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scanSpeedUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.travelSpeedUpDown)).EndInit();
             this.rapidControlsGroup.ResumeLayout(false);
             this.controllerSettingsGroup.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -575,5 +720,13 @@
         private System.Windows.Forms.GroupBox terminaloutputGroup;
         private System.Windows.Forms.Button showHideTerminal;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.NumericUpDown travelSpeedUpDown;
+        private System.Windows.Forms.Label travelSpeedLabel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button estop_button;
+        private System.Windows.Forms.NumericUpDown scanSpeedUpDown;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

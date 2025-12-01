@@ -256,6 +256,10 @@ namespace FocalSpec.GuiExample.Presenter
             _mainView.OnSetThicknessMode += MainViewOnSetThicknessMode;
             _mainView.OnLoadRecipe += MainViewOnLoadRecipe;
             _mainView.OnSaveRecipe += MainViewOnSaveRecipe;
+            _mainView.OnBatchLineSpeedChanged += (lineSpeed) =>
+            {
+                _batchModePresenter?.SetLineSpeed(lineSpeed);
+            };
 
             _cameraManager.IsXFilterSupported = _cameraManager.IsParameterSupported(SensorParameter.PeakXFilter);
             _mainView.IsXFilterSupported = _cameraManager.IsXFilterSupported;
