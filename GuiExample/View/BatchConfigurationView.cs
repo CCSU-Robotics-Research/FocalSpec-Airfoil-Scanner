@@ -135,6 +135,7 @@ namespace FocalSpec.GuiExample.View
             }
 
             TextBoxBatchLength.Text = _newBatchConfiguration.BatchLength.ToString(CultureInfo.InvariantCulture);
+         
 
             switch (selection.SelectedIndex)
             {
@@ -143,7 +144,7 @@ namespace FocalSpec.GuiExample.View
 
                     TextBoxLineSpeed.Enabled = false;
                     // ReSharper disable once LocalizableElement
-                    TextBoxLineSpeed.Text = "N/A";
+                    TextBoxLineSpeed.Text = _newBatchConfiguration.LineSpeed.ToString(CultureInfo.InvariantCulture);
 
                     // Commented out, for external triggering this value is used for adjusting image height (z-range)
                     //  TextBoxTriggerFreq.Enabled = false;

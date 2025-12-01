@@ -213,12 +213,12 @@ namespace FocalSpec.GuiExample.Model
         /// <summary>
         /// Default sensor trigger mode in batch.
         /// </summary>
-        public const TriggerMode DefaultBatchTriggerMode = TriggerMode.External;
+        public const TriggerMode DefaultBatchTriggerMode = TriggerMode.Internal;
 
         /// <summary>
         /// Default line speed [m/min] in batch mode when internal sensor triggering is used.
         /// </summary>
-        public const double DefaultLineSpeedInBatch = 1.0;
+        public const double DefaultLineSpeedInBatch = 1.2;
 
         /// <summary>
         /// Default scan step length [mm] in batch mode when external sensor triggering is used.
