@@ -379,7 +379,7 @@
             this.estop_button.Name = "estop_button";
             this.estop_button.Size = new System.Drawing.Size(236, 174);
             this.estop_button.TabIndex = 3;
-            this.estop_button.Text = "EMERGENCY STOP";
+            this.estop_button.Text = "IMMEDIATE STOP";
             this.estop_button.UseVisualStyleBackColor = false;
             this.estop_button.Click += new System.EventHandler(this.estop_button_Click);
             // 
