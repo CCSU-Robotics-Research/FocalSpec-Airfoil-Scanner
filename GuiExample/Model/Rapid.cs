@@ -28,9 +28,6 @@ namespace Rapid
         RapidData travelSpeed;
         RapidData scanSpeed;
 
-=======
-
->>>>>>> Stashed changes
         public MainView mainView;
 
         // public string IP;
