@@ -213,21 +213,9 @@ namespace Rapid
                 //Mastership to control RAPID execution
                 using (m = Mastership.Request(controller))
                 {
-                    //Make sure RAPID is stopped before resetting PP
-                    if (controller.Rapid.ExecutionStatus == ExecutionStatus.Running)
-                    {
-                        controller.Rapid.Stop(StopMode.Immediate);
-                        //Wait until it's completely stopped
-                        while(controller.Rapid.ExecutionStatus != ExecutionStatus.Stopped)
-                        {
-                            Thread.Sleep(50);
-                        }
-                    }
+                    
                     controllerWaiting.Value = new Bool(true);
                     funcCall.StringValue = "\"\"";
-
-                    // Perform operation
-                    tasks[0].ResetProgramPointer();
                     controller.Rapid.Start();
                 }
                 await System.Threading.Tasks.Task.Delay(100);
