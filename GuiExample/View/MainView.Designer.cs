@@ -330,7 +330,7 @@
             0});
             this.travelSpeedUpDown.Location = new System.Drawing.Point(48, 19);
             this.travelSpeedUpDown.Maximum = new decimal(new int[] {
-            250,
+            200,
             0,
             0,
             0});
@@ -343,7 +343,7 @@
             this.travelSpeedUpDown.Size = new System.Drawing.Size(38, 20);
             this.travelSpeedUpDown.TabIndex = 0;
             this.travelSpeedUpDown.Value = new decimal(new int[] {
-            60,
+            80,
             0,
             0,
             0});

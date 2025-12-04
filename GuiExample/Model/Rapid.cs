@@ -149,7 +149,7 @@ namespace Rapid
         {
             // TODO: Investigate why speed isn't always set before running
             // Shouldn't be possible because of the input limitations, but just in case
-            if (speed < 0 || speed > 250) {
+            if (speed < 0 || speed > 200) {
                 return;
             }
 
