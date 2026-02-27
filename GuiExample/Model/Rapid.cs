@@ -27,7 +27,6 @@ namespace Rapid
         RapidData funcCall; 
         RapidData travelSpeed;
         RapidData scanSpeed;
-        RapidData scanEnable; // Read signal flags
 
         public MainView mainView;
 
@@ -49,12 +48,9 @@ namespace Rapid
         }
 
         /* Options for table sequence */
-        private const string SaveRightEdge = @"C:\Users\Public\Downloads\RightEdge.asc";
-        private const string SaveBackEdge  = @"C:\Users\Public\Downloads\BackEdge.asc";
-        private const string SaveLeftEdge  = @"C:\Users\Public\Downloads\LeftEdge.asc";
-        private const string SaveFrontEdge = @"C:\Users\Public\Downloads\FrontEdge.asc";
-
-        private const string SaveScan1 = @"C:\Users\Public\Downloads\Scan0.asc";
+        private const string SaveScan1 = @"C:\Users\Public\Downloads\Scan1.asc";
+        private const string SaveScan2 = @"C:\Users\Public\Downloads\Scan2.asc";
+        private const string SaveScan3 = @"C:\Users\Public\Downloads\Scan3.asc";
 
         //Updates RAPID funcCall for robot to know which routine to execute next
         private void SetFuncCall(string name) => funcCall.StringValue = $"\"{name}\"";
@@ -202,7 +198,6 @@ namespace Rapid
                 //Get handles to variables
                 controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
                 funcCall = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "funcCall");
-                scanEnable = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "ScanUsed"); // Signal flags
 
                 //Retrieve all active tasks
                 tasks = controller.Rapid.GetTasks();
@@ -379,14 +374,6 @@ namespace Rapid
                     using (Mastership.Request(controller))
                     {
                         var step = steps[sequenceStep];
-
-                        // Conditional check for scan
-                        if (!IsScanEnabled(step.ScanIndex))
-                        {
-                            sequenceStep++;
-                            continue;
-                        }
-
                         ApplyUiAction(step);
                         SafeProceed(step.RapidFunctionName);   // sets funcCall + extern_wait := FALSE
                     }
@@ -429,14 +416,6 @@ namespace Rapid
                     using (m = Mastership.Request(controller))
                     {
                         var step = steps[sequenceStep];
-
-                        //// Conditional signal flags
-                        //if (!IsScanEnabled(step.ScanIndex))
-                        //{
-                        //    sequenceStep++;
-                        //    continue;
-                        //}
-
                         ApplyUiAction(step);
                         SafeProceed(step.RapidFunctionName);
                     }
@@ -466,7 +445,6 @@ namespace Rapid
             public string RapidFunctionName { get; init; }
             public UiAction Action { get; init; } = UiAction.None;
             public string SavePath { get; init; }
-            public int ScanIndex { get; init; } = 0; // Reads signal flags from robot
             public override string ToString() => RapidFunctionName;
         }
         private List<SequenceStep> BuildPhotoSequence() => new(){
@@ -474,44 +452,18 @@ namespace Rapid
             new() { RapidFunctionName="NIMS_BeforeScanMotion" }, 
             new() { RapidFunctionName="Scan1_PreScan" },
 
-            new() { RapidFunctionName="Scan1_TakeScan", Action=UiAction.StartScan, ScanIndex=0 },
-            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan1, ScanIndex=0 }, // Should be last one (or any other dummy fcn after)
+            new() { RapidFunctionName="Scan1_TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan2_PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan1 },
 
+            new() { RapidFunctionName="Scan2_TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan3_PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan2 },
 
+            new() { RapidFunctionName="Scan3_TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan1 }, // Should be last one (or any other dummy fcn after)
 
-            //new() {RapidFunctionName="XpertsPickUp"},
-            //new() {RapidFunctionName="XpertsMoveFromPickUpToSensor"},
-            //new() {RapidFunctionName="XpertsRightEdgePreScan"},
+            // If needed, add more scan steps before ScanToStand and adjust UiAction pipeline accordingly
 
-            //new() {RapidFunctionName="XpertsRightEdgeTakeScan", Action=UiAction.StartScan},
-            //new() {RapidFunctionName="XpertsBackEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveRightEdge},
-
-            //new() {RapidFunctionName="XpertsBackEdgeTakeScan", Action=UiAction.StartScan},
-            //new() {RapidFunctionName="XpertsLeftEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveBackEdge},
-
-            //new() {RapidFunctionName="XpertsLeftEdgeTakeScan", Action=UiAction.StartScan},
-            //new() {RapidFunctionName="XpertsFrontEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveLeftEdge},
-
-            //new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
-            
-
-            //new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge}, // Should be last one (or any other dummy fcn after)
-
-
-            //new() {RapidFunctionName="DropItem"},
-            //new() {RapidFunctionName="GoToInitialState"}
         };
-
-        private bool IsScanEnabled(int scanIndex)
-        {
-            if (scanIndex <= 0) return true; // non scan steps always run
-            if (scanEnable == null) return true; // fail-open
-
-            if (scanEnable.Value is not ArrayData arrayData) return true;
-
-            if (scanIndex > arrayData.Length) return true;
-            return arrayData[scanIndex] is not Bool rapidBool || rapidBool.Value;
-        }
 
         private void ApplyUiAction(SequenceStep step)
         {
