@@ -27,6 +27,7 @@ namespace Rapid
         RapidData funcCall; 
         RapidData travelSpeed;
         RapidData scanSpeed;
+        RapidData scanEnable; // Read signal flags
 
         public MainView mainView;
 
@@ -46,11 +47,14 @@ namespace Rapid
             this.mainView = _form1;
 
         }
-        /*Options for table sequence*/
+
+        /* Options for table sequence */
         private const string SaveRightEdge = @"C:\Users\Public\Downloads\RightEdge.asc";
         private const string SaveBackEdge  = @"C:\Users\Public\Downloads\BackEdge.asc";
         private const string SaveLeftEdge  = @"C:\Users\Public\Downloads\LeftEdge.asc";
         private const string SaveFrontEdge = @"C:\Users\Public\Downloads\FrontEdge.asc";
+        // TODO: Add more scan save file paths
+
 
         //Updates RAPID funcCall for robot to know which routine to execute next
         private void SetFuncCall(string name) => funcCall.StringValue = $"\"{name}\"";
@@ -198,6 +202,7 @@ namespace Rapid
                 //Get handles to variables
                 controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
                 funcCall = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "funcCall");
+                scanEnable = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "scanEnable"); // TODO: Double check variable name
 
                 //Retrieve all active tasks
                 tasks = controller.Rapid.GetTasks();
@@ -416,6 +421,9 @@ namespace Rapid
                     using (m = Mastership.Request(controller))
                     {
                         var step = steps[sequenceStep];
+
+                        // TODO: Conditional signal flags
+
                         ApplyUiAction(step);
                         SafeProceed(step.RapidFunctionName);
                     }
@@ -445,6 +453,7 @@ namespace Rapid
             public string RapidFunctionName { get; init; }
             public UiAction Action { get; init; } = UiAction.None;
             public string SavePath { get; init; }
+            public int ScanIndex { get; init; } = 0; // Reads signal flags from robot
             public override string ToString() => RapidFunctionName;
         }
         private List<SequenceStep> BuildPhotoSequence() => new(){
@@ -462,11 +471,24 @@ namespace Rapid
             new() {RapidFunctionName="XpertsFrontEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveLeftEdge},
 
             new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
-            new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge},
+            
+            // TODO: Add new scan steps
+
+            new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge}, // Should be last one (or any other dummy fcn after)
+
 
             new() {RapidFunctionName="DropItem"},
             new() {RapidFunctionName="GoToInitialState"}
         };
+
+        private bool IsScanEnabled(int scanIndex)
+        {
+            if (scanIndex <= 0) return true; // non scan steps always run
+            if (scanEnable == null) return true; // fail-open
+
+            var arr = (Bool)scanEnable.Value; // Casting RAPID PERS bool{} to C# Bool[]
+            
+        }
 
         private void ApplyUiAction(SequenceStep step)
         {
