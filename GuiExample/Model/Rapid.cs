@@ -379,6 +379,14 @@ namespace Rapid
                     using (Mastership.Request(controller))
                     {
                         var step = steps[sequenceStep];
+
+                        // Conditional check for scan
+                        if (!IsScanEnabled(step.ScanIndex))
+                        {
+                            sequenceStep++;
+                            continue;
+                        }
+
                         ApplyUiAction(step);
                         SafeProceed(step.RapidFunctionName);   // sets funcCall + extern_wait := FALSE
                     }
@@ -486,8 +494,10 @@ namespace Rapid
             if (scanIndex <= 0) return true; // non scan steps always run
             if (scanEnable == null) return true; // fail-open
 
-            var arr = (Bool)scanEnable.Value; // Casting RAPID PERS bool{} to C# Bool[]
-            
+            if (scanEnable.Value is not ArrayData arrayData) return true;
+
+            if (scanIndex > arrayData.Length) return true;
+            return arrayData[scanIndex] is not Bool rapidBool || rapidBool.Value;
         }
 
         private void ApplyUiAction(SequenceStep step)
