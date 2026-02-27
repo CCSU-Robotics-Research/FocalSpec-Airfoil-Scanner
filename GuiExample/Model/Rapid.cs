@@ -465,6 +465,9 @@ namespace Rapid
             public override string ToString() => RapidFunctionName;
         }
         private List<SequenceStep> BuildPhotoSequence() => new(){
+
+            new() { RapidFunctionName="NIMS_BeforeScanMotion" }, 
+
             new() {RapidFunctionName="XpertsPickUp"},
             new() {RapidFunctionName="XpertsMoveFromPickUpToSensor"},
             new() {RapidFunctionName="XpertsRightEdgePreScan"},
@@ -481,6 +484,7 @@ namespace Rapid
             new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
             
             // TODO: Add new scan steps
+
 
             new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge}, // Should be last one (or any other dummy fcn after)
 
