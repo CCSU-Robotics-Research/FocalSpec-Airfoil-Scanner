@@ -53,8 +53,8 @@ namespace Rapid
         private const string SaveBackEdge  = @"C:\Users\Public\Downloads\BackEdge.asc";
         private const string SaveLeftEdge  = @"C:\Users\Public\Downloads\LeftEdge.asc";
         private const string SaveFrontEdge = @"C:\Users\Public\Downloads\FrontEdge.asc";
-        // TODO: Add more scan save file paths
 
+        private const string SaveScan1 = @"C:\Users\Public\Downloads\Scan0.asc";
 
         //Updates RAPID funcCall for robot to know which routine to execute next
         private void SetFuncCall(string name) => funcCall.StringValue = $"\"{name}\"";
@@ -202,7 +202,7 @@ namespace Rapid
                 //Get handles to variables
                 controllerWaiting = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "extern_wait");
                 funcCall = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "funcCall");
-                scanEnable = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "scanEnable"); // TODO: Double check variable name
+                scanEnable = controller.Rapid.GetRapidData("T_ROB1", "TRob1Main", "ScanUsed"); // Signal flags
 
                 //Retrieve all active tasks
                 tasks = controller.Rapid.GetTasks();
@@ -430,7 +430,12 @@ namespace Rapid
                     {
                         var step = steps[sequenceStep];
 
-                        // TODO: Conditional signal flags
+                        //// Conditional signal flags
+                        //if (!IsScanEnabled(step.ScanIndex))
+                        //{
+                        //    sequenceStep++;
+                        //    continue;
+                        //}
 
                         ApplyUiAction(step);
                         SafeProceed(step.RapidFunctionName);
@@ -467,30 +472,34 @@ namespace Rapid
         private List<SequenceStep> BuildPhotoSequence() => new(){
 
             new() { RapidFunctionName="NIMS_BeforeScanMotion" }, 
+            new() { RapidFunctionName="Scan1_PreScan" },
 
-            new() {RapidFunctionName="XpertsPickUp"},
-            new() {RapidFunctionName="XpertsMoveFromPickUpToSensor"},
-            new() {RapidFunctionName="XpertsRightEdgePreScan"},
+            new() { RapidFunctionName="Scan1_TakeScan", Action=UiAction.StartScan, ScanIndex=0 },
+            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan1, ScanIndex=0 }, // Should be last one (or any other dummy fcn after)
 
-            new() {RapidFunctionName="XpertsRightEdgeTakeScan", Action=UiAction.StartScan},
-            new() {RapidFunctionName="XpertsBackEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveRightEdge},
 
-            new() {RapidFunctionName="XpertsBackEdgeTakeScan", Action=UiAction.StartScan},
-            new() {RapidFunctionName="XpertsLeftEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveBackEdge},
 
-            new() {RapidFunctionName="XpertsLeftEdgeTakeScan", Action=UiAction.StartScan},
-            new() {RapidFunctionName="XpertsFrontEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveLeftEdge},
+            //new() {RapidFunctionName="XpertsPickUp"},
+            //new() {RapidFunctionName="XpertsMoveFromPickUpToSensor"},
+            //new() {RapidFunctionName="XpertsRightEdgePreScan"},
 
-            new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
+            //new() {RapidFunctionName="XpertsRightEdgeTakeScan", Action=UiAction.StartScan},
+            //new() {RapidFunctionName="XpertsBackEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveRightEdge},
+
+            //new() {RapidFunctionName="XpertsBackEdgeTakeScan", Action=UiAction.StartScan},
+            //new() {RapidFunctionName="XpertsLeftEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveBackEdge},
+
+            //new() {RapidFunctionName="XpertsLeftEdgeTakeScan", Action=UiAction.StartScan},
+            //new() {RapidFunctionName="XpertsFrontEdgePreScan", Action=UiAction.StopAndSave, SavePath=SaveLeftEdge},
+
+            //new() {RapidFunctionName="XpertsFrontEdgeTakeScan", Action=UiAction.StartScan},
             
-            // TODO: Add new scan steps
+
+            //new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge}, // Should be last one (or any other dummy fcn after)
 
 
-            new() {RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveFrontEdge}, // Should be last one (or any other dummy fcn after)
-
-
-            new() {RapidFunctionName="DropItem"},
-            new() {RapidFunctionName="GoToInitialState"}
+            //new() {RapidFunctionName="DropItem"},
+            //new() {RapidFunctionName="GoToInitialState"}
         };
 
         private bool IsScanEnabled(int scanIndex)
