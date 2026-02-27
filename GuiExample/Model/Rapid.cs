@@ -459,7 +459,7 @@ namespace Rapid
             new() { RapidFunctionName="Scan3_PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan2 },
 
             new() { RapidFunctionName="Scan3_TakeScan", Action=UiAction.StartScan },
-            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan1 }, // Should be last one (or any other dummy fcn after)
+            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan3 }, // Should be last one (or any other dummy fcn after)
 
             // If needed, add more scan steps before ScanToStand and adjust UiAction pipeline accordingly
 
