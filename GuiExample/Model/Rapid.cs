@@ -48,9 +48,26 @@ namespace Rapid
         }
 
         /* Options for table sequence */
-        private const string SaveScan1 = @"C:\Users\Public\Downloads\Scan1.asc";
-        private const string SaveScan2 = @"C:\Users\Public\Downloads\Scan2.asc";
-        private const string SaveScan3 = @"C:\Users\Public\Downloads\Scan3.asc";
+        private const string SaveScan01 = @"C:\Users\Public\Downloads\Scan01.asc";
+        private const string SaveScan02 = @"C:\Users\Public\Downloads\Scan02.asc";
+        private const string SaveScan03 = @"C:\Users\Public\Downloads\Scan03.asc";
+        private const string SaveScan04 = @"C:\Users\Public\Downloads\Scan04.asc";
+        private const string SaveScan05 = @"C:\Users\Public\Downloads\Scan05.asc";
+        private const string SaveScan06 = @"C:\Users\Public\Downloads\Scan06.asc";
+        private const string SaveScan07 = @"C:\Users\Public\Downloads\Scan07.asc";
+        private const string SaveScan08 = @"C:\Users\Public\Downloads\Scan08.asc";
+        private const string SaveScan09 = @"C:\Users\Public\Downloads\Scan09.asc";
+        private const string SaveScan10 = @"C:\Users\Public\Downloads\Scan10.asc";
+        private const string SaveScan11 = @"C:\Users\Public\Downloads\Scan11.asc";
+        private const string SaveScan12 = @"C:\Users\Public\Downloads\Scan12.asc";
+        private const string SaveScan13 = @"C:\Users\Public\Downloads\Scan13.asc";
+        private const string SaveScan14 = @"C:\Users\Public\Downloads\Scan14.asc";
+        private const string SaveScan15 = @"C:\Users\Public\Downloads\Scan15.asc";
+        private const string SaveScan16 = @"C:\Users\Public\Downloads\Scan16.asc";
+        private const string SaveScan17 = @"C:\Users\Public\Downloads\Scan17.asc";
+        private const string SaveScan18 = @"C:\Users\Public\Downloads\Scan18.asc";
+        private const string SaveScan19 = @"C:\Users\Public\Downloads\Scan19.asc";
+        private const string SaveScan20 = @"C:\Users\Public\Downloads\Scan20.asc";
 
         //Updates RAPID funcCall for robot to know which routine to execute next
         private void SetFuncCall(string name) => funcCall.StringValue = $"\"{name}\"";
@@ -450,16 +467,69 @@ namespace Rapid
         private List<SequenceStep> BuildPhotoSequence() => new(){
 
             new() { RapidFunctionName="NIMS_BeforeScanMotion" }, 
-            new() { RapidFunctionName="Scan1_PreScan" },
+            new() { RapidFunctionName="Scan01PreScan" },
 
-            new() { RapidFunctionName="Scan1_TakeScan", Action=UiAction.StartScan },
-            new() { RapidFunctionName="Scan2_PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan1 },
+            new() { RapidFunctionName="Scan01TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan02PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan01 },
 
-            new() { RapidFunctionName="Scan2_TakeScan", Action=UiAction.StartScan },
-            new() { RapidFunctionName="Scan3_PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan2 },
+            new() { RapidFunctionName="Scan02TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan03PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan02 },
 
-            new() { RapidFunctionName="Scan3_TakeScan", Action=UiAction.StartScan },
-            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan3 }, // Should be last one (or any other dummy fcn after)
+            new() { RapidFunctionName="Scan03TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan04PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan03 },
+
+            new() { RapidFunctionName="Scan04TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan05PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan04 },
+
+            new() { RapidFunctionName="Scan05TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan06PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan05 },
+
+            new() { RapidFunctionName="Scan06TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan07PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan06 },
+
+            new() { RapidFunctionName="Scan07TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan08PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan07 },
+
+            new() { RapidFunctionName="Scan08TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan09PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan08 },
+
+            new() { RapidFunctionName="Scan09TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan10PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan09 },
+
+            new() { RapidFunctionName="Scan10TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan10 } // Should be last one (or any other dummy function after)
+
+            //new() { RapidFunctionName="Scan11PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan10 },
+
+            //new() { RapidFunctionName="Scan11TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan12PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan11 },
+
+            //new() { RapidFunctionName="Scan12TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan13PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan12 },
+
+            //new() { RapidFunctionName="Scan13TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan14PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan13 },
+
+            //new() { RapidFunctionName="Scan14TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan15PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan14 },
+
+            //new() { RapidFunctionName="Scan15TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan16PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan15 },
+
+            //new() { RapidFunctionName="Scan16TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan17PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan16 },
+
+            //new() { RapidFunctionName="Scan17TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan18PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan17 },
+
+            //new() { RapidFunctionName="Scan18TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan19PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan18 },
+
+            //new() { RapidFunctionName="Scan19TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="Scan20PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan19 },
+
+            //new() { RapidFunctionName="Scan20TakeScan", Action=UiAction.StartScan },
+            //new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan20 } 
 
             // If needed, add more scan steps before ScanToStand and adjust UiAction pipeline accordingly
 
