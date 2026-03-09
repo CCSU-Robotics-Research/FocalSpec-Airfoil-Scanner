@@ -417,6 +417,8 @@ namespace Rapid
                         LogRapidState($"After step {sequenceStep}: {step.RapidFunctionName}");
                     }
 
+                    LogRapidState($"Post-dispatch step {sequenceStep}");
+
                     sequenceStep++;
                     await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
                 }
