@@ -410,14 +410,14 @@ namespace Rapid
                     using (Mastership.Request(controller))
                     {
                         var step = steps[sequenceStep];
-                        LogRapidState($"Before step {sequenceStep}: {step.RapidFunctionName}");
+                        Console.WriteLine($"Before step {sequenceStep}: {step.RapidFunctionName}");
                         
                         ApplyUiAction(step);
                         SafeProceed(step.RapidFunctionName);   // sets funcCall + extern_wait := FALSE
-                        LogRapidState($"After step {sequenceStep}: {step.RapidFunctionName}");
+                        Console.WriteLine($"After step {sequenceStep}: {step.RapidFunctionName}");
                     }
 
-                    LogRapidState($"Post-dispatch step {sequenceStep}");
+                    Console.WriteLine($"Post-dispatch step {sequenceStep}");
 
                     sequenceStep++;
                     await System.Threading.Tasks.Task.Delay(50, sequenceCounts.Token);
