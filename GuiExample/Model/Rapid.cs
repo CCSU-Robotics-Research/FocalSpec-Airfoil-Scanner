@@ -496,23 +496,23 @@ namespace Rapid
             new() { RapidFunctionName="Scan10PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan09 },
 
             new() { RapidFunctionName="Scan10TakeScan", Action=UiAction.StartScan },
-            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan10 } // Should be last one (or any other dummy function after)
+            new() { RapidFunctionName="Scan11PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan10 },
 
-            //new() { RapidFunctionName="Scan11PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan10 },
+            new() { RapidFunctionName="Scan11TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan12PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan11 },
 
-            //new() { RapidFunctionName="Scan11TakeScan", Action=UiAction.StartScan },
-            //new() { RapidFunctionName="Scan12PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan11 },
+            new() { RapidFunctionName="Scan12TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan13PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan12 },
 
-            //new() { RapidFunctionName="Scan12TakeScan", Action=UiAction.StartScan },
-            //new() { RapidFunctionName="Scan13PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan12 },
+            new() { RapidFunctionName="Scan13TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan14PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan13 },
 
-            //new() { RapidFunctionName="Scan13TakeScan", Action=UiAction.StartScan },
-            //new() { RapidFunctionName="Scan14PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan13 },
+            new() { RapidFunctionName="Scan14TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="Scan15PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan14 },
 
-            //new() { RapidFunctionName="Scan14TakeScan", Action=UiAction.StartScan },
-            //new() { RapidFunctionName="Scan15PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan14 },
+            new() { RapidFunctionName="Scan15TakeScan", Action=UiAction.StartScan },
+            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan15 } // Should be last one (or any other dummy function after)
 
-            //new() { RapidFunctionName="Scan15TakeScan", Action=UiAction.StartScan },
             //new() { RapidFunctionName="Scan16PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan15 },
 
             //new() { RapidFunctionName="Scan16TakeScan", Action=UiAction.StartScan },
