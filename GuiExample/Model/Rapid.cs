@@ -116,6 +116,25 @@ namespace Rapid
             ClearWaitAndProceed();
         }
 
+        private void LogRapidState(string tag)
+        {
+            try
+            {
+                string exec = controller?.Rapid?.ExecutionStatus.ToString() ?? "null";
+                string routine = (tasks != null && tasks.Length > 0 && tasks[0].ProgramPointer != null)
+                    ? tasks[0].ProgramPointer.Routine : "null";
+                string waitVal = (controllerWaiting != null)
+                    ? ((Bool)controllerWaiting.Value).ToString()
+                    : "null";
+
+                mainView.LogMessage($"{tag} | Exec={exec}, Routine={routine}, extern_wait={waitVal}");
+            }
+            catch (Exception ex)
+            {
+                mainView.LogMessage($"{tag} | Failed to read RAPID state: {ex.Message}");
+            }
+        }
+
 
         // Network stuff should probably be it's own module? Decoupled design anyone?
         //Controller Scanner
@@ -391,8 +410,11 @@ namespace Rapid
                     using (Mastership.Request(controller))
                     {
                         var step = steps[sequenceStep];
+                        LogRapidState($"Before step {sequenceStep}: {step.RapidFunctionName}");
+                        
                         ApplyUiAction(step);
                         SafeProceed(step.RapidFunctionName);   // sets funcCall + extern_wait := FALSE
+                        LogRapidState($"After step {sequenceStep}: {step.RapidFunctionName}");
                     }
 
                     sequenceStep++;
