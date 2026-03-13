@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.Discovery;
@@ -6,7 +7,6 @@ using ABB.Robotics.Controllers.RapidDomain;
 using FocalSpec.GuiExample.View;
 using FocalSpec.GuiExample.Presenter;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
 
 namespace Rapid
@@ -201,6 +201,12 @@ namespace Rapid
             }
         }
 
+        private void AppendTimingLog(string message)
+        {
+            string path = @"C:\Users\Public\Downloads\start_time_log.txt";
+            File.AppendAllText(path, $"{DateTime.Now.ToString("HH:mm:ss.fff")} | {message}{Environment.NewLine}");
+        }
+
         public async void Start(){
             try{
                 if (controller == null) {
@@ -232,6 +238,10 @@ namespace Rapid
                     
                     controllerWaiting.Value = new Bool(true);
                     funcCall.StringValue = "\"\"";
+
+
+                    AppendTimingLog("Start RAPID Clicked");
+
                     controller.Rapid.Start();
                 }
                 await System.Threading.Tasks.Task.Delay(100);
@@ -264,6 +274,7 @@ namespace Rapid
                     {
                         if (immediate)
                         {
+                            AppendTimingLog("Immediate Stop Clicked");
                             controller.Rapid.Stop(StopMode.Immediate);
                         } else
                         {
