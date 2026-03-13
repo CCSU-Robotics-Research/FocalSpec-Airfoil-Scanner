@@ -203,7 +203,7 @@ namespace Rapid
 
         private void AppendTimingLog(string message)
         {
-            string path = @"C:\Users\Public\Downloads\start_time_log.txt";
+            string path = @"C:\Users\rs5130\Downloads\start_time_log.txt";
             File.AppendAllText(path, $"{DateTime.Now.ToString("HH:mm:ss.fff")} | {message}{Environment.NewLine}");
         }
 
@@ -238,14 +238,11 @@ namespace Rapid
                     
                     controllerWaiting.Value = new Bool(true);
                     funcCall.StringValue = "\"\"";
-
-
                     AppendTimingLog("Start RAPID Clicked");
-
                     controller.Rapid.Start();
                 }
-                await System.Threading.Tasks.Task.Delay(100);
                 _ = RunSequenceLoop();
+                AppendTimingLog("Robot Motion Running");
             }
             catch (System.Exception ex)
             {
@@ -274,7 +271,6 @@ namespace Rapid
                     {
                         if (immediate)
                         {
-                            AppendTimingLog("Immediate Stop Clicked");
                             controller.Rapid.Stop(StopMode.Immediate);
                         } else
                         {
