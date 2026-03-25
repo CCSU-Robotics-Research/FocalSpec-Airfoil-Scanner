@@ -534,7 +534,9 @@ namespace Rapid
             new() { RapidFunctionName="Scan20PreScan", Action=UiAction.StopAndSave, SavePath=SaveScan19 },
 
             new() { RapidFunctionName="Scan20TakeScan", Action=UiAction.StartScan },
-            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan20 } // Should be the last one
+            new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan20 },
+
+            new() { RapidFunctionName="NIMS_Place" }
 
             // If needed, add more scan steps before ScanToStand and adjust UiAction pipeline accordingly
 
