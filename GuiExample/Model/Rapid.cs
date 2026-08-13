@@ -69,6 +69,11 @@ namespace Rapid
         private const string SaveScan19 = @"C:\Users\Public\Downloads\Scan19.asc";
         private const string SaveScan20 = @"C:\Users\Public\Downloads\Scan20.asc";
 
+        private const string SaveScanRegion1_QA = @"C:\Users\Public\Downloads\Region1_QA.asc";
+        private const string SaveScanRegion1_QB = @"C:\Users\Public\Downloads\Region1_QB.asc";
+        private const string SaveScanRegion1_QC = @"C:\Users\Public\Downloads\Region1_QC.asc";
+        private const string SaveScanRegion1_QD = @"C:\Users\Public\Downloads\Region1_QD.asc";
+
         //Updates RAPID funcCall for robot to know which routine to execute next
         private void SetFuncCall(string name) => funcCall.StringValue = $"\"{name}\"";
 
@@ -473,7 +478,23 @@ namespace Rapid
         }
         private List<SequenceStep> BuildPhotoSequence() => new(){
 
-            new() { RapidFunctionName="NIMS_BeforeScanMotion" }, 
+            //new() { RapidFunctionName="Region1_QA_PreScan" },
+            //new() { RapidFunctionName="Region1_QA_TakeScan", Action=UiAction.StartScan },
+
+            //new() { RapidFunctionName="Region1_QB_PreScan", Action=UiAction.StopAndSave, SavePath=SaveScanRegion1_QA },
+            //new() { RapidFunctionName="Region1_QB_TakeScan", Action=UiAction.StartScan },
+
+            //new() { RapidFunctionName="Region1_QC_PreScan", Action=UiAction.StopAndSave, SavePath=SaveScanRegion1_QB },
+            //new() { RapidFunctionName="Region1_QC_TakeScan", Action=UiAction.StartScan },
+
+            //new() { RapidFunctionName="Region1_QD_PreScan", Action=UiAction.StopAndSave, SavePath=SaveScanRegion1_QC },
+            //new() { RapidFunctionName="Region1_QB_TakeScan", Action=UiAction.StartScan },
+
+            //new() { RapidFunctionName="ScanEndWaitTime", Action=UiAction.StopAndSave, SavePath=SaveScanRegion1_QD }
+
+            new() { RapidFunctionName="Nims_wait" },
+
+            new() { RapidFunctionName="NIMS_BeforeScanMotion" },
             new() { RapidFunctionName="Scan01PreScan" },
 
             new() { RapidFunctionName="Scan01TakeScan", Action=UiAction.StartScan },
@@ -536,7 +557,7 @@ namespace Rapid
             new() { RapidFunctionName="Scan20TakeScan", Action=UiAction.StartScan },
             new() { RapidFunctionName="ScanToStand", Action=UiAction.StopAndSave, SavePath=SaveScan20 },
 
-            //new() { RapidFunctionName="NIMS_Place" }
+            new() { RapidFunctionName="NIMS_Place" }
 
             // If needed, add more scan steps before ScanToStand and adjust UiAction pipeline accordingly
 
